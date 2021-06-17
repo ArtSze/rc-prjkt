@@ -23,8 +23,8 @@ app.use(helmet())
 import { IndexRouter } from './routes/index'
 import { UserRouter } from './routes/user'
 import { AuthRouter } from './routes/auth'
-app.use('/', IndexRouter)
 app.use('/user', UserRouter)
-app.use('/', AuthRouter)
+app.use('/auth', AuthRouter)
+app.use('/', IndexRouter)
 
 app.listen(PORT, () => { logger.info(`Server running on port ${PORT}`) })

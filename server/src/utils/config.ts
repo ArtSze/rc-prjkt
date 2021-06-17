@@ -8,5 +8,10 @@ export const MONGO_URI = (process.env['NODE_ENV'] === 'test')
   : process.env['MONGO_URI']
 
 // OAuth Config
-export const id = process.env['RC_AUTH_ID']
-export const secret = process.env['RC_AUTH_SECRET']
+const id = process.env['RC_AUTH_ID'] as string
+const secret = process.env['RC_AUTH_SECRET'] as string
+
+export const authConfig = {
+  client: { id, secret },
+  auth: { tokenHost: 'https://recurse.com/' }
+}
