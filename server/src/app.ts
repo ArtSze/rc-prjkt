@@ -3,9 +3,9 @@ import cors from 'cors'
 import helmet from 'helmet'
 import mongoose from 'mongoose'
 import logger from './utils/logger'
-import { MONGO_URI, PORT } from './utils/database'
+import { PORT } from './utils/config'
+import { MONGO_URI } from './utils/config'
 
-// App
 export const app = express()
 
 // MongoDB connection
@@ -22,7 +22,9 @@ app.use(helmet())
 // Routes
 import { IndexRouter } from './routes/index'
 import { UserRouter } from './routes/user'
+import { AuthRouter } from './routes/auth'
 app.use('/', IndexRouter)
 app.use('/user', UserRouter)
+app.use('/', AuthRouter)
 
 app.listen(PORT, () => { logger.info(`Server running on port ${PORT}`) })
