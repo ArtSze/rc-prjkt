@@ -1,6 +1,6 @@
 import mongoose, { Schema, Types } from 'mongoose';
 
-export interface IPost {
+export interface IProject {
 	title: string;
 	description: string;
 	githubLink: string;
@@ -10,7 +10,7 @@ export interface IPost {
 	active: boolean;
 }
 
-const PostSchema = new Schema<IPost>({
+const ProjectSchema = new Schema<IProject>({
 	title: { type: String, required: true, unique: true },
 	description: {
 		type: String,
@@ -22,11 +22,11 @@ const PostSchema = new Schema<IPost>({
 	owner: { type: Schema.Types.ObjectId, ref: 'User', required: true },
 	collaborators: {
 		type: [Schema.Types.ObjectId],
-		default: undefined,
+		ref: 'User',
 	},
-	tags: { type: [Schema.Types.ObjectId], ref: 'Tag', default: undefined },
+	tags: { type: [Schema.Types.ObjectId], ref: 'Tag' },
 	active: { type: Boolean, required: true },
 });
 
-// Export the model and return your IPost interface
-export default mongoose.model<IPost>('Post', PostSchema);
+// Export the model and return your IProject interface
+export default mongoose.model<IProject>('Project', ProjectSchema);
