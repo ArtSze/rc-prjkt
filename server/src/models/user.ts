@@ -1,22 +1,22 @@
 import mongoose, { Schema, Types } from 'mongoose';
 
 export interface IUser {
-	ownedPosts: Array<Types.ObjectId>;
-	collabPosts: Array<Types.ObjectId>;
+	ownedProjects: Array<Types.ObjectId>;
+	collabProjects: Array<Types.ObjectId>;
+	rcId: string;
 }
 
 const UserSchema = new Schema<IUser>({
-	ownedPosts: {
+	ownedProjects: {
 		type: [Schema.Types.ObjectId],
-		ref: 'Post',
-		default: undefined,
+		ref: 'Project',
 	},
-	collabPosts: {
+	collabProjects: {
 		type: [Schema.Types.ObjectId],
-		ref: 'Post',
-		default: undefined,
+		ref: 'Project',
 	},
+	rcId: String,
 });
 
-// Export the model and return your IPost interface
+// Export the model and return your IProject interface
 export default mongoose.model<IUser>('User', UserSchema);
