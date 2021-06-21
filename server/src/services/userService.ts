@@ -1,6 +1,6 @@
 import User, { IUser } from '../models/user';
 
-export const getUser = async (id: string): Promise<IUser | null> => {
+const getUser = async (id: string): Promise<IUser | null> => {
 	return await User.findById(id)
 		.populate('ownedProjects', {
 			_id: 1,
@@ -24,10 +24,12 @@ export const getUser = async (id: string): Promise<IUser | null> => {
 		});
 };
 
-export const createUser = async (rcId: string): Promise<IUser> => {
+const createUser = async (rcId: string): Promise<IUser> => {
 	return await new User({
 		rcId,
 		ownedProjects: [],
 		collabProjects: [],
 	});
 };
+
+export default { getUser, createUser };
