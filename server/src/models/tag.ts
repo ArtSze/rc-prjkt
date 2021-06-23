@@ -13,7 +13,7 @@ export interface ITag {
 }
 
 const TagSchema = new Schema<ITag>({
-	category: { type: String, required: true, unique: true },
+	category: { type: ETagCategories, required: true },
 	value: { type: String, required: true },
 });
 
