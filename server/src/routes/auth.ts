@@ -38,9 +38,8 @@ AuthRouter.get('/callback', async (req, res) => {
 		//     else return found user and save to session cookie
 
 		const userData = await getRCData(accessToken);
-		logger.info({ userData });
+		console.log({ userData });
 		const userFromDb = await userService.getUser(userData.rcId);
-		logger.info({ userFromDb });
 		if (!userFromDb) {
 			const newlyCreatedUser = await userService.createUser(userData);
 			req.session.user = newlyCreatedUser;
@@ -58,9 +57,13 @@ AuthRouter.get('/callback', async (req, res) => {
 async function getRCData(token: AccessToken): Promise<IUserFromRCAPI> {
 	try {
 		const rcMe = 'http://www.recurse.com/api/v1/profiles/me';
-		const profile = (await axios.get(rcMe, {
-			headers: { Authorization: `Bearer ${token}` },
-		})) as IProfilefromRCAPI;
+		const profile = (
+			await axios.get(rcMe, {
+				headers: { Authorization: `Bearer ${token}` },
+			})
+		).data as IProfilefromRCAPI;
+		// console.log({ profile })
+		// console.log(profile)
 		const batch = profile.stints ? profile.stints[0]!.batch.short_name : '';
 		return {
 			rcId: profile['id'],

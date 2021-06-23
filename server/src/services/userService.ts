@@ -50,7 +50,7 @@ const getUser = async (rcId: number): Promise<IUser | null> => {
 };
 
 const createUser = async (userData: IUserFromRCAPI): Promise<IUser> => {
-	return await new User({
+	const user = await new User({
 		ownedProjects: [],
 		collabProjects: [],
 		rcId: userData.rcId,
@@ -60,6 +60,8 @@ const createUser = async (userData: IUserFromRCAPI): Promise<IUser> => {
 		image_path: userData.image_path,
 		batch: userData.batch,
 	});
+	user.save()
+	return user
 };
 
 export default { getAllUsers, getUser, createUser };
