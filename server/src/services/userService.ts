@@ -60,8 +60,8 @@ const createUser = async (userData: IUserFromRCAPI): Promise<IUser> => {
 		image_path: userData.image_path,
 		batch: userData.batch,
 	});
-	user.save()
-	return user
+	user.save();
+	return user;
 };
 
 export default { getAllUsers, getUser, createUser };
