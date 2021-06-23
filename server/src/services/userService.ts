@@ -25,8 +25,8 @@ const getAllUsers = async (): Promise<Array<IUser | null>> => {
 		});
 };
 
-const getUser = async (id: number): Promise<IUser | null> => {
-	return await User.findOne({ rcId: id })
+const getUser = async (rcId: number): Promise<IUser | null> => {
+	return await User.findOne({ rcId: rcId })
 		.populate('ownedProjects', {
 			_id: 1,
 			title: 1,
@@ -53,7 +53,7 @@ const createUser = async (userData: IUserFromRCAPI): Promise<IUser> => {
 	return await new User({
 		ownedProjects: [],
 		collabProjects: [],
-		rcId: userData.id,
+		rcId: userData.rcId,
 		first_name: userData.first_name,
 		last_name: userData.last_name,
 		zulip_id: userData.zulip_id,

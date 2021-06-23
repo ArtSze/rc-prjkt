@@ -31,7 +31,7 @@ UsersRouter.post('/', (req, res) => {
 	const reqBody = req.body;
 	logger.info({ reqBody });
 	try {
-		const createdUser = userService.createUser(reqBody.rcId);
+		const createdUser = userService.createUser(reqBody);
 		res.status(200).json(createdUser);
 	} catch (e) {
 		res.status(400).send(e.message);

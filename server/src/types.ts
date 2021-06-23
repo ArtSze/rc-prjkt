@@ -7,7 +7,7 @@ declare module 'express-session' {
 }
 
 export interface IUserFromRCAPI {
-	id: number;
+	rcId: number;
 	first_name: string;
 	last_name: string;
 	zulip_id: number;
