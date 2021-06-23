@@ -15,12 +15,12 @@ UsersRouter.get('/', (req, res) => {
 	}
 });
 
-UsersRouter.get('/:id', (req, res) => {
+UsersRouter.get('/:id', async (req, res) => {
 	const reqBody = req.body;
 	logger.info({ reqBody });
 	try {
 		const id = parseInt(req.params.id);
-		const foundUser = userService.getUser(id);
+		const foundUser = await userService.getUser(id);
 		res.status(200).json(foundUser);
 	} catch (e) {
 		res.status(400).send(e.message);
