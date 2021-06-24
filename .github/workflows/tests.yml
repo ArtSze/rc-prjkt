@@ -1,0 +1,22 @@
+name: rc-prjkt tests
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      PORT: ${{ secrets.PORT }}
+      RC_AUTH_ID: ${{ secrets.RC_AUTH_ID }}
+      RC_AUTH_SECRET: ${{ secrets.RC_AUTH_SECRET }}
+      # MONGO_URI: ${{ secrets.MONGO_URI }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: shell
+        run: echo "${PORT}"
+      - name: npm install
+        run: npm install
+      - run: npm test
