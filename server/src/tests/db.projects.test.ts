@@ -1,4 +1,4 @@
-import db from '../utils/dbConfig'
+import db from './utils/dbConfig'
 // import Project from '../../models/tag'
 
 //TODO: create mock project data

@@ -1,6 +1,6 @@
 import express from 'express'
 import supertest from 'supertest'
-import db from '../utils/dbConfig'
+import db from './utils/dbConfig'
 
 const app = express()
 const api = supertest(app)
