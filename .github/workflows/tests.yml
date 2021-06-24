@@ -17,9 +17,9 @@ jobs:
           node-version: '12.x'
       - name: shell
         run: echo "${PORT}"
-        run: cd ./server
-      - name: move to server
       - name: install packages
+        working-directory: ./server
         run: npm install
       - name: run tests
+        working-directory: ./server
         run: npm test
