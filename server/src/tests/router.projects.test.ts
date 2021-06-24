@@ -1,7 +1,7 @@
 import express from 'express'
 import supertest from 'supertest'
-import { ProjectsRouter } from '../../routes/projects'
-import db from '../utils/dbConfig'
+import { ProjectsRouter } from '../routes/projects'
+import db from './utils/dbConfig'
 
 const app = express()
 const api = supertest(app)

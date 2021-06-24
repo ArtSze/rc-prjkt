@@ -1,5 +1,5 @@
-import db from '../utils/dbConfig'
-import User from '../../models/user'
+import db from './utils/dbConfig'
+import User from '../models/user'
 
 describe('User database tests', () => {
 
@@ -9,6 +9,7 @@ describe('User database tests', () => {
 
   it('should a create new user', async () => {
     const user = new User({ rcId: '1234' })
+    console.log({ user })
     await user.save()
     expect.objectContaining({ 'rcId': '1234' })
     expect.objectContaining({ 'ownedPosts': undefined })
@@ -16,7 +17,8 @@ describe('User database tests', () => {
   })
 
   it('should fail to create new user with an rcId that is not a string', async () => {
-    const user = new User({ rcId: '1234' })
+    const user = new User({ rcId: true })
+    console.log({ user })
     await user.save()
     expect.objectContaining({ 'rcId': 1234 })
     expect.objectContaining({ 'ownedPosts': undefined })

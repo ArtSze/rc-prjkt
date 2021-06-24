@@ -1,5 +1,5 @@
-import db from '../utils/dbConfig'
-import Tag, { ETagCategories } from '../../models/tag'
+import db from './utils/dbConfig'
+import Tag, { ETagCategories } from '../models/tag'
 
 describe('Tag database tests', () => {
 

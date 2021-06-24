@@ -9,8 +9,8 @@ export const sessionCookieCheck = (
 	if (nonSecurePaths.includes(req.path)) return next();
 
 	if (req.session.user) {
-		const user = req.session.user
-		console.log({ user })
+		// const user = req.session.user
+		// console.log({ user })
 		next();
 	} else {
 		res.status(401)

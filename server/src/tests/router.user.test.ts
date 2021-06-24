@@ -1,7 +1,7 @@
 import express from 'express'
 import supertest from 'supertest'
-import { UsersRouter } from '../../routes/users'
-import db from '../utils/dbConfig'
+import { UsersRouter } from '../routes/users'
+import db from './utils/dbConfig'
 
 const app = express()
 const api = supertest(app)
@@ -15,26 +15,33 @@ describe('User Router tests without using app', () => {
   afterAll(async () => { await db.close() })
 
   describe('POST /user', () => {
-    it('should return a 201 status code and valid response for creation of a valid user',
+    it('should return a 200 status code and valid response for creation of a valid user',
+      // TODO: add all RC data
       async () => {
         const result = await api.post('/')
-          .send({ rcId: '1234' })
-        expect(result.statusCode).toEqual(201)
-        expect(result.body).toEqual(
+          .send({
+            rcId: 1234,
+            first_name: 'test first name',
+            last_name: 'test last name',
+            zulip_id: 123456,
+            image_path: 'image.com',
+            batch: 'W2 2021'
+          })
+        expect(result.statusCode).toEqual(200)
+        expect.objectContaining(
           {
-            'rcId': '1234',
+            'rcId': 1234,
             'ownedPosts': [],
-            'collabPosts': []
+            'collabPosts': [],
           }
         )
       })
 
-    it('should return a 500 status code and error response for creation of an invalid user',
+    it('should return a 400 status code and error response for creation of an invalid user',
       async () => {
         const result = await api.post('/')
           .send({ 'test': '' })
         expect(result.statusCode).toEqual(400)
-        expect(result.body).toEqual({ error: 'Invalid user' })
       })
   })
 
