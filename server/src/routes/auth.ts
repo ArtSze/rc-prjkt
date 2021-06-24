@@ -29,17 +29,9 @@ AuthRouter.get('/callback', async (req, res) => {
 	try {
 		const tokenObject = (await client.getToken(tokenParams)) as Token;
 		const accessToken = tokenObject['token'].access_token;
-		// logger.info({ tokenObject });
-		// logger.info({ accessToken });
-
-		// hit /me endpoint and return {username, id, etc.}
-		// userService.getUser(id)
-		//     if null create new user and save to session cookie
-		//     else return found user and save to session cookie
-
 		const userData = await getRCData(accessToken);
-		console.log({ userData });
 		const userFromDb = await userService.getUser(userData.rcId);
+
 		if (!userFromDb) {
 			const newlyCreatedUser = await userService.createUser(userData);
 			req.session.user = newlyCreatedUser;
@@ -62,8 +54,7 @@ async function getRCData(token: AccessToken): Promise<IUserFromRCAPI> {
 				headers: { Authorization: `Bearer ${token}` },
 			})
 		).data as IProfilefromRCAPI;
-		// console.log({ profile })
-		// console.log(profile)
+
 		const batch = profile.stints ? profile.stints[0]!.batch.short_name : '';
 		return {
 			rcId: profile['id'],
@@ -77,9 +68,3 @@ async function getRCData(token: AccessToken): Promise<IUserFromRCAPI> {
 		return logger.error(error);
 	}
 }
-
-// 60d39a042a1bc76a4ccff4ba
-// 60d39a2fda85596a6b5ea632
-// 60d39bd419cd906b764a7a36
-// 60d3a0d3e0ad116e6507d179
-// 60d3a0f5451f056e7eb0b0d7
