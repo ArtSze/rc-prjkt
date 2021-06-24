@@ -8,6 +8,7 @@ describe('User database tests', () => {
   beforeEach(async () => { await db.connect() })
 
   it('should a create new user', async () => {
+    // FIXME: why is this passing? should require a number
     const user = new User({ rcId: '1234' })
     console.log({ user })
     await user.save()

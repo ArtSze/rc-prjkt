@@ -11,13 +11,8 @@ export interface IProject {
 }
 
 const ProjectSchema = new Schema<IProject>({
-	title: { type: String, required: true, unique: true },
-	description: {
-		type: String,
-		required: true,
-		minLength: 20,
-		maxLength: 240,
-	},
+	title: { type: String, unique: true, maxLength: 160 },
+	description: { type: String, minLength: 20, maxLength: 480 },
 	githubLink: { type: String },
 	owner: { type: Schema.Types.ObjectId, ref: 'User', required: true },
 	collaborators: {
