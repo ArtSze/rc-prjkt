@@ -9,8 +9,6 @@ app.use(UsersRouter)
 
 describe('User Router tests without using app', () => {
 
-  // TODO: copy from projects tests when routes are complete
-
   beforeAll(async () => { await db.connect() })
   afterAll(async () => { await db.close() })
 

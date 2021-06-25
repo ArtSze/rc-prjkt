@@ -1,15 +1,37 @@
-import db from './utils/dbConfig'
+// import db from './utils/dbConfig'
 import Tag, { ETagCategories } from '../models/tag'
+import mongoose from 'mongoose';
+import { MongoMemoryServer } from 'mongodb-memory-server';
 
 describe('Tag database tests', () => {
+  let mongoServer = new MongoMemoryServer();
 
-  beforeAll(async () => { await db.connect() })
-  afterAll(async () => { await db.close() })
+  beforeAll(async () => {
+    const mongoUri = await mongoServer.getUri();
+    const options = {
+      useNewUrlParser: true,
+      autoReconnect: true,
+      useUnifiedTopology: true,
+      reconnectTries: Number.MAX_VALUE,
+      reconnectInterval: 1000,
+      poolSize: 15,
+    }
+    mongoose.connect(mongoUri, options, (err) => {
+      if (err) console.error(err);
+    });
+
+    // await db.connect()
+  })
+
+  afterAll(async () => {
+    await mongoose.disconnect();
+    await mongoServer.stop();
+    // await db.close()
+  })
 
   describe('Delete tags', () => {
 
     it('should delete the tag provided by category', async () => {
-      // FIXME: thowing 'topology was destroyed' error
       async function deleteTag() {
         const tagData = {
           category: 'language',
@@ -255,6 +277,5 @@ describe('Tag database tests', () => {
     })
 
   })
-
 
 })
