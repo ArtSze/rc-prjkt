@@ -20,12 +20,12 @@ const UserSchema = new Schema<IUser>({
 		type: [Schema.Types.ObjectId],
 		ref: 'Project',
 	},
-	rcId: Number,
-	first_name: String,
-	last_name: String,
-	zulip_id: Number,
-	image_path: String,
-	batch: String,
+	rcId: { type: Number, required: true, cast: false },
+	first_name: { type: String },
+	last_name: { type: String },
+	zulip_id: { type: Number },
+	image_path: { type: String },
+	batch: { type: String }
 });
 
 // Export the model and return your IProject interface
