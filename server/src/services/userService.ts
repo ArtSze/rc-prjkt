@@ -25,7 +25,7 @@ const getAllUsers = async (): Promise<Array<IUser | null>> => {
 		});
 };
 
-const getUser = async (rcId: number): Promise<IUser | null> => {
+const getUser = async (rcId: number) => {
 	return await User.findOne({ rcId: rcId })
 		.populate('ownedProjects', {
 			_id: 1,
@@ -49,19 +49,14 @@ const getUser = async (rcId: number): Promise<IUser | null> => {
 		});
 };
 
-const createUser = async (userData: IUserFromRCAPI): Promise<IUser> => {
+const createUser = async (userData: IUserFromRCAPI) => {
 	const user = await new User({
 		ownedProjects: [],
 		collabProjects: [],
-		rcId: userData.rcId,
-		first_name: userData.first_name,
-		last_name: userData.last_name,
-		zulip_id: userData.zulip_id,
-		image_path: userData.image_path,
-		batch: userData.batch,
+		...userData,
 	});
-	user.save();
-	return user;
+	const saved_user = await user.save();
+	return saved_user;
 };
 
 export default { getAllUsers, getUser, createUser };
