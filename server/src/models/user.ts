@@ -30,10 +30,3 @@ const UserSchema = new Schema<IUser>({
 
 // Export the model and return your IProject interface
 export default mongoose.model<IUser>('User', UserSchema);
-
-// id
-// first_name
-// last_name
-// zulip_id
-// image_path
-// stints.batch[0].short_name
