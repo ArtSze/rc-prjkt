@@ -105,3 +105,6 @@ dist
 
 # requests
 requests
+
+# ignore working files
+other
