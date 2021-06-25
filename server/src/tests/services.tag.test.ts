@@ -1,50 +1,15 @@
-// import db from './utils/dbConfig'
-import mongoose from 'mongoose';
-import { MongoMemoryServer } from 'mongodb-memory-server';
+import db from './utils/dbConfig'
 import tag from '../services/tagService'
 
 describe('Tag service tests', () => {
-  let mongoServer = new MongoMemoryServer();
 
-  beforeAll(async () => {
-    const mongoUri = await mongoServer.getUri();
-    const options = {
-      useNewUrlParser: true,
-      autoReconnect: true,
-      useUnifiedTopology: true,
-      reconnectTries: Number.MAX_VALUE,
-      reconnectInterval: 1000,
-      poolSize: 15,
-    }
-    mongoose.connect(mongoUri, options, (err) => {
-      if (err) console.error(err);
-    });
+  beforeAll(async () => { await db.connect() })
+  afterAll(async () => { await db.close() })
 
-    // await db.connect()
-  })
-
-  afterAll(async () => {
-    await mongoose.disconnect();
-    await mongoServer.stop();
-    // await db.close()
-  })
-
-  const tag1 = {
-    category: 'language',
-    value: 'Python'
-  }
-  const tag2 = {
-    category: 'library',
-    value: 'Bootstrap'
-  }
-  const tag3 = {
-    category: 'category',
-    value: 'web development'
-  }
-  const tag4 = {
-    category: 'collaboration style',
-    value: 'pairing'
-  }
+  const tag1 = { category: 'language', value: 'Python' }
+  const tag2 = { category: 'library', value: 'Bootstrap' }
+  const tag3 = { category: 'category', value: 'web development' }
+  const tag4 = { category: 'collaboration style', value: 'pairing' }
 
   describe('Create tags', () => {
 
@@ -155,9 +120,10 @@ describe('Tag service tests', () => {
   describe('Fetch tags', () => {
 
     describe('Fetch all tags', () => {
+
       it('should fetch all tags', async () => {
-        const tags = tag.fetchAllTags()
-        return expect(tags).resolves.toEqual(
+        const tags = await tag.fetchAllTags()
+        return expect(tags).toEqual(
           expect.arrayContaining([
             expect.objectContaining(tag1),
             expect.objectContaining(tag2),
@@ -169,50 +135,58 @@ describe('Tag service tests', () => {
     })
 
     describe('fetchTagsByValues', () => {
+
       it('should fetch with an empty array', async () => {
-        const tags = tag.fetchTagsByValues([])
-        return expect(tags).resolves.toEqual(null)
+        const tags = await tag.fetchTagsByValues([])
+        return expect(tags).toEqual([])
       })
+
       it('should fetch with an array with one object', async () => {
-        const tags = tag.fetchTagsByValues(['Bootstrap'])
-        return expect(tags).resolves.toEqual(
+        const tags = await tag.fetchTagsByValues(['Bootstrap'])
+        console.log({ tags })
+        return expect(tags).toEqual(
           expect.arrayContaining([
             expect.objectContaining(tag2)
           ])
         )
       })
+
       it('should fetch with an array with a value of null', async () => {
         // @ts-expect-error
-        const tags = tag.fetchTagsByValues([null])
-        return expect(tags).resolves.toEqual(null)
+        const tags = await tag.fetchTagsByValues([null])
+        return expect(tags).toEqual([])
       })
+
       it('should fetch with an array with a value of undefined', async () => {
         // @ts-expect-error
         const tags = tag.fetchTagsByValues([undefined])
-        return expect(tags).resolves.toEqual(null)
+        return expect(tags).resolves.toEqual([])
       })
+
       it('should fetch with an array containing multiple objects', async () => {
-        const tags = tag.fetchTagsByValues(['Bootstrap', 'Python', 'pairing'])
-        return expect(tags).resolves.toEqual(
+        const tags = await tag.fetchTagsByValues(['Bootstrap', 'Python', 'pairing'])
+        return expect(tags).toEqual(
           expect.arrayContaining([
             expect.objectContaining(tag1),
             expect.objectContaining(tag2),
-            expect.objectContaining(tag3),
-            expect.objectContaining(tag4)
+            expect.objectContaining(tag4),
           ])
         )
       })
+
       it('should return null when fetching with a single value that doesn\'t exist', async () => {
-        const tags = tag.fetchTagsByValues(['test'])
-        return expect(tags).resolves.toEqual(null)
+        const tags = await tag.fetchTagsByValues(['test'])
+        return expect(tags).toEqual([])
       })
+
       it('should return null when fetching with multiple values that don\'t exist', async () => {
-        const tags = tag.fetchTagsByValues(['test', 'another test'])
-        return expect(tags).resolves.toEqual(null)
+        const tags = await tag.fetchTagsByValues(['test', 'another test'])
+        return expect(tags).toEqual([])
       })
+
       it('should values that exist when fetching with a combination of values that exist and do not exist', async () => {
-        const tags = tag.fetchTagsByValues(['Python', 'test'])
-        return expect(tags).resolves.toEqual(
+        const tags = await tag.fetchTagsByValues(['Python', 'test'])
+        return expect(tags).toEqual(
           expect.arrayContaining([
             expect.objectContaining(tag1)
           ])
@@ -220,22 +194,34 @@ describe('Tag service tests', () => {
       })
     })
 
-    //     describe('fetchSingleTagByValue', () => {
-    //       it('should fetch with one value', async () => {
-    //         const tags = tag.fetchSingleTagByValue()
-    //       })
-    //       it('should fetch with a value of null', async () => {
-    //         const tags = tag.fetchSingleTagByValue()
-    //       })
-    //       it('should fetch with a value of undefined', async () => {
-    //         const tags = tag.fetchSingleTagByValue()
-    //       })
-    //       it('should return null with a value that doesn\'t exist', async () => {
-    //         const tags = tag.fetchSingleTagByValue()
-    //       })
-    //     })
-    //   })
+    describe('fetchSingleTagByValue', () => {
 
+      it('should fetch with one value', async () => {
+        const tags = await tag.fetchSingleTagByValue('Python')
+        return expect(tags).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining(tag1)
+          ])
+        )
+      })
+
+      it('should fetch with a value of null', async () => {
+        // @ts-expect-error
+        const tags = await tag.fetchSingleTagByValue(null)
+        return expect(tags).toEqual([])
+      })
+
+      it('should fetch with a value of undefined', async () => {
+        // @ts-expect-error
+        const tags = await tag.fetchSingleTagByValue(undefined)
+        return expect(tags).toEqual([])
+      })
+
+      it('should return null with a value that doesn\'t exist', async () => {
+        const tags = await tag.fetchSingleTagByValue('test')
+        return expect(tags).toEqual([])
+      })
+    })
   })
 
 })
