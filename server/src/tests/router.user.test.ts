@@ -1,38 +1,43 @@
 import express from 'express'
 import supertest from 'supertest'
 import { UsersRouter } from '../routes/users'
+import '../models/project' // import project model to initialize schema
 import db from './utils/dbConfig'
+import userService from '../services/userService'
 
 const app = express()
 const api = supertest(app)
+app.use(express.json());
 app.use(UsersRouter)
 
 describe('User Router tests without using app', () => {
-
-  // TODO: copy from projects tests when routes are complete
 
   beforeAll(async () => { await db.connect() })
   afterAll(async () => { await db.close() })
 
   describe('POST /user', () => {
     it('should return a 200 status code and valid response for creation of a valid user',
-      // TODO: add all RC data
       async () => {
         const result = await api.post('/')
           .send({
-            rcId: 1234,
-            first_name: 'test first name',
-            last_name: 'test last name',
-            zulip_id: 123456,
-            image_path: 'image.com',
-            batch: 'W2 2021'
+            'rcId': 1234,
+            'first_name': 'test first name',
+            'last_name': 'test last name',
+            'zulip_id': 123456,
+            'image_path': 'image.com',
+            'batch': 'W2 2021'
           })
-        expect(result.statusCode).toEqual(200)
+        expect(result.status).toEqual(200)
         expect.objectContaining(
           {
             'rcId': 1234,
             'ownedPosts': [],
             'collabPosts': [],
+            'first_name': 'test first name',
+            'last_name': 'test last name',
+            'zulip_id': 123456,
+            'image_path': 'image.com',
+            'batch': 'W2 2021'
           }
         )
       })
@@ -41,28 +46,51 @@ describe('User Router tests without using app', () => {
       async () => {
         const result = await api.post('/')
           .send({ 'test': '' })
-        expect(result.statusCode).toEqual(400)
+        expect(result.status).toEqual(400)
       })
   })
 
   describe('GET /user', () => {
-    it('should return a 404 as an invalid route',
+    it('should return all users in the database',
       async () => {
         const result = await api.get('/')
-        expect(result.statusCode).toEqual(404)
+        expect(result.status).toEqual(200)
+        expect.objectContaining(
+          {
+            'rcId': 1234,
+            'ownedPosts': [],
+            'collabPosts': [],
+            'first_name': 'test first name',
+            'last_name': 'test last name',
+            'zulip_id': 123456,
+            'image_path': 'image.com',
+            'batch': 'W2 2021'
+          }
+        )
       })
 
     it('should return a 200 status code and a response containing the user object for a valid user',
       async () => {
         const result = await api.get('/1234')
-        expect(result.statusCode).toEqual(200)
-        expect(result.body).toEqual('TODO [GET] get all user projects')
+        expect(result.status).toEqual(200)
+        expect.objectContaining(
+          {
+            'rcId': 1234,
+            'ownedPosts': [],
+            'collabPosts': [],
+            'first_name': 'test first name',
+            'last_name': 'test last name',
+            'zulip_id': 123456,
+            'image_path': 'image.com',
+            'batch': 'W2 2021'
+          }
+        )
       })
 
     it('should return a 404 status code and for an invalid user',
       async () => {
         const result = await api.get('/9999999')
-        expect(result.statusCode).toEqual(404)
+        expect(result.status).toEqual(404)
       })
   })
 

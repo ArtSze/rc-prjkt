@@ -5,13 +5,21 @@ import db from './utils/dbConfig'
 const app = express()
 const api = supertest(app)
 
-console.log({ api })
-
 describe.skip('Index Router tests without using app', () => {
 
-  beforeEach(async () => { await db.connect() })
+  beforeAll(async () => { await db.connect() })
+  afterAll(async () => { await db.close() })
 
-  // TODO: copy from index tests when routes are complete
+  describe.skip('GET /', () => {
 
-  afterEach(async () => { await db.close() })
+    it('should return a 200 status code and a response containing all projects in the database',
+      async () => {
+        const result = await api.get('/')
+        expect(result.statusCode).toEqual(200)
+        // TODO
+        expect(result.body).toEqual('TODO [GET] get all projects')
+      })
+
+  })
+
 })
