@@ -35,13 +35,10 @@
 	},
 	"scripts": {
 		"dev": "NODE_ENV=development ts-node-dev src/server.ts",
-		"test": "NODE_ENV=test jest --verbose --runInBand"
+		"test": "NODE_ENV=test jest"
 	},
 	"jest": {
-		"moduleNameMapper": {
-			"^@App/(.*)$": "<rootDir>/src/$1",
-			"^lib/(.*)$": "<rootDir>/common/$1"
-		}
+		"verbose": false
 	},
 	"babel": {
 		"presets": [
