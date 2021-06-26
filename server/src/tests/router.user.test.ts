@@ -1,7 +1,9 @@
 import express from 'express'
 import supertest from 'supertest'
 import { UsersRouter } from '../routes/users'
+import '../models/project' // import project model to initialize schema
 import db from './utils/dbConfig'
+import userService from '../services/userService'
 
 const app = express()
 const api = supertest(app)
@@ -25,7 +27,7 @@ describe('User Router tests without using app', () => {
             'image_path': 'image.com',
             'batch': 'W2 2021'
           })
-        expect(result.statusCode).toEqual(200)
+        expect(result.status).toEqual(200)
         expect.objectContaining(
           {
             'rcId': 1234,
@@ -44,7 +46,7 @@ describe('User Router tests without using app', () => {
       async () => {
         const result = await api.post('/')
           .send({ 'test': '' })
-        expect(result.statusCode).toEqual(400)
+        expect(result.status).toEqual(400)
       })
   })
 
@@ -52,7 +54,7 @@ describe('User Router tests without using app', () => {
     it('should return all users in the database',
       async () => {
         const result = await api.get('/')
-        expect(result.statusCode).toEqual(200)
+        expect(result.status).toEqual(200)
         expect.objectContaining(
           {
             'rcId': 1234,
@@ -70,7 +72,7 @@ describe('User Router tests without using app', () => {
     it('should return a 200 status code and a response containing the user object for a valid user',
       async () => {
         const result = await api.get('/1234')
-        expect(result.statusCode).toEqual(200)
+        expect(result.status).toEqual(200)
         expect.objectContaining(
           {
             'rcId': 1234,
@@ -88,7 +90,7 @@ describe('User Router tests without using app', () => {
     it('should return a 404 status code and for an invalid user',
       async () => {
         const result = await api.get('/9999999')
-        expect(result.statusCode).toEqual(404)
+        expect(result.status).toEqual(404)
       })
   })
 
