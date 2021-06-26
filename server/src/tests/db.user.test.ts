@@ -9,7 +9,6 @@ describe('User database tests', () => {
   it('should a create new user', async () => {
     const user = new User({ rcId: 1234 })
     const response = await user.save()
-    console.log({ response })
     return expect(response).toEqual(
       expect.objectContaining({ 'rcId': 1234 }),
     )

@@ -143,7 +143,6 @@ describe('Tag service tests', () => {
 
       it('should fetch with an array with one object', async () => {
         const tags = await tag.fetchTagsByValues(['Bootstrap'])
-        console.log({ tags })
         return expect(tags).toEqual(
           expect.arrayContaining([
             expect.objectContaining(tag2)

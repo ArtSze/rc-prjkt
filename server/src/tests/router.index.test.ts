@@ -5,11 +5,10 @@ import db from './utils/dbConfig'
 const app = express()
 const api = supertest(app)
 
-console.log({ api })
-
 describe.skip('Index Router tests without using app', () => {
 
-  beforeEach(async () => { await db.connect() })
+  beforeAll(async () => { await db.connect() })
+  afterAll(async () => { await db.close() })
 
   describe.skip('GET /', () => {
 
@@ -21,7 +20,6 @@ describe.skip('Index Router tests without using app', () => {
         expect(result.body).toEqual('TODO [GET] get all projects')
       })
 
-    afterEach(async () => { await db.close() })
   })
 
 })
