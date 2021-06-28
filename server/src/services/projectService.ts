@@ -43,7 +43,11 @@ const createProject = async (
 };
 
 const updateProject = async (id: string, project: IProject) => {
-	return await Project.findByIdAndUpdate(id, project, { new: true });
+	const updatedProject = await Project.findByIdAndUpdate(id, project, {
+		new: true,
+	});
+	await updatedProject!.save();
+	return updatedProject;
 };
 
 const deleteProject = async (

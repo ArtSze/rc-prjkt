@@ -43,6 +43,7 @@ ProjectsRouter.post('/', async (req, res) => {
 			else return null;
 		});
 		const tagObjectIds = tagsToCreate.map(async (tag) => {
+			// @ts-expect-error
 			const createdTag = await tagService.createTag(tag);
 			return createdTag._id;
 		});
@@ -95,6 +96,7 @@ ProjectsRouter.put('/:id', async (req, res) => {
 	});
 
 	const tagObjectIds = tagsToCreate.map(async (tag) => {
+		// @ts-expect-error
 		const createdTag = await tagService.createTag(tag);
 		return createdTag._id;
 	});

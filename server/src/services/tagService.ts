@@ -5,17 +5,7 @@ export const fetchAllTags = async () => {
 };
 
 export const fetchTagsByValues = async (values: string[]) => {
-	// QUESTION
-	// corrected this function to return a Promise array rather than an array of promises
-
-	// const results = values.map(value => Tag.find({ value }))
-	// const data = await Promise.all(results);
-	// return data.flat()
-
-	// but i think this is better:
-	return await Tag.find().where('value').in(values)
-
-	// does this break anything in the projects router?
+	return await Tag.find().where('value').in(values);
 };
 
 export const fetchSingleTagByValue = async (value: string) => {

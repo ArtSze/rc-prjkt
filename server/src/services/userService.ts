@@ -1,7 +1,7 @@
-import User, { IUser } from '../models/user';
+import User from '../models/user';
 import { IUserFromRCAPI } from '../types';
 
-const getAllUsers = async (): Promise<Array<IUser | null>> => {
+const getAllUsers = async () => {
 	return await User.find({})
 		.populate('ownedProjects', {
 			_id: 1,
@@ -26,7 +26,7 @@ const getAllUsers = async (): Promise<Array<IUser | null>> => {
 };
 
 const getUser = async (rcId: number) => {
-	return await User.findOne({ rcId: rcId })
+	return await User.find({ rcId: rcId })
 		.populate('ownedProjects', {
 			_id: 1,
 			title: 1,

@@ -1,4 +1,4 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose, { Schema, ObjectId } from 'mongoose';
 
 export enum ETagCategories {
 	Category = 'category',
