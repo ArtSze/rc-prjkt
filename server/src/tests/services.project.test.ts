@@ -245,6 +245,7 @@ describe('Project service tests', () => {
 		};
 		// @ts-expect-error
 		let createdProject1;
+
 		let createdProject4;
 
 		beforeEach(async () => {
@@ -300,6 +301,7 @@ describe('Project service tests', () => {
 	});
 
 	describe('Update projects', () => {
+		// @ts-expect-error
 		let createdProject1;
 		// @ts-expect-error
 		let createdProject4;
@@ -360,6 +362,7 @@ describe('Project service tests', () => {
 	});
 
 	describe('Delete projects', () => {
+		// @ts-expect-error
 		let createdProject1;
 		// @ts-expect-error
 		let createdProject4;
@@ -384,6 +387,7 @@ describe('Project service tests', () => {
 			it('should delete a given project by id', async () => {
 				const allProjects = await projectService.getAllProjects();
 				expect(allProjects.length).toEqual(1);
+				// @ts-expect-error
 				await projectService.deleteProject(createdProject1._id);
 				const updatedProjects = await projectService.getAllProjects();
 				expect(updatedProjects.length).toEqual(0);
