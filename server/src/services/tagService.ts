@@ -18,8 +18,20 @@ export const createTag = async (tag: ITag) => {
 	return savedTag;
 };
 
+export const createTags = async (tags: ITag[]) => {
+	const tagPromises = tags.map(async (tag) => {
+		return await Tag.findOneAndUpdate(
+			{ 'category': tag.category, 'value': tag.value },
+			tag,
+			{ new: true, upsert: true })
+	})
+	const newTags = await Promise.all(tagPromises)
+	return newTags
+}
+
 export default {
 	createTag,
+	createTags,
 	fetchAllTags,
 	fetchTagsByValues,
 	fetchSingleTagByValue,
