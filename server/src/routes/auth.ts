@@ -55,7 +55,8 @@ async function getRCData(token: AccessToken): Promise<IUserFromRCAPI> {
 			})
 		).data as IProfilefromRCAPI;
 
-		const batch = profile.stints ? profile.stints[0]!.batch.short_name : '';
+		let batch = profile.stints[0]?.batch.short_name || '';
+
 		return {
 			rcId: profile['id'],
 			first_name: profile['first_name'],
