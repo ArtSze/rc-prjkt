@@ -26,7 +26,7 @@ const getAllUsers = async () => {
 };
 
 const getUser = async (rcId: number) => {
-	return await User.find({ rcId: rcId })
+	return await User.findOne({ rcId: rcId })
 		.populate('ownedProjects', {
 			_id: 1,
 			title: 1,
