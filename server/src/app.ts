@@ -17,6 +17,7 @@ app.use(helmet());
 
 app.use(
 	session({
+		// FIXME: add secret
 		secret: 'keyboard cat',
 		resave: false,
 		saveUninitialized: false,
