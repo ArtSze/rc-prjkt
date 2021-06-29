@@ -37,33 +37,28 @@ ProjectsRouter.post('/', async (req, res) => {
 
 	try {
 		const tagsFromClient = req.body.tags as ITag[];
-		const tagsToCreate = tagsFromClient.map(async (tag) => {
-			const found = await tagService.fetchSingleTagByValue(tag.value);
-			if (!found) return tag;
-			else return null;
-		});
-		const tagObjectIds = tagsToCreate.map(async (tag) => {
-			// @ts-expect-error
-			const createdTag = await tagService.createTag(tag);
-			return createdTag._id;
-		});
-
-		const currentUser = await userService.getUser(req.session.user.rcId);
+		const createdTags = await tagService.createTags(tagsFromClient);
+		const tagObjectIds = createdTags.map((tag) => tag._id);
+		// const currentUser = await userService.getUser(req.session.user.rcId);
+		// console.log({ currentUser });
+		console.log({ tagObjectIds });
 
 		const createdProject = await projectService.createProject({
 			...reqBody,
-			owner: currentUser?._id,
-			tags: tagObjectIds,
+			owner: '60db83db1efc2235a047779b',
+			tags: [...tagObjectIds],
 		});
 
-		if (currentUser) {
-			currentUser.ownedProjects = [
-				...currentUser.ownedProjects,
-				createdProject._id!,
-			];
-			await currentUser.save();
-			res.status(200).json(createdProject);
-		}
+		console.log({ createdProject });
+
+		// if (currentUser) {
+		// 	currentUser.ownedProjects = [
+		// 		...currentUser.ownedProjects,
+		// 		createdProject._id!,
+		// 	];
+		// 	await currentUser.save();
+		res.status(200).json(createdProject);
+		// }
 	} catch (e) {
 		res.status(400).send(e.message);
 	}

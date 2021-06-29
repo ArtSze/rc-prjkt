@@ -13,9 +13,11 @@
 		"helmet": "^4.6.0",
 		"immer": "^9.0.3",
 		"jest": "^27.0.6",
+		"mock-session": "^0.0.5",
 		"mongodb-memory-server": "^6.9.6",
 		"mongoose": "^5.12.14",
-		"simple-oauth2": "^4.2.0"
+		"simple-oauth2": "^4.2.0",
+		"supertest-session": "^4.1.0"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.14.6",
