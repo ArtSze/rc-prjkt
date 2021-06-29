@@ -17,6 +17,22 @@ const getAllProjects = async (): Promise<Array<IProject>> => {
 		});
 };
 
+const getAllActiveProjects = async (): Promise<Array<IProject>> => {
+	return await Project.find({ 'active': true })
+		.populate('owner', {
+			ownedProjects: 1,
+			collabProjects: 1,
+		})
+		.populate('collaborators', {
+			ownedProjects: 1,
+			collabProjects: 1,
+		})
+		.populate('tags', {
+			category: 1,
+			value: 1,
+		});
+};
+
 const getSingleProject = async (id: string): Promise<IProject | null> => {
 	return await Project.findById(id)
 		.populate('owner', {
@@ -66,6 +82,7 @@ const deleteProject = async (
 
 export default {
 	getAllProjects,
+	getAllActiveProjects,
 	getSingleProject,
 	createProject,
 	updateProject,
