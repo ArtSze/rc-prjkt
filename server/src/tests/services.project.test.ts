@@ -281,6 +281,16 @@ describe('Project service tests', () => {
 				);
 			});
 		});
+		describe('getAllActiveProjects', () => {
+			it('should get all active projects', async () => {
+				const projects = await projectService.getAllActiveProjects();
+				return expect(projects).toEqual(
+					expect.arrayContaining([
+						expect.objectContaining(result1),
+					])
+				);
+			});
+		})
 		describe('getSingleProject', () => {
 			it('should fetch single project by id', async () => {
 				const project = await projectService.getSingleProject(
@@ -301,7 +311,6 @@ describe('Project service tests', () => {
 	});
 
 	describe('Update projects', () => {
-		// @ts-expect-error
 		let createdProject1;
 		// @ts-expect-error
 		let createdProject4;
@@ -340,7 +349,7 @@ describe('Project service tests', () => {
 					owner: createdUser1._id,
 				};
 
-				console.log({ projectUpdateArg });
+				// console.log({ projectUpdateArg });
 
 				const updatedProject = await projectService.updateProject(
 					// @ts-expect-error
@@ -348,7 +357,7 @@ describe('Project service tests', () => {
 					projectUpdateArg
 				);
 
-				console.log({ updatedProject });
+				// console.log({ updatedProject });
 
 				return expect(updatedProject).toEqual(
 					expect.objectContaining({
