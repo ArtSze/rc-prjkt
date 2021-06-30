@@ -1,5 +1,7 @@
 import express from 'express';
 import supertest from 'supertest';
+// @ts-expect-error
+import session from 'supertest-session';
 
 import db from './utils/dbConfig';
 import userService from '../services/userService';
@@ -9,17 +11,17 @@ import { ProjectsRouter } from '../routes/projects';
 import { ETagCategories } from '../models/tag';
 
 const app = express();
-const api = supertest(app);
 app.use(express.json());
 app.use(ProjectsRouter);
-
-//TODO: create mock project data
+// const api = supertest(app);
 
 describe('Project router tests without using app', () => {
 	// @ts-expect-error
+	let createdTag1;
+	// @ts-expect-error
 	let createdUser1;
 	// @ts-expect-error
-	let createdTag1;
+	let testSession = null;
 
 	beforeAll(async () => {
 		await db.connect();
@@ -35,6 +37,12 @@ describe('Project router tests without using app', () => {
 			category: ETagCategories['CollaborationStyle'],
 			value: 'solo',
 		});
+		testSession = session(app, {
+			before: function (req: any) {
+				// @ts-expect-error
+				req.set('session', JSON.stringify({ user: { createdUser1 } }));
+			},
+		});
 	});
 	afterAll(async () => {
 		await db.close();
@@ -42,7 +50,8 @@ describe('Project router tests without using app', () => {
 
 	describe('POST /projects', () => {
 		it.only('should return a 200 status code and valid response for creation of a valid project', async () => {
-			const result = await api.post('/').send({
+			// @ts-expect-error
+			const result = await testSession.post('/').send({
 				title: 'Sample Project 1',
 				description: 'A sample description of a sample project',
 				githubLink: 'https://github.com/User1/sample_project1',
@@ -54,22 +63,23 @@ describe('Project router tests without using app', () => {
 						value: 'solo',
 					},
 				],
-				// @ts-expect-error
-				owner: createdUser1._id,
 			});
+			console.log({ result });
+
 			expect(result.status).toEqual(200);
-			expect.objectContaining({
-				title: 'Sample Project 1',
-				description: 'A sample description of a sample project',
-				githubLink: 'https://github.com/User1/sample_project1',
-				collaborators: expect.arrayContaining([]),
-				active: true,
-				// @ts-expect-error
-				owner: createdUser1._id,
-			});
+			// expect.objectContaining({
+			// 	title: 'Sample Project 1',
+			// 	description: 'A sample description of a sample project',
+			// 	githubLink: 'https://github.com/User1/sample_project1',
+			// 	collaborators: expect.arrayContaining([]),
+			// 	active: true,
+			// 	// @ts-expect-error
+			// 	owner: createdUser1._id,
+			// });
 		});
 		it('should return a 400 status code and error response for creation of an invalid project (owner prop not provided)', async () => {
-			const result = await api.post('/').send({
+			// @ts-expect-error
+			const result = await testSession.post('/').send({
 				description: 'A sample description of a sample project',
 				githubLink: 'https://github.com/User1/sample_project1',
 				collaborators: [],
@@ -106,11 +116,12 @@ describe('Project router tests without using app', () => {
 
 		it('should return a 200 status code and a response containing the project data', async () => {
 			// @ts-expect-error
-			const result = await api.get(`/${createdProject1._id}`);
+			const result = await testSession.get(`/${createdProject1._id}`);
 			expect(result.status).toEqual(200);
 		});
 		it('should return a 404 status code and for an invalid project', async () => {
-			const result = await api.get('asf1ka1n3sl3223');
+			// @ts-expect-error
+			const result = await testSession.get('asf1ka1n3sl3223');
 			expect(result.statusCode).toEqual(404);
 		});
 	});
@@ -134,17 +145,20 @@ describe('Project router tests without using app', () => {
 
 		it('should return a 200 status code and valid response for updating a valid project with a new title', async () => {
 			// @ts-expect-error
-			const result = await api.put(`/${createdProject1._id}`).send({
-				title: 'Updated Sample Project 2',
-				description: 'A sample description of a sample project',
-				githubLink: 'https://github.com/User1/sample_project2new',
-				collaborators: [],
-				active: true,
+			const result = await testSession
 				// @ts-expect-error
-				tags: [createdTag1._id],
-				// @ts-expect-error
-				owner: createdUser1._id,
-			});
+				.put(`/${createdProject1._id}`)
+				.send({
+					title: 'Updated Sample Project 2',
+					description: 'A sample description of a sample project',
+					githubLink: 'https://github.com/User1/sample_project2new',
+					collaborators: [],
+					active: true,
+					// @ts-expect-error
+					tags: [createdTag1._id],
+					// @ts-expect-error
+					owner: createdUser1._id,
+				});
 			expect(result.status).toEqual(200);
 			expect.objectContaining({
 				title: 'Updated Sample Project 2',
@@ -158,17 +172,20 @@ describe('Project router tests without using app', () => {
 		});
 		it('should return a 200 status code and valid response for updating a valid project when adding a tag', async () => {
 			// @ts-expect-error
-			const result = await api.put(`/${createdProject1._id}`).send({
-				title: 'Updated Sample Project 2',
-				description: 'A sample description of a sample project',
-				githubLink: 'https://github.com/User1/sample_project2new',
-				collaborators: [],
-				active: true,
+			const result = await testSession
 				// @ts-expect-error
-				tags: [createdTag1._id],
-				// @ts-expect-error
-				owner: createdUser1._id,
-			});
+				.put(`/${createdProject1._id}`)
+				.send({
+					title: 'Updated Sample Project 2',
+					description: 'A sample description of a sample project',
+					githubLink: 'https://github.com/User1/sample_project2new',
+					collaborators: [],
+					active: true,
+					// @ts-expect-error
+					tags: [createdTag1._id],
+					// @ts-expect-error
+					owner: createdUser1._id,
+				});
 			expect(result.status).toEqual(200);
 			expect.objectContaining({
 				title: 'Updated Sample Project 2',
