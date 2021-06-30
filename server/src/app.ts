@@ -17,6 +17,7 @@ app.use(helmet());
 
 app.use(
 	session({
+		// FIXME: add secret
 		secret: 'keyboard cat',
 		resave: false,
 		saveUninitialized: false,
@@ -28,11 +29,9 @@ app.use(
 app.use(sessionCookieCheck);
 
 // Routes
-import { IndexRouter } from './routes/index';
 import { UsersRouter } from './routes/users';
 import { ProjectsRouter } from './routes/projects';
 import { AuthRouter } from './routes/auth';
 app.use('/users', UsersRouter);
 app.use('/auth', AuthRouter);
 app.use('/projects', ProjectsRouter);
-app.use('/', IndexRouter);

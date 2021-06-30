@@ -1,7 +1,12 @@
-import User, { IUser } from '../models/user';
-import { IUserFromRCAPI } from '../types';
+import User from '../models/user';
+import { IUserFromRCAPI } from '../utils/types';
 
-const getAllUsers = async (): Promise<Array<IUser | null>> => {
+/**
+ * Retrieve all users in the database including their owned projects and collaborated projects
+ * 
+ * @return {Promise<(IUser & mongoose.Document)[]>} All users in the database
+ */
+const getAllUsers = async () => {
 	return await User.find({})
 		.populate('ownedProjects', {
 			_id: 1,
@@ -25,6 +30,11 @@ const getAllUsers = async (): Promise<Array<IUser | null>> => {
 		});
 };
 
+/**
+ * Retrieve a single user from the database including their owned projects and collaborated projects
+ * 
+ * @return {Promise<(IUser & mongoose.Document)>} A single user from the database
+ */
 const getUser = async (rcId: number) => {
 	return await User.findOne({ rcId: rcId })
 		.populate('ownedProjects', {
@@ -49,14 +59,23 @@ const getUser = async (rcId: number) => {
 		});
 };
 
+/**
+ * Creates a new user in the database
+ * 
+ * @remarks Create user is called from the authentication router which provides an object from the RC API containing the user data based on their authentication token.
+ * 
+ * @param {IUserFromRCAPI} userData - An object containing user data from the RC API
+ * 
+ * @return {Promise<ITag & mongoose.Document>} Newly created tag document from the database
+ */
 const createUser = async (userData: IUserFromRCAPI) => {
-	const user = await new User({
+	const user = new User({
 		ownedProjects: [],
 		collabProjects: [],
 		...userData,
 	});
-	const saved_user = await user.save();
-	return saved_user;
+	const savedUser = await user.save();
+	return savedUser;
 };
 
 export default { getAllUsers, getUser, createUser };

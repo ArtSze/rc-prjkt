@@ -1,21 +1,22 @@
-import mongoose from 'mongoose'
-import { MongoMemoryServer } from 'mongodb-memory-server'
+import mongoose from 'mongoose';
+import { MongoMemoryServer } from 'mongodb-memory-server';
 
-const db = new MongoMemoryServer()
+const db = new MongoMemoryServer();
 
 async function connect() {
-  const uri = await db.getUri()
-  await mongoose.connect(uri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true
-  })
+	const uri = await db.getUri();
+	await mongoose.connect(uri, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+		useCreateIndex: true,
+		useFindAndModify: false,
+	});
 }
 
 async function close() {
-  await mongoose.connection.dropDatabase()
-  await mongoose.connection.close()
-  await db.stop()
+	await mongoose.connection.dropDatabase();
+	await mongoose.connection.close();
+	await db.stop();
 }
 
-export default { connect, close }
+export default { connect, close };
