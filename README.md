@@ -6,7 +6,7 @@ Projects have tags which allow Recursers to filter projects by their interests a
 
 ## Back-End
 
-The back-end is build with Node, Express, and MongoDB. 
+The back-end is built with Node, Express, and MongoDB. 
 
 Authentication is handled with OAuth2 and the Recurse Center API. You must authenticate through the RC API in order to receive access to this application. User information and identification gathered from RC's API.
 
