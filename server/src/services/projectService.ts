@@ -8,12 +8,15 @@ import Project, { IProject } from '../models/project';
 const getAllProjects = async () => {
 	return await Project.find({})
 		.populate('owner', {
-			ownedProjects: 1,
-			collabProjects: 1,
+			first_name: 1,
+			last_name: 1,
+			zulip_id: 1,
+			batch: 1,
+			image_path: 1,
 		})
 		.populate('collaborators', {
-			ownedProjects: 1,
-			collabProjects: 1,
+			first_name: 1,
+			last_name: 1,
 		})
 		.populate('tags', {
 			category: 1,
@@ -27,17 +30,21 @@ const getAllProjects = async () => {
  * @remark
  * Active projects have a boolean property of `active`
  * 
+ * 
  * @return {Promise<(IProject & mongoose.Document)[]>} Promise containing an array of projects
  */
 const getAllActiveProjects = async () => {
 	return await Project.find({ 'active': true })
 		.populate('owner', {
-			ownedProjects: 1,
-			collabProjects: 1,
+			first_name: 1,
+			last_name: 1,
+			zulip_id: 1,
+			batch: 1,
+			image_path: 1,
 		})
 		.populate('collaborators', {
-			ownedProjects: 1,
-			collabProjects: 1,
+			first_name: 1,
+			last_name: 1,
 		})
 		.populate('tags', {
 			category: 1,
@@ -55,13 +62,15 @@ const getAllActiveProjects = async () => {
 const getSingleProject = async (id: string) => {
 	return await Project.findById(id)
 		.populate('owner', {
-			ownedProjects: 1,
-			collabProjects: 1,
-			_id: 1,
+			first_name: 1,
+			last_name: 1,
+			zulip_id: 1,
+			batch: 1,
+			image_path: 1,
 		})
 		.populate('collaborators', {
-			ownedProjects: 1,
-			collabProjects: 1,
+			first_name: 1,
+			last_name: 1,
 		})
 		.populate('tags', {
 			category: 1,
