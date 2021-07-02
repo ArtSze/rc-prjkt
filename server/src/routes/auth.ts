@@ -5,7 +5,7 @@ import logger from '../utils/logger';
 import axios from 'axios';
 
 import userService from '../services/userService';
-import { IProfilefromRCAPI, IUserFromRCAPI } from '../types';
+import { IProfilefromRCAPI, IUserFromRCAPI } from '../utils/types';
 
 export const AuthRouter = Router();
 

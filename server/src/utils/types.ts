@@ -1,6 +1,6 @@
 import { Types } from 'mongoose';
-import { IProject } from './models/project';
-import { IUser } from './models/user';
+import { IProject } from '../models/project';
+import { IUser } from '../models/user';
 
 export interface IUserWithMongooseID extends IUser {
 	_id?: string;
