@@ -1,5 +1,5 @@
 import User from '../models/user';
-import { IUserFromRCAPI } from '../types';
+import { IUserFromRCAPI } from '../utils/types';
 
 /**
  * Retrieve all users in the database including their owned projects and collaborated projects

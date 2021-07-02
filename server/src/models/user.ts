@@ -1,5 +1,5 @@
 import mongoose, { Schema, Types } from 'mongoose';
-import { IUserFromRCAPI } from '../types';
+import { IUserFromRCAPI } from '../utils/types';
 
 export interface IUser extends IUserFromRCAPI {
 	ownedProjects: Array<Types.ObjectId>;

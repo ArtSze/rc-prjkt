@@ -15,6 +15,7 @@ const sampleData = {
 		last_name: 'last1',
 		zulip_id: 1,
 		image_path: 'image1.com',
+        batchEndDate: '2021-08-06T00:00:00.000Z',
 		batch: `S2 '21`,
 	},
 	projects: {
@@ -71,6 +72,7 @@ describe('Project service tests', () => {
 	describe('Create projects', () => {
 		beforeEach(async () => {
 			await db.connect();
+            // @ts-expect-error
 			createdUser1 = await userService.createUser(sampleData.user1);
 			createdTag1 = await tagService.createTag(sampleData.tag1);
 		});
@@ -250,6 +252,7 @@ describe('Project service tests', () => {
 
 		beforeEach(async () => {
 			await db.connect();
+            // @ts-expect-error
 			createdUser1 = await userService.createUser(sampleData.user1);
 			createdTag1 = await tagService.createTag(sampleData.tag1);
 
@@ -317,6 +320,7 @@ describe('Project service tests', () => {
 
 		beforeEach(async () => {
 			await db.connect();
+            // @ts-expect-error
 			createdUser1 = await userService.createUser(sampleData.user1);
 			createdTag1 = await tagService.createTag(sampleData.tag1);
 
@@ -378,6 +382,7 @@ describe('Project service tests', () => {
 
 		beforeEach(async () => {
 			await db.connect();
+            // @ts-expect-error
 			createdUser1 = await userService.createUser(sampleData.user1);
 			createdTag1 = await tagService.createTag(sampleData.tag1);
 
