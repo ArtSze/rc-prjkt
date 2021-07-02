@@ -66,7 +66,8 @@ const getUser = async (rcId: number) => {
  *
  * @return {Promise<(Mongoose.types.ObjectId & mongoose.Document)[]>} All userIDs in the database for provided names
  */
-const fetchUserIDsByValues = async (
+
+const fetchUserIDsByNames = async (
 	collaborators: ICollaboratorFromClient[]
 ) => {
 	const userPromises = collaborators.map(async (collaborator) => {
@@ -98,4 +99,5 @@ const createUser = async (userData: IUserFromRCAPI) => {
 	return savedUser;
 };
 
-export default { getAllUsers, getUser, fetchUserIDsByValues, createUser };
+export default { getAllUsers, getUser, fetchUserIDsByNames, createUser };
+
