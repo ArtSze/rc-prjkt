@@ -55,7 +55,8 @@ async function getRCData(token: AccessToken): Promise<IUserFromRCAPI> {
 			})
 		).data as IProfilefromRCAPI;
 
-		let batch = profile.stints[0]?.batch.short_name || '';
+		const batchEndDate = new Date(profile.stints[0]?.end_date || "2000-01-01");
+		const batch = profile.stints[0]?.batch.short_name || "";
 
 		return {
 			rcId: profile['id'],
@@ -63,6 +64,7 @@ async function getRCData(token: AccessToken): Promise<IUserFromRCAPI> {
 			last_name: profile['last_name'],
 			zulip_id: profile['zulip_id'],
 			image_path: profile['image_path'],
+            batchEndDate,
 			batch: batch,
 		};
 	} catch (error) {
