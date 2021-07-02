@@ -1,14 +1,9 @@
 import mongoose, { Schema, Types } from 'mongoose';
+import { IUserFromRCAPI } from '../utils/types';
 
-export interface IUser {
+export interface IUser extends IUserFromRCAPI {
 	ownedProjects: Array<Types.ObjectId>;
 	collabProjects: Array<Types.ObjectId>;
-	rcId: number;
-	first_name: string;
-	last_name: string;
-	zulip_id: number;
-	image_path: string;
-	batch: string;
 }
 
 const UserSchema = new Schema<IUser>({
@@ -25,6 +20,7 @@ const UserSchema = new Schema<IUser>({
 	last_name: { type: String },
 	zulip_id: { type: Number },
 	image_path: { type: String },
+    batchEndDate: { type: Date },
 	batch: { type: String }
 });
 
