@@ -105,6 +105,7 @@ const createProject = async (project: IProject) => {
 const updateProject = async (id: string, project: IProject) => {
 	const updatedProject = await Project.findByIdAndUpdate(id, project, {
 		new: true,
+        runValidators: true
 	});
 	await updatedProject!.save();
 	return updatedProject;

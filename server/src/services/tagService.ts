@@ -58,7 +58,7 @@ export const createTags = async (tags: ITag[]) => {
 		return await Tag.findOneAndUpdate(
 			{ category: tag.category, value: tag.value },
 			tag,
-			{ new: true, upsert: true }
+			{ new: true, upsert: true, runValidators: true}
 		);
 	});
 	const newTags = await Promise.all(tagPromises);

@@ -51,6 +51,10 @@ ProjectsRouter.post('/', async (req, res) => {
 	logger.info({ reqBody });
 
 	try {
+
+        /** comment line 44 and replace with hard-coded rcId for testing */
+		// const currentUser = await userService.getUser(4383); // Artur as owner for testing
+		// const currentUser = await userService.getUser(4287); // Amanda as owner for testing
 		const currentUser = await userService.getUser(req.session.user.rcId);
 
 		const tagsFromClient = req.body.tags as ITag[];

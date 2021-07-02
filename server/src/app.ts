@@ -5,7 +5,6 @@ import session from 'express-session';
 import MongoStore from 'connect-mongo';
 
 import { MONGO_URI } from './utils/config';
-import { sessionCookieCheck } from './utils/middleware';
 
 export const app = express();
 
@@ -26,7 +25,9 @@ app.use(
 	})
 );
 
-app.use(sessionCookieCheck);
+/** comment next 2 lines for testing to turn off auth */
+// import { sessionCookieCheck } from './utils/middleware';
+// app.use(sessionCookieCheck);
 
 // Routes
 import { UsersRouter } from './routes/users';
