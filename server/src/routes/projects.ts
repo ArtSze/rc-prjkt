@@ -12,6 +12,20 @@ export const ProjectsRouter = Router();
 ProjectsRouter.get('/', async (req, res) => {
 	const reqBody = req.body;
 	logger.info({ reqBody });
+
+	// const status = req.query['status'];
+	// const rcId = req.query['user']
+	// const tags = req.query['tags']            ex: http://localhost:4000/log-query?tags=Python&tags=Go' (tags = ["Python", "Go"])
+
+	// if (status === 'inactive'){
+	//     await projectService.getAllInactiveProjects()      new method
+	// } else if (status === 'active'){
+	//     await projectService.getAllActiveProjects()
+	// } else if (rcId) {
+	//     await projectService.getProjectsByUser(rcId)       new method
+	// } else if (tags) {
+	//     await projectService.getProjectsByTags(tags)
+	// } else:
 	try {
 		const allProjects = await projectService.getAllProjects();
 		res.status(200).json(allProjects);
