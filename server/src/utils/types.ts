@@ -32,6 +32,7 @@ export interface IUserFromRCAPI {
 	last_name: string;
 	zulip_id: number;
 	image_path: string;
+    batchEndDate: Date;
 	batch: string;
 }
 
@@ -45,6 +46,7 @@ export interface IProfilefromRCAPI {
 }
 
 export interface Stint {
+    end_date: string;
 	batch: Batch;
 }
 

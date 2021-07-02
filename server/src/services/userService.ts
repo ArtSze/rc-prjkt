@@ -1,4 +1,3 @@
-import User from '../models/user';
 import { ICollaboratorFromClient, IUserFromRCAPI } from '../utils/types';
 
 /**
