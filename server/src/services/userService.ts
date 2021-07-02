@@ -1,5 +1,5 @@
 import User from '../models/user';
-import { IUserFromRCAPI } from '../types';
+import { ICollaboratorFromClient, IUserFromRCAPI } from '../utils/types';
 
 /**
  * Retrieve all users in the database including their owned projects and collaborated projects
@@ -60,6 +60,26 @@ const getUser = async (rcId: number) => {
 };
 
 /**
+ * Retrieve userIDs from the database
+ *
+ * @param {ICollaboratorFromClient[]} collaborators - Array of first_name and last_name properties
+ *
+ * @return {Promise<(Mongoose.types.ObjectId & mongoose.Document)[]>} All userIDs in the database for provided names
+ */
+const fetchUserIDsByValues = async (
+	collaborators: ICollaboratorFromClient[]
+) => {
+	const userPromises = collaborators.map(async (collaborator) => {
+		return await User.findOne({
+			first_name: collaborator.first_name,
+			last_name: collaborator.last_name,
+		}).select('_id');
+	});
+	const userIDs = await Promise.all(userPromises);
+	return userIDs;
+};
+
+/**
  * Creates a new user in the database
  *
  * @remarks Create user is called from the authentication router which provides an object from the RC API containing the user data based on their authentication token.
@@ -78,4 +98,4 @@ const createUser = async (userData: IUserFromRCAPI) => {
 	return savedUser;
 };
 
-export default { getAllUsers, getUser, createUser };
+export default { getAllUsers, getUser, fetchUserIDsByValues, createUser };

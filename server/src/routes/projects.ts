@@ -5,6 +5,7 @@ import projectService from '../services/projectService';
 import tagService from '../services/tagService';
 import userService from '../services/userService';
 import { ITag } from '../models/tag';
+import { ICollaboratorFromClient } from '../utils/types';
 
 export const ProjectsRouter = Router();
 
@@ -36,16 +37,23 @@ ProjectsRouter.post('/', async (req, res) => {
 	logger.info({ reqBody });
 
 	try {
+		const currentUser = await userService.getUser(req.session.user.rcId);
+
 		const tagsFromClient = req.body.tags as ITag[];
 		const createdTags = await tagService.createTags(tagsFromClient);
 		const tagObjectIds = createdTags.map((tag) => tag._id);
 
-		const currentUser = await userService.getUser(req.session.user.rcId);
+		const collaboratorsFromClient = req.body
+			.collaborators as ICollaboratorFromClient[];
+		const collaboratorObjectIds = await userService.fetchUserIDsByValues(
+			collaboratorsFromClient
+		);
 
 		const createdProject = await projectService.createProject({
 			...reqBody,
 			owner: currentUser?._id,
 			tags: [...tagObjectIds],
+			collaborators: [...collaboratorObjectIds],
 		});
 
 		if (currentUser) {
