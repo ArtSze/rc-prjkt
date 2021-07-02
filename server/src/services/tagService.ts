@@ -2,7 +2,7 @@ import Tag, { ITag } from '../models/tag';
 
 /**
  * Retrieve all tags in the database
- * 
+ *
  * @return {Promise<(ITag & mongoose.Document)[]>} All tags in the database
  */
 export const fetchAllTags = async () => {
@@ -11,9 +11,9 @@ export const fetchAllTags = async () => {
 
 /**
  * Retrieve tags in the database from a provided list of values
- * 
+ *
  * @param {string[]} values - Array of tag values
- * 
+ *
  * @return {Promise<(ITag & mongoose.Document)[]>} All tags in the database for provided values
  */
 export const fetchTagsByValues = async (values: string[]) => {
@@ -22,9 +22,9 @@ export const fetchTagsByValues = async (values: string[]) => {
 
 /**
  * Retrieve tags in the database from a provided value
- * 
+ *
  * @param {string[]} values - A tag value
- * 
+ *
  * @return {Promise<(ITag & mongoose.Document)[]>} All tags in the database for provided value
  */
 export const fetchSingleTagByValue = async (value: string) => {
@@ -33,9 +33,9 @@ export const fetchSingleTagByValue = async (value: string) => {
 
 /**
  * Creates a new tag in the database
- * 
+ *
  * @param {ITag} tag - A tag object containing a category and value
- * 
+ *
  * @return {Promise<ITag & mongoose.Document>} Newly created tag document from the database
  */
 export const createTag = async (tag: ITag) => {
@@ -46,23 +46,24 @@ export const createTag = async (tag: ITag) => {
 
 /**
  * Creates new tags in the database
- * 
+ *
  * @remark Query has option `upsert: true` which returns tag if it already exists in the database or creates a tag if it doesn't exist
- * 
+ *
  * @param {ITag[]} tags - An array of tag objects
- * 
+ *
  * @return {Promise<ITag & mongoose.Document>} Created tags in the database
  */
 export const createTags = async (tags: ITag[]) => {
 	const tagPromises = tags.map(async (tag) => {
 		return await Tag.findOneAndUpdate(
-			{ 'category': tag.category, 'value': tag.value },
+			{ category: tag.category, value: tag.value },
 			tag,
-			{ new: true, upsert: true })
-	})
-	const newTags = await Promise.all(tagPromises)
-	return newTags
-}
+			{ new: true, upsert: true }
+		);
+	});
+	const newTags = await Promise.all(tagPromises);
+	return newTags;
+};
 
 export default {
 	createTag,

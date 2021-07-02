@@ -5,12 +5,27 @@ import projectService from '../services/projectService';
 import tagService from '../services/tagService';
 import userService from '../services/userService';
 import { ITag } from '../models/tag';
+import { ICollaboratorFromClient } from '../utils/types';
 
 export const ProjectsRouter = Router();
 
 ProjectsRouter.get('/', async (req, res) => {
 	const reqBody = req.body;
 	logger.info({ reqBody });
+
+	// const status = req.query['status'];
+	// const rcId = req.query['user']
+	// const tags = req.query['tags']            ex: http://localhost:4000/log-query?tags=Python&tags=Go' (tags = ["Python", "Go"])
+
+	// if (status === 'inactive'){
+	//     await projectService.getAllInactiveProjects()      new method
+	// } else if (status === 'active'){
+	//     await projectService.getAllActiveProjects()
+	// } else if (rcId) {
+	//     await projectService.getProjectsByUser(rcId)       new method
+	// } else if (tags) {
+	//     await projectService.getProjectsByTags(tags)
+	// } else:
 	try {
 		const allProjects = await projectService.getAllProjects();
 		res.status(200).json(allProjects);
@@ -36,16 +51,23 @@ ProjectsRouter.post('/', async (req, res) => {
 	logger.info({ reqBody });
 
 	try {
+		const currentUser = await userService.getUser(req.session.user.rcId);
+
 		const tagsFromClient = req.body.tags as ITag[];
 		const createdTags = await tagService.createTags(tagsFromClient);
 		const tagObjectIds = createdTags.map((tag) => tag._id);
 
-		const currentUser = await userService.getUser(req.session.user.rcId);
+		const collaboratorsFromClient = req.body
+			.collaborators as ICollaboratorFromClient[];
+		const collaboratorObjectIds = await userService.fetchUserIDsByValues(
+			collaboratorsFromClient
+		);
 
 		const createdProject = await projectService.createProject({
 			...reqBody,
 			owner: currentUser?._id,
 			tags: [...tagObjectIds],
+			collaborators: [...collaboratorObjectIds],
 		});
 
 		if (currentUser) {
@@ -69,9 +91,14 @@ ProjectsRouter.put('/:id', async (req, res) => {
 	const projectToUpdateOwnerId = req.body.owner;
 
 	const tagsFromClient = req.body.tags as ITag[];
-
 	const createdTags = await tagService.createTags(tagsFromClient);
 	const tagObjectIds = createdTags.map((tag) => tag._id);
+
+	const collaboratorsFromClient = req.body
+		.collaborators as ICollaboratorFromClient[];
+	const collaboratorObjectIds = await userService.fetchUserIDsByValues(
+		collaboratorsFromClient
+	);
 
 	if (currentUserId === projectToUpdateOwnerId) {
 		try {
@@ -79,6 +106,7 @@ ProjectsRouter.put('/:id', async (req, res) => {
 			const updatedProject = await projectService.updateProject(id, {
 				...reqBody,
 				tags: [...tagObjectIds],
+				collaborators: [...collaboratorObjectIds],
 			});
 			res.status(200).json(updatedProject);
 		} catch (e) {

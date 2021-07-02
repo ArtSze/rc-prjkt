@@ -53,3 +53,8 @@ export interface Stint {
 export interface Batch {
 	short_name: string;
 }
+
+export interface ICollaboratorFromClient {
+	first_name: string;
+	last_name: string;
+}
