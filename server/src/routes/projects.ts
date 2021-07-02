@@ -59,7 +59,8 @@ ProjectsRouter.post('/', async (req, res) => {
 
 		const collaboratorsFromClient = req.body
 			.collaborators as ICollaboratorFromClient[];
-		const collaboratorObjectIds = await userService.fetchUserIDsByValues(
+
+		const collaboratorObjectIds = await userService.fetchUserIDsByNames(
 			collaboratorsFromClient
 		);
 
@@ -96,7 +97,8 @@ ProjectsRouter.put('/:id', async (req, res) => {
 
 	const collaboratorsFromClient = req.body
 		.collaborators as ICollaboratorFromClient[];
-	const collaboratorObjectIds = await userService.fetchUserIDsByValues(
+
+	const collaboratorObjectIds = await userService.fetchUserIDsByNames(
 		collaboratorsFromClient
 	);
 
