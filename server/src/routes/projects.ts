@@ -77,9 +77,14 @@ ProjectsRouter.put('/:id', async (req, res) => {
 	const projectToUpdateOwnerId = req.body.owner;
 
 	const tagsFromClient = req.body.tags as ITag[];
-
 	const createdTags = await tagService.createTags(tagsFromClient);
 	const tagObjectIds = createdTags.map((tag) => tag._id);
+
+	const collaboratorsFromClient = req.body
+		.collaborators as ICollaboratorFromClient[];
+	const collaboratorObjectIds = await userService.fetchUserIDsByValues(
+		collaboratorsFromClient
+	);
 
 	if (currentUserId === projectToUpdateOwnerId) {
 		try {
@@ -87,6 +92,7 @@ ProjectsRouter.put('/:id', async (req, res) => {
 			const updatedProject = await projectService.updateProject(id, {
 				...reqBody,
 				tags: [...tagObjectIds],
+				collaborators: [...collaboratorObjectIds],
 			});
 			res.status(200).json(updatedProject);
 		} catch (e) {
