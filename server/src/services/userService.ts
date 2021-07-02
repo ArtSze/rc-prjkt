@@ -100,4 +100,3 @@ const createUser = async (userData: IUserFromRCAPI) => {
 };
 
 export default { getAllUsers, getUser, fetchUserIDsByNames, createUser };
-
