@@ -11,6 +11,7 @@ const getAllProjects = async () => {
 			first_name: 1,
 			last_name: 1,
 			zulip_id: 1,
+            batchEndDate: 1,
 			batch: 1,
 			image_path: 1,
 		})
@@ -39,6 +40,7 @@ const getAllActiveProjects = async () => {
 			first_name: 1,
 			last_name: 1,
 			zulip_id: 1,
+            batchEndDate: 1,
 			batch: 1,
 			image_path: 1,
 		})
@@ -65,6 +67,7 @@ const getSingleProject = async (id: string) => {
 			first_name: 1,
 			last_name: 1,
 			zulip_id: 1,
+            batchEndDate: 1,
 			batch: 1,
 			image_path: 1,
 		})
