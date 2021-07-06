@@ -14,7 +14,7 @@ ProjectsRouter.get('/', async (req, res) => {
 	logger.info({ reqBody });
 
 	const status = req.query['status'];
-	const rcId = req.query['user'];
+	const rcId = req.query['user'] as string;
 	const tags =
 		req.query[
 			'tags'
@@ -23,7 +23,7 @@ ProjectsRouter.get('/', async (req, res) => {
 	if (status === 'inactive') {
 		try {
 			const inactiveProjects =
-				await projectService.getAllInactiveProjects(); /* new method */
+				await projectService.getAllInactiveProjects();
 			res.status(200).json(inactiveProjects);
 		} catch (e) {
 			res.status(400).send(e.message);
@@ -38,19 +38,21 @@ ProjectsRouter.get('/', async (req, res) => {
 	} else if (rcId) {
 		try {
 			const projectsByUser = await projectService.getProjectsByUser(
-				rcId
-			); /* new method */
+				parseInt(rcId)
+			);
 			res.status(200).json(projectsByUser);
-		} catch (e) {}
-		res.status(400).send(e.message);
+		} catch (e) {
+			res.status(400).send(e.message);
+		}
 	} else if (tags) {
 		try {
 			const projectsByTags = await projectService.getProjectsByTags(
 				tags
 			); /* new method */
 			res.status(200).json(projectsByTags);
-		} catch (e) {}
-		res.status(400).send(e.message);
+		} catch (e) {
+			res.status(400).send(e.message);
+		}
 	} else {
 		try {
 			const allProjects = await projectService.getAllProjects();

@@ -1,4 +1,5 @@
 import Project, { IProject } from '../models/project';
+import userService from './userService';
 
 /**
  * Returns all of the projects in the database
@@ -28,13 +29,41 @@ const getAllProjects = async () => {
  * Returns all of the active projects in the database
  *
  * @remark
- * Active projects have a boolean property of `active`
+ * Active projects have a property of `active` that returns `true`
  *
  *
  * @return {Promise<(IProject & mongoose.Document)[]>} Promise containing an array of projects
  */
 const getAllActiveProjects = async () => {
 	return await Project.find({ active: true })
+		.populate('owner', {
+			first_name: 1,
+			last_name: 1,
+			zulip_id: 1,
+			batchEndDate: 1,
+			batch: 1,
+			image_path: 1,
+		})
+		.populate('collaborators', {
+			first_name: 1,
+			last_name: 1,
+		})
+		.populate('tags', {
+			value: 1,
+		});
+};
+
+/**
+ * Returns all of the inactive projects in the database
+ *
+ * @remark
+ * Inactive projects have a property of `active` that returns `false`
+ *
+ *
+ * @return {Promise<(IProject & mongoose.Document)[]>} Promise containing an array of projects
+ */
+const getAllInactiveProjects = async () => {
+	return await Project.find({ active: false })
 		.populate('owner', {
 			first_name: 1,
 			last_name: 1,
@@ -61,6 +90,33 @@ const getAllActiveProjects = async () => {
  */
 const getSingleProject = async (id: string) => {
 	return await Project.findById(id)
+		.populate('owner', {
+			first_name: 1,
+			last_name: 1,
+			zulip_id: 1,
+			batchEndDate: 1,
+			batch: 1,
+			image_path: 1,
+		})
+		.populate('collaborators', {
+			first_name: 1,
+			last_name: 1,
+		})
+		.populate('tags', {
+			value: 1,
+		});
+};
+
+/**
+ * Returns all projects in the database belonging to a specific user
+ *
+ * @param {string} rcId - the user's ID from the database
+ *
+ * @return {Promise<Array<IProject>> | null } Promise containing an array of projects or null if no project is found
+ */
+const getProjectsByUser = async (rcId: number) => {
+	const user = await userService.getUser(rcId);
+	return await Project.find({ owner: user?._id })
 		.populate('owner', {
 			first_name: 1,
 			last_name: 1,
@@ -126,6 +182,8 @@ const deleteProject = async (id: string) => {
 export default {
 	getAllProjects,
 	getAllActiveProjects,
+	getAllInactiveProjects,
+	getProjectsByUser,
 	getSingleProject,
 	createProject,
 	updateProject,
