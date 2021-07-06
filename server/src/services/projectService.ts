@@ -1,4 +1,5 @@
 import Project, { IProject } from '../models/project';
+import tagService from './tagService';
 import userService from './userService';
 
 /**
@@ -82,14 +83,15 @@ const getAllInactiveProjects = async () => {
 };
 
 /**
- * Returns a single project in the database
+ * Returns all projects in the database belonging to a specific user
  *
- * @param {string} id - the project's ID from the database
+ * @param {string} rcId - the user's ID from the database
  *
  * @return {Promise<Array<IProject>> | null } Promise containing an array of projects or null if no project is found
  */
-const getSingleProject = async (id: string) => {
-	return await Project.findById(id)
+const getProjectsByUser = async (rcId: number) => {
+	const user = await userService.getUser(rcId);
+	return await Project.find({ owner: user?._id })
 		.populate('owner', {
 			first_name: 1,
 			last_name: 1,
@@ -108,15 +110,42 @@ const getSingleProject = async (id: string) => {
 };
 
 /**
- * Returns all projects in the database belonging to a specific user
+ * Returns all projects in the database that contain specific tags
  *
- * @param {string} rcId - the user's ID from the database
+ * @param {Array<string>} tags - Tags that affect the scope of the database query
  *
  * @return {Promise<Array<IProject>> | null } Promise containing an array of projects or null if no project is found
  */
-const getProjectsByUser = async (rcId: number) => {
-	const user = await userService.getUser(rcId);
-	return await Project.find({ owner: user?._id })
+const getProjectsByTags = async (tags: string[]) => {
+	const tagDocs = await tagService.fetchTagsByValues(tags);
+	const tagIds = tagDocs.map((tag) => tag._id);
+	return await Project.find({ tags: { $in: tagIds } })
+		.populate('owner', {
+			first_name: 1,
+			last_name: 1,
+			zulip_id: 1,
+			batchEndDate: 1,
+			batch: 1,
+			image_path: 1,
+		})
+		.populate('collaborators', {
+			first_name: 1,
+			last_name: 1,
+		})
+		.populate('tags', {
+			value: 1,
+		});
+};
+
+/**
+ * Returns a single project in the database
+ *
+ * @param {string} id - the project's ID from the database
+ *
+ * @return {Promise<Array<IProject>> | null } Promise containing an array of projects or null if no project is found
+ */
+const getSingleProject = async (id: string) => {
+	return await Project.findById(id)
 		.populate('owner', {
 			first_name: 1,
 			last_name: 1,
@@ -184,6 +213,7 @@ export default {
 	getAllActiveProjects,
 	getAllInactiveProjects,
 	getProjectsByUser,
+	getProjectsByTags,
 	getSingleProject,
 	createProject,
 	updateProject,

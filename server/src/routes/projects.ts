@@ -13,14 +13,12 @@ ProjectsRouter.get('/', async (req, res) => {
 	const reqBody = req.body;
 	logger.info({ reqBody });
 
-	const status = req.query['status'];
+	const active = req.query['active'];
 	const rcId = req.query['user'] as string;
-	const tags =
-		req.query[
-			'tags'
-		]; /*ex: http://localhost:4000/log-query?tags=Python&tags=Go' (tags = ["Python", "Go"])*/
+	const tags = req.query['tags'] as string[];
+	/* ^ ex: http://localhost:4000/log-query?tags=Python&tags=Go' (tags = ["Python", "Go"])*/
 
-	if (status === 'inactive') {
+	if (active === 'false') {
 		try {
 			const inactiveProjects =
 				await projectService.getAllInactiveProjects();
@@ -28,7 +26,7 @@ ProjectsRouter.get('/', async (req, res) => {
 		} catch (e) {
 			res.status(400).send(e.message);
 		}
-	} else if (status === 'active') {
+	} else if (active === 'true') {
 		try {
 			const activeProjects = await projectService.getAllActiveProjects();
 			res.status(200).json(activeProjects);
@@ -46,9 +44,7 @@ ProjectsRouter.get('/', async (req, res) => {
 		}
 	} else if (tags) {
 		try {
-			const projectsByTags = await projectService.getProjectsByTags(
-				tags
-			); /* new method */
+			const projectsByTags = await projectService.getProjectsByTags(tags);
 			res.status(200).json(projectsByTags);
 		} catch (e) {
 			res.status(400).send(e.message);
