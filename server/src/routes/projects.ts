@@ -33,6 +33,20 @@ ProjectsRouter.get('/', async (req, res) => {
 		} catch (e) {
 			res.status(400).send(e.message);
 		}
+	} else if (rcId && active === 'false') {
+		// try {
+		// 	const inactiveProjectsByUser = await projectService.getInactiveProjectsByUser(); /* new method */
+		// 	res.status(200).json(inactiveProjectsByUser);
+		// } catch (e) {
+		// 	res.status(400).send(e.message);
+		// }
+	} else if (rcId && active === 'true') {
+		// try {
+		// 	const activeProjectsByUser = await projectService.getActiveProjectsByUser(); /* new method */
+		// 	res.status(200).json(activeProjectsByUser);
+		// } catch (e) {
+		// 	res.status(400).send(e.message);
+		// }
 	} else if (rcId) {
 		try {
 			const projectsByUser = await projectService.getProjectsByUser(
@@ -49,6 +63,20 @@ ProjectsRouter.get('/', async (req, res) => {
 		} catch (e) {
 			res.status(400).send(e.message);
 		}
+	} else if (tags && active === 'false') {
+		// try {
+		// 	const inactiveProjectsByTags = await projectService.getInactiveProjectsByTags(); /* new method */
+		// 	res.status(200).json(inactiveProjectsByTags);
+		// } catch (e) {
+		// 	res.status(400).send(e.message);
+		// }
+	} else if (tags && active === 'true') {
+		// try {
+		// 	const activeProjectsByTags = await projectService.getActiveProjectsByTags(); /* new method */
+		// 	res.status(200).json(activeProjectsByTags);
+		// } catch (e) {
+		// 	res.status(400).send(e.message);
+		// }
 	} else {
 		try {
 			const allProjects = await projectService.getAllProjects();
