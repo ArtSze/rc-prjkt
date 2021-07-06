@@ -2,11 +2,9 @@ import db from './utils/dbConfig';
 import projectService from '../services/projectService';
 import tagService from '../services/tagService';
 import userService from '../services/userService';
-import { ETagCategories } from '../models/tag';
 
 const sampleData = {
 	tag1: {
-		category: ETagCategories['CollaborationStyle'],
 		value: 'pairing',
 	},
 	user1: {
@@ -15,7 +13,7 @@ const sampleData = {
 		last_name: 'last1',
 		zulip_id: 1,
 		image_path: 'image1.com',
-        batchEndDate: '2021-08-06T00:00:00.000Z',
+		batchEndDate: '2021-08-06T00:00:00.000Z',
 		batch: `S2 '21`,
 	},
 	projects: {
@@ -72,7 +70,7 @@ describe('Project service tests', () => {
 	describe('Create projects', () => {
 		beforeEach(async () => {
 			await db.connect();
-            // @ts-expect-error
+			// @ts-expect-error
 			createdUser1 = await userService.createUser(sampleData.user1);
 			createdTag1 = await tagService.createTag(sampleData.tag1);
 		});
@@ -252,7 +250,7 @@ describe('Project service tests', () => {
 
 		beforeEach(async () => {
 			await db.connect();
-            // @ts-expect-error
+			// @ts-expect-error
 			createdUser1 = await userService.createUser(sampleData.user1);
 			createdTag1 = await tagService.createTag(sampleData.tag1);
 
@@ -288,12 +286,10 @@ describe('Project service tests', () => {
 			it('should get all active projects', async () => {
 				const projects = await projectService.getAllActiveProjects();
 				return expect(projects).toEqual(
-					expect.arrayContaining([
-						expect.objectContaining(result1),
-					])
+					expect.arrayContaining([expect.objectContaining(result1)])
 				);
 			});
-		})
+		});
 		describe('getSingleProject', () => {
 			it('should fetch single project by id', async () => {
 				const project = await projectService.getSingleProject(
@@ -320,7 +316,7 @@ describe('Project service tests', () => {
 
 		beforeEach(async () => {
 			await db.connect();
-            // @ts-expect-error
+			// @ts-expect-error
 			createdUser1 = await userService.createUser(sampleData.user1);
 			createdTag1 = await tagService.createTag(sampleData.tag1);
 
@@ -382,7 +378,7 @@ describe('Project service tests', () => {
 
 		beforeEach(async () => {
 			await db.connect();
-            // @ts-expect-error
+			// @ts-expect-error
 			createdUser1 = await userService.createUser(sampleData.user1);
 			createdTag1 = await tagService.createTag(sampleData.tag1);
 

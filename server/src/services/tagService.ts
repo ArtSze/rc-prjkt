@@ -34,7 +34,7 @@ export const fetchSingleTagByValue = async (value: string) => {
 /**
  * Creates a new tag in the database
  *
- * @param {ITag} tag - A tag object containing a category and value
+ * @param {ITag} tag - A tag object containing a value
  *
  * @return {Promise<ITag & mongoose.Document>} Newly created tag document from the database
  */
@@ -55,11 +55,11 @@ export const createTag = async (tag: ITag) => {
  */
 export const createTags = async (tags: ITag[]) => {
 	const tagPromises = tags.map(async (tag) => {
-		return await Tag.findOneAndUpdate(
-			{ category: tag.category, value: tag.value },
-			tag,
-			{ new: true, upsert: true, runValidators: true}
-		);
+		return await Tag.findOneAndUpdate({ value: tag.value }, tag, {
+			new: true,
+			upsert: true,
+			runValidators: true,
+		});
 	});
 	const newTags = await Promise.all(tagPromises);
 	return newTags;

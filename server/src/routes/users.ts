@@ -4,10 +4,6 @@ import userService from '../services/userService';
 export const UsersRouter = Router();
 
 UsersRouter.get('/', async (_, res) => {
-	// const collab = req.query['collab'];
-	// if (collab === 'true'){
-	//     await userService.getAllUsersWith Collabs()      new method
-	// } else :
 	try {
 		const foundUsers = await userService.getAllUsers();
 		res.status(200).json(foundUsers);
