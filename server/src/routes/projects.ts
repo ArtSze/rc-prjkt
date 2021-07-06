@@ -13,24 +13,51 @@ ProjectsRouter.get('/', async (req, res) => {
 	const reqBody = req.body;
 	logger.info({ reqBody });
 
-	// const status = req.query['status'];
-	// const rcId = req.query['user']
-	// const tags = req.query['tags']            ex: http://localhost:4000/log-query?tags=Python&tags=Go' (tags = ["Python", "Go"])
+	const status = req.query['status'];
+	const rcId = req.query['user'];
+	const tags =
+		req.query[
+			'tags'
+		]; /*ex: http://localhost:4000/log-query?tags=Python&tags=Go' (tags = ["Python", "Go"])*/
 
-	// if (status === 'inactive'){
-	//     await projectService.getAllInactiveProjects()      new method
-	// } else if (status === 'active'){
-	//     await projectService.getAllActiveProjects()
-	// } else if (rcId) {
-	//     await projectService.getProjectsByUser(rcId)       new method
-	// } else if (tags) {
-	//     await projectService.getProjectsByTags(tags)
-	// } else:
-	try {
-		const allProjects = await projectService.getAllProjects();
-		res.status(200).json(allProjects);
-	} catch (e) {
+	if (status === 'inactive') {
+		try {
+			const inactiveProjects =
+				await projectService.getAllInactiveProjects(); /* new method */
+			res.status(200).json(inactiveProjects);
+		} catch (e) {
+			res.status(400).send(e.message);
+		}
+	} else if (status === 'active') {
+		try {
+			const activeProjects = await projectService.getAllActiveProjects();
+			res.status(200).json(activeProjects);
+		} catch (e) {
+			res.status(400).send(e.message);
+		}
+	} else if (rcId) {
+		try {
+			const projectsByUser = await projectService.getProjectsByUser(
+				rcId
+			); /* new method */
+			res.status(200).json(projectsByUser);
+		} catch (e) {}
 		res.status(400).send(e.message);
+	} else if (tags) {
+		try {
+			const projectsByTags = await projectService.getProjectsByTags(
+				tags
+			); /* new method */
+			res.status(200).json(projectsByTags);
+		} catch (e) {}
+		res.status(400).send(e.message);
+	} else {
+		try {
+			const allProjects = await projectService.getAllProjects();
+			res.status(200).json(allProjects);
+		} catch (e) {
+			res.status(400).send(e.message);
+		}
 	}
 });
 
@@ -51,8 +78,7 @@ ProjectsRouter.post('/', async (req, res) => {
 	logger.info({ reqBody });
 
 	try {
-
-        /** comment line 44 and replace with hard-coded rcId for testing */
+		/** comment line 44 and replace with hard-coded rcId for testing */
 		// const currentUser = await userService.getUser(4383); // Artur as owner for testing
 		// const currentUser = await userService.getUser(4287); // Amanda as owner for testing
 		const currentUser = await userService.getUser(req.session.user.rcId);
