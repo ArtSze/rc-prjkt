@@ -26,6 +26,7 @@ const getAllProjects = async () => {
 		});
 };
 
+// deprecate getAllActiveProjects?
 /**
  * Returns all of the active projects in the database
  *
@@ -55,16 +56,46 @@ const getAllActiveProjects = async () => {
 };
 
 /**
- * Returns all of the inactive projects in the database
+ * Returns all of the projects corresponding to the boolean value of 'status'
+ *
+ * @param {boolean} status - indicates whether or not a project is currently active
  *
  * @remark
- * Inactive projects have a property of `active` that returns `false`
- *
+ * Active projects have a property of `active` that returns `true` and Inactive have a property of `active` that returns `false`
  *
  * @return {Promise<(IProject & mongoose.Document)[]>} Promise containing an array of projects
  */
-const getAllInactiveProjects = async () => {
-	return await Project.find({ active: false })
+const getProjectsByStatus = async (status: boolean) => {
+	return await Project.find({ active: status })
+		.populate('owner', {
+			first_name: 1,
+			last_name: 1,
+			zulip_id: 1,
+			batchEndDate: 1,
+			batch: 1,
+			image_path: 1,
+		})
+		.populate('collaborators', {
+			first_name: 1,
+			last_name: 1,
+		})
+		.populate('tags', {
+			value: 1,
+		});
+};
+
+/**
+ * Returns all projects in the database belonging to a specific user that correspond to the boolean value of 'status'
+ *
+ * @param {number} rcId - the user's ID from the database
+ *
+ * @param {boolean} status - indicates whether or not a project is currently active
+ *
+ * @return {Promise<Array<IProject>> | null } Promise containing an array of projects or null if no project is found
+ */
+const getProjectsByUserAndStatus = async (rcId: number, status: boolean) => {
+	const user = await userService.getUser(rcId);
+	return await Project.find({ owner: user?._id, active: status })
 		.populate('owner', {
 			first_name: 1,
 			last_name: 1,
@@ -85,13 +116,34 @@ const getAllInactiveProjects = async () => {
 /**
  * Returns all projects in the database belonging to a specific user
  *
- * @param {string} rcId - the user's ID from the database
+ * @param {number} rcId - the user's ID from the database
  *
  * @return {Promise<Array<IProject>> | null } Promise containing an array of projects or null if no project is found
  */
 const getProjectsByUser = async (rcId: number) => {
 	const user = await userService.getUser(rcId);
 	return await Project.find({ owner: user?._id })
+		.populate('owner', {
+			first_name: 1,
+			last_name: 1,
+			zulip_id: 1,
+			batchEndDate: 1,
+			batch: 1,
+			image_path: 1,
+		})
+		.populate('collaborators', {
+			first_name: 1,
+			last_name: 1,
+		})
+		.populate('tags', {
+			value: 1,
+		});
+};
+
+const getProjectsByTagsAndStatus = async (tags: string[], status: boolean) => {
+	const tagDocs = await tagService.fetchTagsByValues(tags);
+	const tagIds = tagDocs.map((tag) => tag._id);
+	return await Project.find({ tags: { $in: tagIds }, active: status })
 		.populate('owner', {
 			first_name: 1,
 			last_name: 1,
@@ -210,9 +262,11 @@ const deleteProject = async (id: string) => {
 
 export default {
 	getAllProjects,
-	getAllActiveProjects,
-	getAllInactiveProjects,
+	getAllActiveProjects /* deprecate? */,
+	getProjectsByStatus,
+	getProjectsByUserAndStatus,
 	getProjectsByUser,
+	getProjectsByTagsAndStatus,
 	getProjectsByTags,
 	getSingleProject,
 	createProject,

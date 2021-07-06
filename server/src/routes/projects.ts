@@ -13,45 +13,47 @@ ProjectsRouter.get('/', async (req, res) => {
 	const reqBody = req.body;
 	logger.info({ reqBody });
 
-	const active = req.query['active'];
-	const rcId = req.query['user'] as string;
-	const tags = req.query['tags'] as string[];
-	/* ^ ex: http://localhost:4000/log-query?tags=Python&tags=Go' (tags = ["Python", "Go"])*/
+	// there must be a better way to carry out this type-checking
+	const status = req.query['status'] as unknown as boolean;
+	const rcId = req.query['user'] as unknown as number;
 
-	if (active === 'false') {
+	const tags = req.query['tags'] as string[];
+	// ^ ex: http://localhost:4000/log-query?tags=Python&tags=Go' (tags = ["Python", "Go"])
+
+	if (rcId && status) {
 		try {
-			const inactiveProjects =
-				await projectService.getAllInactiveProjects();
-			res.status(200).json(inactiveProjects);
+			const projectsByUserAndStatus =
+				await projectService.getProjectsByUserAndStatus(
+					rcId,
+					status
+				); /* new method */
+			res.status(200).json(projectsByUserAndStatus);
 		} catch (e) {
 			res.status(400).send(e.message);
 		}
-	} else if (active === 'true') {
+	} else if (tags && status) {
 		try {
-			const activeProjects = await projectService.getAllActiveProjects();
-			res.status(200).json(activeProjects);
+			const projectsByTagsAndStatus =
+				await projectService.getProjectsByTagsAndStatus(
+					tags,
+					status
+				); /* new method */
+			res.status(200).json(projectsByTagsAndStatus);
 		} catch (e) {
 			res.status(400).send(e.message);
 		}
-	} else if (rcId && active === 'false') {
-		// try {
-		// 	const inactiveProjectsByUser = await projectService.getInactiveProjectsByUser(); /* new method */
-		// 	res.status(200).json(inactiveProjectsByUser);
-		// } catch (e) {
-		// 	res.status(400).send(e.message);
-		// }
-	} else if (rcId && active === 'true') {
-		// try {
-		// 	const activeProjectsByUser = await projectService.getActiveProjectsByUser(); /* new method */
-		// 	res.status(200).json(activeProjectsByUser);
-		// } catch (e) {
-		// 	res.status(400).send(e.message);
-		// }
+	} else if (status) {
+		try {
+			const projectsByStatus = await projectService.getProjectsByStatus(
+				status
+			);
+			res.status(200).json(projectsByStatus);
+		} catch (e) {
+			res.status(400).send(e.message);
+		}
 	} else if (rcId) {
 		try {
-			const projectsByUser = await projectService.getProjectsByUser(
-				parseInt(rcId)
-			);
+			const projectsByUser = await projectService.getProjectsByUser(rcId);
 			res.status(200).json(projectsByUser);
 		} catch (e) {
 			res.status(400).send(e.message);
@@ -63,20 +65,6 @@ ProjectsRouter.get('/', async (req, res) => {
 		} catch (e) {
 			res.status(400).send(e.message);
 		}
-	} else if (tags && active === 'false') {
-		// try {
-		// 	const inactiveProjectsByTags = await projectService.getInactiveProjectsByTags(); /* new method */
-		// 	res.status(200).json(inactiveProjectsByTags);
-		// } catch (e) {
-		// 	res.status(400).send(e.message);
-		// }
-	} else if (tags && active === 'true') {
-		// try {
-		// 	const activeProjectsByTags = await projectService.getActiveProjectsByTags(); /* new method */
-		// 	res.status(200).json(activeProjectsByTags);
-		// } catch (e) {
-		// 	res.status(400).send(e.message);
-		// }
 	} else {
 		try {
 			const allProjects = await projectService.getAllProjects();
