@@ -13,7 +13,7 @@ http://localhost:4000/projects/?status=false
 - returns true and false
 
 http://localhost:4000/projects/?tags=solo&rcId=1234
-- should return 0 results
+- should return 0 results for invalid user
 
 ```
 [
@@ -100,6 +100,9 @@ http://localhost:4000/projects/?tags=solo&status=false
     }
 ]
 ```
+
+http://localhost:4000/projects/?tags=bootstrap&status=true
+- returns true and false, should just return true
 
 returns all projects - is this good to have this expected behavior?
 http://localhost:4000/projects/?rcId=1234
