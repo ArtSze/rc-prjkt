@@ -3,7 +3,6 @@ import cors from 'cors';
 import helmet from 'helmet';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
-import boolParser from 'express-query-boolean';
 
 import { MONGO_URI } from './utils/config';
 
@@ -14,7 +13,6 @@ app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
-app.use(boolParser());
 
 app.use(
 	session({

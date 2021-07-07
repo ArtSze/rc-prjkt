@@ -1,5 +1,4 @@
 import Router from 'express';
-
 import logger from '../utils/logger';
 import projectService from '../services/projectService';
 import tagService from '../services/tagService';
@@ -10,15 +9,19 @@ import { ICollaboratorFromClient } from '../utils/types';
 export const ProjectsRouter = Router();
 
 ProjectsRouter.get('/', async (req, res) => {
-	const reqBody = req.body;
-	logger.info({ reqBody });
 
-	// there must be a better way to carry out this type-checking
-	const status = req.query['status'] as unknown as boolean;
-	const rcId = req.query['user'] as unknown as number;
+    console.log(req.query)
+    // if queryStatus is not supplied, get all projects
+    // else, if true return active if false return inactive
+    let status: boolean | undefined
+	const queryStatus = req.query['status'] ? req.query['status'] : undefined
+    if (queryStatus === 'true') { status = true }
+    if (queryStatus === 'false') { status = false }
+
+	const rcId = req.query['users'] ? Number(req.query['user']) : undefined
 
 	const tags = req.query['tags'] as string[];
-	// ^ ex: http://localhost:4000/log-query?tags=Python&tags=Go' (tags = ["Python", "Go"])
+    console.log({status, rcId, tags})
 
 	if (rcId && status) {
 		try {
