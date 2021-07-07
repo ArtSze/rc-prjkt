@@ -12,6 +12,7 @@ const getAllProjects = async () => {
 		.populate('owner', {
 			first_name: 1,
 			last_name: 1,
+            rcId: 1,
 			zulip_id: 1,
 			batchEndDate: 1,
 			batch: 1,
@@ -41,6 +42,27 @@ const getAllActiveProjects = async () => {
 		.populate('owner', {
 			first_name: 1,
 			last_name: 1,
+            rcId: 1,
+			zulip_id: 1,
+			batchEndDate: 1,
+			batch: 1,
+			image_path: 1,
+		})
+		.populate('collaborators', {
+			first_name: 1,
+			last_name: 1,
+		})
+		.populate('tags', {
+			value: 1,
+		});
+};
+
+const getAllInactiveProjects = async () => {
+	return await Project.find({ active: false })
+		.populate('owner', {
+			first_name: 1,
+			last_name: 1,
+            rcId: 1,
 			zulip_id: 1,
 			batchEndDate: 1,
 			batch: 1,
@@ -70,6 +92,7 @@ const getProjectsByStatus = async (status: boolean) => {
 		.populate('owner', {
 			first_name: 1,
 			last_name: 1,
+            rcId: 1,
 			zulip_id: 1,
 			batchEndDate: 1,
 			batch: 1,
@@ -99,6 +122,7 @@ const getProjectsByUserAndStatus = async (rcId: number, status: boolean) => {
 		.populate('owner', {
 			first_name: 1,
 			last_name: 1,
+            rcId: 1,
 			zulip_id: 1,
 			batchEndDate: 1,
 			batch: 1,
@@ -126,6 +150,7 @@ const getProjectsByUser = async (rcId: number) => {
 		.populate('owner', {
 			first_name: 1,
 			last_name: 1,
+            rcId: 1,
 			zulip_id: 1,
 			batchEndDate: 1,
 			batch: 1,
@@ -142,11 +167,13 @@ const getProjectsByUser = async (rcId: number) => {
 
 const getProjectsByTagsAndStatus = async (tags: string[], status: boolean) => {
 	const tagDocs = await tagService.fetchTagsByValues(tags);
+    console.log('router', {status})
 	const tagIds = tagDocs.map((tag) => tag._id);
-	return await Project.find({ tags: { $in: tagIds }, active: status })
+	return await Project.find({ tags: { $in: tagIds }}, {active: status})
 		.populate('owner', {
 			first_name: 1,
 			last_name: 1,
+            rcId: 1,
 			zulip_id: 1,
 			batchEndDate: 1,
 			batch: 1,
@@ -175,6 +202,7 @@ const getProjectsByTags = async (tags: string[]) => {
 		.populate('owner', {
 			first_name: 1,
 			last_name: 1,
+            rcId: 1,
 			zulip_id: 1,
 			batchEndDate: 1,
 			batch: 1,
@@ -201,6 +229,7 @@ const getSingleProject = async (id: string) => {
 		.populate('owner', {
 			first_name: 1,
 			last_name: 1,
+            rcId: 1,
 			zulip_id: 1,
 			batchEndDate: 1,
 			batch: 1,
@@ -262,6 +291,7 @@ const deleteProject = async (id: string) => {
 
 export default {
 	getAllProjects,
+	getAllInactiveProjects /* deprecate? */,
 	getAllActiveProjects /* deprecate? */,
 	getProjectsByStatus,
 	getProjectsByUserAndStatus,
