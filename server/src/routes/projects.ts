@@ -9,9 +9,10 @@ import { ICollaboratorFromClient } from '../utils/types'
 export const ProjectsRouter = Router()
 
 ProjectsRouter.get('/', async (req, res) => {
-  console.log(req.query)
-  // if queryStatus is not supplied, get all projects
-  // else, if true return active if false return inactive
+  /**
+   * if queryStatus is not supplied, get all projects
+   * else, if true return active if false return inactive
+   */
   let status: boolean | undefined
   const queryStatus = req.query['status'] ? req.query['status'] : undefined
   if (queryStatus === 'true') {
@@ -20,11 +21,9 @@ ProjectsRouter.get('/', async (req, res) => {
   if (queryStatus === 'false') {
     status = false
   }
-
-  const rcId = req.query['users'] ? Number(req.query['user']) : undefined
-
+  const rcId = req.query['user'] ? Number(req.query['user']) : undefined
   const tags = req.query['tags'] as string[]
-  console.log({ status, rcId, tags })
+
   try {
     let projects = [] as any[]
 
@@ -58,79 +57,6 @@ ProjectsRouter.get('/', async (req, res) => {
   } catch (e) {
     res.status(400).send(e.message)
   }
-  // console.log(req.query)
-  // // if queryStatus is not supplied, get all projects
-  // // else, if true return active if false return inactive
-  // let status: boolean | undefined
-  // const queryStatus = req.query['status'] ? req.query['status'] : undefined
-  // if (queryStatus === 'true') { status = true }
-  // if (queryStatus === 'false') { status = false }
-
-  // const rcId = req.query['users'] ? Number(req.query['user']) : undefined
-
-  // const tags = req.query['tags'] as string[];
-  // console.log({status, rcId, tags})
-
-  // if (rcId && status) {
-  // 	try {
-  // 		const projectsByUserAndStatus =
-  // 			await projectService.getProjectsByUserAndStatus(
-  // 				rcId,
-  // 				status
-  // 			); /* new method */
-  // 		res.status(200).json(projectsByUserAndStatus);
-  // 	} catch (e) {
-  // 		res.status(400).send(e.message);
-  // 	}
-  // } else if (tags && status) {
-  // 	try {
-  // 		const projectsByTagsAndStatus =
-  // 			await projectService.getProjectsByTagsAndStatus(
-  // 				tags,
-  // 				status
-  // 			); /* new method */
-  // 		res.status(200).json(projectsByTagsAndStatus);
-  // 	} catch (e) {
-  // 		res.status(400).send(e.message);
-  // 	}
-  // } else if (status === false ) {
-  // 	try {
-  // 		const projectsByStatus = await projectService.getAllInactiveProjects();
-  // 		res.status(200).json(projectsByStatus);
-  // 	} catch (e) {
-  // 		res.status(400).send(e.message);
-  // 	}
-  // } else if (status) {
-  // 	try {
-  // 		const projectsByStatus = await projectService.getProjectsByStatus(
-  // 			status
-  // 		);
-  // 		res.status(200).json(projectsByStatus);
-  // 	} catch (e) {
-  // 		res.status(400).send(e.message);
-  // 	}
-  // } else if (rcId) {
-  // 	try {
-  // 		const projectsByUser = await projectService.getProjectsByUser(rcId);
-  // 		res.status(200).json(projectsByUser);
-  // 	} catch (e) {
-  // 		res.status(400).send(e.message);
-  // 	}
-  // } else if (tags) {
-  // 	try {
-  // 		const projectsByTags = await projectService.getProjectsByTags(tags);
-  // 		res.status(200).json(projectsByTags);
-  // 	} catch (e) {
-  // 		res.status(400).send(e.message);
-  // 	}
-  // } else {
-  // 	try {
-  // 		const allProjects = await projectService.getAllProjects();
-  // 		res.status(200).json(allProjects);
-  // 	} catch (e) {
-  // 		res.status(400).send(e.message);
-  // 	}
-  // }
 })
 
 ProjectsRouter.get('/:id', async (req, res) => {
