@@ -33,6 +33,8 @@ app.use(
 import { UsersRouter } from './routes/users';
 import { ProjectsRouter } from './routes/projects';
 import { AuthRouter } from './routes/auth';
+import { TagsRouter } from './routes/tags';
 app.use('/users', UsersRouter);
 app.use('/auth', AuthRouter);
 app.use('/projects', ProjectsRouter);
+app.use('/tags', TagsRouter);
