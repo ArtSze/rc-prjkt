@@ -59,6 +59,18 @@ ProjectsRouter.get('/', async (req, res) => {
 	}
 });
 
+ProjectsRouter.get('/me', async (req, res) => {
+  const rcId = req.session.user.rcId
+  try {
+    if (rcId) {
+      const projects = await projectService.getProjectsByUser(rcId)
+      res.status(200).json(projects)
+    }
+  } catch (e) {
+    res.status(400).send(e.message)
+  }
+})
+
 ProjectsRouter.get('/:id', async (req, res) => {
 	const reqBody = req.body;
 	logger.info({ reqBody });
