@@ -15,14 +15,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
 
 app.use(
-	session({
-		// FIXME: add secret
-		secret: 'keyboard cat',
-		resave: false,
-		saveUninitialized: false,
-		cookie: { httpOnly: true, maxAge: 3600000 * 12 },
-		store: MongoStore.create({ mongoUrl: MONGO_URI }),
-	})
+    session({
+        // FIXME: add secret
+        secret: 'keyboard cat',
+        resave: false,
+        saveUninitialized: false,
+        cookie: { httpOnly: true, maxAge: 3600000 * 12 },
+        store: MongoStore.create({ mongoUrl: MONGO_URI }),
+    }),
 );
 
 /** comment next 2 lines for testing to turn off auth */
