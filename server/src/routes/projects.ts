@@ -55,8 +55,11 @@ ProjectsRouter.get('/', async (req, res) => {
     }
 });
 
-ProjectsRouter.get('/me', async (req, res) => {
-    const rcId = req.session.user.rcId;
+ProjectsRouter.get('/me', async (_, res) => {
+    /** comment line 62 and replace with hard-coded rcId for testing */
+    // const rcId = 4383; // Artur as owner for testing
+    const rcId = 4287; // Amanda as owner for testing
+    // const rcId = req.session.user.rcId;
     try {
         if (rcId) {
             const projects = await projectService.getProjectsByUser(rcId);
