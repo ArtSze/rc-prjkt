@@ -1,5 +1,4 @@
 import Router from 'express';
-import logger from '../utils/logger';
 import projectService from '../services/projectService';
 import tagService from '../services/tagService';
 import userService from '../services/userService';
@@ -9,70 +8,68 @@ import { ICollaboratorFromClient } from '../utils/types';
 export const ProjectsRouter = Router();
 
 ProjectsRouter.get('/', async (req, res) => {
-    /**
-     * if queryStatus is not supplied, get all projects
-     * else, if true return active if false return inactive
-     */
-    let status: boolean | undefined;
-    const queryStatus = req.query['status'] ? req.query['status'] : undefined;
-    if (queryStatus === 'true') {
-        status = true;
-    }
-    if (queryStatus === 'false') {
-        status = false;
-    }
-    const rcId = req.query['user'] ? Number(req.query['user']) : undefined;
-    const tags = req.query['tags'] as string[];
+    if (req.query['me']) {
+        /** comment line 62 and replace with hard-coded rcId for testing */
+        // const rcId = 4383; // Artur as owner for testing
+        const rcId = 4287; // Amanda as owner for testing
+        // const rcId = req.session.user.rcId;
+        try {
+            if (rcId) {
+                const projects = await projectService.getProjectsByUser(rcId);
+                res.status(200).json(projects);
+            }
+        } catch (e) {
+            res.status(400).send(e.message);
+        }
+    } else {
+        let status: boolean | undefined;
+        /**
+         * if queryStatus is not supplied, get all projects
+         * else, if true return active if false return inactive
+         */
+        const queryStatus = req.query['status'] ? req.query['status'] : undefined;
+        if (queryStatus === 'true') {
+            status = true;
+        }
+        if (queryStatus === 'false') {
+            status = false;
+        }
+        const rcId = req.query['user'] ? Number(req.query['user']) : undefined;
+        const tags = req.query['tags'] as string[];
 
-    try {
-        let projects = [] as any[];
+        try {
+            let projects = [] as any[];
 
-        if (rcId) {
-            projects = await projectService.getProjectsByUser(rcId);
-        }
-        if (tags) {
-            projects = await projectService.getProjectsByTags(tags);
-        }
-        if (!rcId && !tags) {
-            projects = await projectService.getAllProjects();
-        }
+            if (rcId) {
+                projects = await projectService.getProjectsByUser(rcId);
+            }
+            if (tags) {
+                projects = await projectService.getProjectsByTags(tags);
+            }
+            if (!rcId && !tags) {
+                projects = await projectService.getAllProjects();
+            }
 
-        if (status === undefined) {
-            res.status(200).json(projects);
-        }
+            if (status === undefined) {
+                res.status(200).json(projects);
+            }
 
-        if (status === false) {
-            const inactiveProjects = projects.filter((project) => project.active === false);
-            res.status(200).json(inactiveProjects);
-        }
+            if (status === false) {
+                const inactiveProjects = projects.filter((project) => project.active === false);
+                res.status(200).json(inactiveProjects);
+            }
 
-        if (status === true) {
-            const activeProjects = projects.filter((project) => project.active === true);
-            res.status(200).json(activeProjects);
+            if (status === true) {
+                const activeProjects = projects.filter((project) => project.active === true);
+                res.status(200).json(activeProjects);
+            }
+        } catch (e) {
+            res.status(400).send(e.message);
         }
-    } catch (e) {
-        res.status(400).send(e.message);
-    }
-});
-
-ProjectsRouter.get('/me', async (_, res) => {
-    /** comment line 62 and replace with hard-coded rcId for testing */
-    // const rcId = 4383; // Artur as owner for testing
-    const rcId = 4287; // Amanda as owner for testing
-    // const rcId = req.session.user.rcId;
-    try {
-        if (rcId) {
-            const projects = await projectService.getProjectsByUser(rcId);
-            res.status(200).json(projects);
-        }
-    } catch (e) {
-        res.status(400).send(e.message);
     }
 });
 
 ProjectsRouter.get('/:id', async (req, res) => {
-    const reqBody = req.body;
-    logger.info({ reqBody });
     try {
         const id = req.params.id;
         const singleProject = await projectService.getSingleProject(id);
@@ -83,14 +80,11 @@ ProjectsRouter.get('/:id', async (req, res) => {
 });
 
 ProjectsRouter.post('/', async (req, res) => {
-    const reqBody = req.body;
-    logger.info({ reqBody });
-
     try {
         /** comment line 94 and replace with hard-coded rcId for testing */
         // const currentUser = await userService.getUser(4383); // Artur as owner for testing
-        // const currentUser = await userService.getUser(4287); // Amanda as owner for testing
-        const currentUser = await userService.getUser(req.session.user.rcId);
+        const currentUser = await userService.getUser(4287); // Amanda as owner for testing
+        // const currentUser = await userService.getUser(req.session.user.rcId);
 
         const tagsFromClient = req.body.tags as ITag[];
         const createdTags = await tagService.createTags(tagsFromClient);
@@ -101,7 +95,7 @@ ProjectsRouter.post('/', async (req, res) => {
         const collaboratorObjectIds = await userService.fetchUserIDsByNames(collaboratorsFromClient);
 
         const createdProject = await projectService.createProject({
-            ...reqBody,
+            ...req.body,
             owner: currentUser?._id,
             tags: [...tagObjectIds],
             collaborators: [...collaboratorObjectIds],
@@ -113,18 +107,15 @@ ProjectsRouter.post('/', async (req, res) => {
             res.status(200).json(createdProject);
         }
     } catch (e) {
+        console.log(e);
         res.status(400).send(e.message);
     }
 });
 
 ProjectsRouter.put('/:id', async (req, res) => {
-    const reqBody = req.body;
-    logger.info({ reqBody });
-
-    const currentUserId = req.session.user._id;
-    // const currentUser = await userService.getUser(4383); // Artur as owner for testing
-    // const currentUser = await userService.getUser(4287); // Amanda as owner for testing
-    // const currentUserId = currentUser?._id; // access Artur/Amanda _id for testing
+    // const currentUserId = req.session.user._id;
+    // const currentUserId = await userService.getUser(4383); // Artur as owner for testing
+    const currentUserId = await userService.getUser(4287); // Amanda as owner for testing
     const projectToUpdateOwnerId = req.body.owner;
 
     const tagsFromClient = req.body.tags as ITag[];
@@ -135,14 +126,12 @@ ProjectsRouter.put('/:id', async (req, res) => {
 
     const collaboratorObjectIds = await userService.fetchUserIDsByNames(collaboratorsFromClient);
 
-    // console.log({ currentUser, projectToUpdateOwnerId });
-
     if (`${currentUserId}` === projectToUpdateOwnerId) {
         // currentUserId is stringified to match projectToUpdateOwnerId
         try {
             const id = req.params.id;
             const updatedProject = await projectService.updateProject(id, {
-                ...reqBody,
+                ...req.body,
                 tags: [...tagObjectIds],
                 collaborators: [...collaboratorObjectIds],
             });
@@ -158,9 +147,6 @@ ProjectsRouter.put('/:id', async (req, res) => {
 });
 
 ProjectsRouter.delete('/:id', async (req, res) => {
-    const reqBody = req.body;
-    logger.info({ reqBody });
-
     const currentUserId = req.session.user._id;
     const projectToUpdateOwnerId = req.body.owner;
 
