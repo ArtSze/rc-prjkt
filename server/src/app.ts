@@ -3,7 +3,6 @@ import cors from 'cors';
 import helmet from 'helmet';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
-
 import { MONGO_URI } from './utils/config';
 
 export const app = express();
@@ -26,15 +25,15 @@ app.use(
 );
 
 /** comment next 2 lines for testing to turn off auth */
-// import { sessionCookieCheck } from './utils/middleware';
-// app.use(sessionCookieCheck);
+import { sessionCookieCheck } from './utils/middleware';
+app.use(sessionCookieCheck);
 
 // Routes
 import { UsersRouter } from './routes/users';
 import { ProjectsRouter } from './routes/projects';
 import { AuthRouter } from './routes/auth';
 import { TagsRouter } from './routes/tags';
-app.use('/users', UsersRouter);
-app.use('/auth', AuthRouter);
-app.use('/projects', ProjectsRouter);
-app.use('/tags', TagsRouter);
+app.use('/api/users', UsersRouter);
+app.use('/api/auth', AuthRouter);
+app.use('/api/projects', ProjectsRouter);
+app.use('/api/tags', TagsRouter);

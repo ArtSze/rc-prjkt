@@ -8,11 +8,13 @@ import { ICollaboratorFromClient } from '../utils/types';
 export const ProjectsRouter = Router();
 
 ProjectsRouter.get('/', async (req, res) => {
+    console.log(req.params);
     if (req.query['me']) {
         /** comment line 62 and replace with hard-coded rcId for testing */
         // const rcId = 4383; // Artur as owner for testing
-        const rcId = 4287; // Amanda as owner for testing
-        // const rcId = req.session.user.rcId;
+        // const rcId = 4287; // Amanda as owner for testing
+        const rcId = req.session.user.rcId;
+        console.log({ rcId });
         try {
             if (rcId) {
                 const projects = await projectService.getProjectsByUser(rcId);
