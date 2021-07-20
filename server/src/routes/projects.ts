@@ -8,7 +8,8 @@ import { ICollaboratorFromClient } from '../utils/types';
 export const ProjectsRouter = Router();
 
 ProjectsRouter.get('/', async (req, res) => {
-    console.log(req.params);
+    // console.log(req.params);
+    console.log('projects.get');
     if (req.query['me']) {
         /** comment line 62 and replace with hard-coded rcId for testing */
         // const rcId = 4383; // Artur as owner for testing
@@ -52,17 +53,25 @@ ProjectsRouter.get('/', async (req, res) => {
                 projects = await projectService.getAllProjects();
             }
 
+            let finalProjects = projects.map((p) => {
+                if (req.session.user.rcId === p.owner.rcId) {
+                    return { ...p, isOwner: true };
+                } else {
+                    return { ...p, isOwner: false };
+                }
+            });
+
             if (status === undefined) {
-                res.status(200).json(projects);
+                res.status(200).json(finalProjects);
             }
 
             if (status === false) {
-                const inactiveProjects = projects.filter((project) => project.active === false);
+                const inactiveProjects = finalProjects.filter((project) => project.active === false);
                 res.status(200).json(inactiveProjects);
             }
 
             if (status === true) {
-                const activeProjects = projects.filter((project) => project.active === true);
+                const activeProjects = finalProjects.filter((project) => project.active === true);
                 res.status(200).json(activeProjects);
             }
         } catch (e) {
@@ -85,8 +94,8 @@ ProjectsRouter.post('/', async (req, res) => {
     try {
         /** comment line 94 and replace with hard-coded rcId for testing */
         // const currentUser = await userService.getUser(4383); // Artur as owner for testing
-        const currentUser = await userService.getUser(4287); // Amanda as owner for testing
-        // const currentUser = await userService.getUser(req.session.user.rcId);
+        // const currentUser = await userService.getUser(4287); // Amanda as owner for testing
+        const currentUser = await userService.getUser(req.session.user.rcId);
 
         const tagsFromClient = req.body.tags as ITag[];
         const createdTags = await tagService.createTags(tagsFromClient);
@@ -115,10 +124,10 @@ ProjectsRouter.post('/', async (req, res) => {
 });
 
 ProjectsRouter.put('/:id', async (req, res) => {
-    // const currentUserId = req.session.user._id;
+    const currentUserId = req.session.user.rcId;
     // const currentUserId = await userService.getUser(4383); // Artur as owner for testing
-    const currentUserId = await userService.getUser(4287); // Amanda as owner for testing
-    const projectToUpdateOwnerId = req.body.owner;
+    // const currentUserId = await userService.getUser(4287); // Amanda as owner for testing
+    const projectToUpdateOwnerId = req.body.owner.rcId;
 
     const tagsFromClient = req.body.tags as ITag[];
     const createdTags = await tagService.createTags(tagsFromClient);
@@ -128,10 +137,11 @@ ProjectsRouter.put('/:id', async (req, res) => {
 
     const collaboratorObjectIds = await userService.fetchUserIDsByNames(collaboratorsFromClient);
 
-    if (`${currentUserId}` === projectToUpdateOwnerId) {
-        // currentUserId is stringified to match projectToUpdateOwnerId
+    console.log(currentUserId, projectToUpdateOwnerId);
+
+    if (currentUserId === projectToUpdateOwnerId) {
+        const id = req.params.id;
         try {
-            const id = req.params.id;
             const updatedProject = await projectService.updateProject(id, {
                 ...req.body,
                 tags: [...tagObjectIds],
@@ -149,8 +159,11 @@ ProjectsRouter.put('/:id', async (req, res) => {
 });
 
 ProjectsRouter.delete('/:id', async (req, res) => {
-    const currentUserId = req.session.user._id;
-    const projectToUpdateOwnerId = req.body.owner;
+    console.log('projects.delete');
+    const currentUserId = req.session.user.rcId;
+    const projectToUpdateOwnerId = req.body.owner.rcId;
+
+    console.log({ currentUserId, projectToUpdateOwnerId });
 
     if (currentUserId === projectToUpdateOwnerId) {
         try {
