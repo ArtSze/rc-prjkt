@@ -90,7 +90,7 @@ describe('Project Router tests without using app', () => {
     });
 
     describe('GET /projects', () => {
-        it('should return all projects in the database', async () => {
+        it.skip('should return all projects in the database', async () => {
             const result = await api.get('/');
             expect(result.status).toEqual(200);
             expect.arrayContaining([expect.objectContaining({ newProject })]);
