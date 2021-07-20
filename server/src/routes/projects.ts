@@ -55,9 +55,9 @@ ProjectsRouter.get('/', async (req, res) => {
 
             let finalProjects = projects.map((p) => {
                 if (req.session.user.rcId === p.owner.rcId) {
-                    return { ...p, isOwner: true };
+                    return { ...p._doc, isOwner: true };
                 } else {
-                    return { ...p, isOwner: false };
+                    return { ...p._doc, isOwner: false };
                 }
             });
 
