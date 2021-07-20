@@ -10,73 +10,64 @@ export const ProjectsRouter = Router();
 ProjectsRouter.get('/', async (req, res) => {
     // console.log(req.params);
     console.log('projects.get');
+
+    let status: boolean | undefined;
+    /**
+     * if queryStatus is not supplied, get all projects
+     * else, if true return active if false return inactive
+     */
+    const queryStatus = req.query['status'] ? req.query['status'] : undefined;
+    if (queryStatus === 'true') {
+        status = true;
+    }
+    if (queryStatus === 'false') {
+        status = false;
+    }
+    let rcId = undefined;
     if (req.query['me']) {
-        /** comment line 62 and replace with hard-coded rcId for testing */
-        // const rcId = 4383; // Artur as owner for testing
-        // const rcId = 4287; // Amanda as owner for testing
-        const rcId = req.session.user.rcId;
-        console.log({ rcId });
-        try {
-            if (rcId) {
-                const projects = await projectService.getProjectsByUser(rcId);
-                res.status(200).json(projects);
-            }
-        } catch (e) {
-            res.status(400).send(e.message);
+        rcId = req.session.user.rcId;
+    } else if (req.query['user']) {
+        rcId = Number(req.query['user']);
+    }
+
+    const tags = req.query['tags'] as string[];
+
+    try {
+        let projects = [] as any[];
+
+        if (rcId) {
+            projects = await projectService.getProjectsByUser(rcId);
         }
-    } else {
-        let status: boolean | undefined;
-        /**
-         * if queryStatus is not supplied, get all projects
-         * else, if true return active if false return inactive
-         */
-        const queryStatus = req.query['status'] ? req.query['status'] : undefined;
-        if (queryStatus === 'true') {
-            status = true;
+        if (tags) {
+            projects = await projectService.getProjectsByTags(tags);
         }
-        if (queryStatus === 'false') {
-            status = false;
+        if (!rcId && !tags) {
+            projects = await projectService.getAllProjects();
         }
-        const rcId = req.query['user'] ? Number(req.query['user']) : undefined;
-        const tags = req.query['tags'] as string[];
 
-        try {
-            let projects = [] as any[];
+        let finalProjects = projects.map((p) => {
+            if (req.session.user.rcId === p.owner.rcId) {
+                return { ...p._doc, isOwner: true };
+            } else {
+                return { ...p._doc, isOwner: false };
+            }
+        });
 
-            if (rcId) {
-                projects = await projectService.getProjectsByUser(rcId);
-            }
-            if (tags) {
-                projects = await projectService.getProjectsByTags(tags);
-            }
-            if (!rcId && !tags) {
-                projects = await projectService.getAllProjects();
-            }
-
-            let finalProjects = projects.map((p) => {
-                if (req.session.user.rcId === p.owner.rcId) {
-                    return { ...p._doc, isOwner: true };
-                } else {
-                    return { ...p._doc, isOwner: false };
-                }
-            });
-
-            if (status === undefined) {
-                res.status(200).json(finalProjects);
-            }
-
-            if (status === false) {
-                const inactiveProjects = finalProjects.filter((project) => project.active === false);
-                res.status(200).json(inactiveProjects);
-            }
-
-            if (status === true) {
-                const activeProjects = finalProjects.filter((project) => project.active === true);
-                res.status(200).json(activeProjects);
-            }
-        } catch (e) {
-            res.status(400).send(e.message);
+        if (status === undefined) {
+            res.status(200).json(finalProjects);
         }
+
+        if (status === false) {
+            const inactiveProjects = finalProjects.filter((project) => project.active === false);
+            res.status(200).json(inactiveProjects);
+        }
+
+        if (status === true) {
+            const activeProjects = finalProjects.filter((project) => project.active === true);
+            res.status(200).json(activeProjects);
+        }
+    } catch (e) {
+        res.status(400).send(e.message);
     }
 });
 
