@@ -171,6 +171,31 @@ const getProjectsByUser = async (rcId: number) => {
         });
 };
 
+const getProjectsByUserAndTags = async (rcId: number, tags: string[]) => {
+    const user = await userService.getUser(rcId);
+    const tagDocs = await tagService.fetchTagsByValues(tags);
+    const tagIds = tagDocs.map((tag) => tag._id);
+
+    return await Project.find({ $and: [{ owner: user?._id }, { tags: { $all: tagIds } }] })
+        .populate('owner', {
+            first_name: 1,
+            last_name: 1,
+            rcId: 1,
+            zulip_id: 1,
+            batchEndDate: 1,
+            batch: 1,
+            image_path: 1,
+        })
+        .populate('collaborators', {
+            first_name: 1,
+            last_name: 1,
+            rcId: 1,
+        })
+        .populate('tags', {
+            value: 1,
+        });
+};
+
 const getProjectsByTagsAndStatus = async (tags: string[], status: boolean) => {
     const tagDocs = await tagService.fetchTagsByValues(tags);
     console.log('router', { status });
@@ -205,7 +230,8 @@ const getProjectsByTagsAndStatus = async (tags: string[], status: boolean) => {
 const getProjectsByTags = async (tags: string[]) => {
     const tagDocs = await tagService.fetchTagsByValues(tags);
     const tagIds = tagDocs.map((tag) => tag._id);
-    return await Project.find({ tags: { $in: tagIds } })
+
+    return await Project.find({ tags: { $all: tagIds } })
         .populate('owner', {
             first_name: 1,
             last_name: 1,
@@ -311,4 +337,5 @@ export default {
     createProject,
     updateProject,
     deleteProject,
+    getProjectsByUserAndTags,
 };
