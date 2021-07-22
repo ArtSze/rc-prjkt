@@ -8,23 +8,25 @@ import userService from './userService';
  * @return {Promise<Array<IProject>>} Promise containing an array of projects
  */
 const getAllProjects = async () => {
-	return await Project.find({})
-		.populate('owner', {
-			first_name: 1,
-			last_name: 1,
+    return await Project.find({})
+        .populate('owner', {
+            first_name: 1,
+            last_name: 1,
             rcId: 1,
-			zulip_id: 1,
-			batchEndDate: 1,
-			batch: 1,
-			image_path: 1,
-		})
-		.populate('collaborators', {
-			first_name: 1,
-			last_name: 1,
-		})
-		.populate('tags', {
-			value: 1,
-		});
+            zulip_id: 1,
+            batchEndDate: 1,
+            batch: 1,
+            image_path: 1,
+        })
+        .populate('collaborators', {
+            first_name: 1,
+            last_name: 1,
+            rcId: 1,
+            image_path: 1,
+        })
+        .populate('tags', {
+            value: 1,
+        });
 };
 
 // deprecate getAllActiveProjects?
@@ -38,43 +40,47 @@ const getAllProjects = async () => {
  * @return {Promise<(IProject & mongoose.Document)[]>} Promise containing an array of projects
  */
 const getAllActiveProjects = async () => {
-	return await Project.find({ active: true })
-		.populate('owner', {
-			first_name: 1,
-			last_name: 1,
+    return await Project.find({ active: true })
+        .populate('owner', {
+            first_name: 1,
+            last_name: 1,
             rcId: 1,
-			zulip_id: 1,
-			batchEndDate: 1,
-			batch: 1,
-			image_path: 1,
-		})
-		.populate('collaborators', {
-			first_name: 1,
-			last_name: 1,
-		})
-		.populate('tags', {
-			value: 1,
-		});
+            zulip_id: 1,
+            batchEndDate: 1,
+            batch: 1,
+            image_path: 1,
+        })
+        .populate('collaborators', {
+            first_name: 1,
+            last_name: 1,
+            rcId: 1,
+            image_path: 1,
+        })
+        .populate('tags', {
+            value: 1,
+        });
 };
 
 const getAllInactiveProjects = async () => {
-	return await Project.find({ active: false })
-		.populate('owner', {
-			first_name: 1,
-			last_name: 1,
+    return await Project.find({ active: false })
+        .populate('owner', {
+            first_name: 1,
+            last_name: 1,
             rcId: 1,
-			zulip_id: 1,
-			batchEndDate: 1,
-			batch: 1,
-			image_path: 1,
-		})
-		.populate('collaborators', {
-			first_name: 1,
-			last_name: 1,
-		})
-		.populate('tags', {
-			value: 1,
-		});
+            zulip_id: 1,
+            batchEndDate: 1,
+            batch: 1,
+            image_path: 1,
+        })
+        .populate('collaborators', {
+            first_name: 1,
+            last_name: 1,
+            rcId: 1,
+            image_path: 1,
+        })
+        .populate('tags', {
+            value: 1,
+        });
 };
 
 /**
@@ -88,23 +94,25 @@ const getAllInactiveProjects = async () => {
  * @return {Promise<(IProject & mongoose.Document)[]>} Promise containing an array of projects
  */
 const getProjectsByStatus = async (status: boolean) => {
-	return await Project.find({ active: status })
-		.populate('owner', {
-			first_name: 1,
-			last_name: 1,
+    return await Project.find({ active: status })
+        .populate('owner', {
+            first_name: 1,
+            last_name: 1,
             rcId: 1,
-			zulip_id: 1,
-			batchEndDate: 1,
-			batch: 1,
-			image_path: 1,
-		})
-		.populate('collaborators', {
-			first_name: 1,
-			last_name: 1,
-		})
-		.populate('tags', {
-			value: 1,
-		});
+            zulip_id: 1,
+            batchEndDate: 1,
+            batch: 1,
+            image_path: 1,
+        })
+        .populate('collaborators', {
+            first_name: 1,
+            last_name: 1,
+            rcId: 1,
+            image_path: 1,
+        })
+        .populate('tags', {
+            value: 1,
+        });
 };
 
 /**
@@ -117,24 +125,26 @@ const getProjectsByStatus = async (status: boolean) => {
  * @return {Promise<Array<IProject>> | null } Promise containing an array of projects or null if no project is found
  */
 const getProjectsByUserAndStatus = async (rcId: number, status: boolean) => {
-	const user = await userService.getUser(rcId);
-	return await Project.find({ owner: user?._id, active: status })
-		.populate('owner', {
-			first_name: 1,
-			last_name: 1,
+    const user = await userService.getUser(rcId);
+    return await Project.find({ owner: user?._id, active: status })
+        .populate('owner', {
+            first_name: 1,
+            last_name: 1,
             rcId: 1,
-			zulip_id: 1,
-			batchEndDate: 1,
-			batch: 1,
-			image_path: 1,
-		})
-		.populate('collaborators', {
-			first_name: 1,
-			last_name: 1,
-		})
-		.populate('tags', {
-			value: 1,
-		});
+            zulip_id: 1,
+            batchEndDate: 1,
+            batch: 1,
+            image_path: 1,
+        })
+        .populate('collaborators', {
+            first_name: 1,
+            last_name: 1,
+            rcId: 1,
+            image_path: 1,
+        })
+        .populate('tags', {
+            value: 1,
+        });
 };
 
 /**
@@ -145,47 +155,77 @@ const getProjectsByUserAndStatus = async (rcId: number, status: boolean) => {
  * @return {Promise<Array<IProject>> | null } Promise containing an array of projects or null if no project is found
  */
 const getProjectsByUser = async (rcId: number) => {
-	const user = await userService.getUser(rcId);
-	return await Project.find({ owner: user?._id })
-		.populate('owner', {
-			first_name: 1,
-			last_name: 1,
+    const user = await userService.getUser(rcId);
+    return await Project.find({ owner: user?._id })
+        .populate('owner', {
+            first_name: 1,
+            last_name: 1,
             rcId: 1,
-			zulip_id: 1,
-			batchEndDate: 1,
-			batch: 1,
-			image_path: 1,
-		})
-		.populate('collaborators', {
-			first_name: 1,
-			last_name: 1,
-		})
-		.populate('tags', {
-			value: 1,
-		});
+            zulip_id: 1,
+            batchEndDate: 1,
+            batch: 1,
+            image_path: 1,
+        })
+        .populate('collaborators', {
+            first_name: 1,
+            last_name: 1,
+            rcId: 1,
+            image_path: 1,
+        })
+        .populate('tags', {
+            value: 1,
+        });
+};
+
+const getProjectsByUserAndTags = async (rcId: number, tags: string[]) => {
+    const user = await userService.getUser(rcId);
+    const tagDocs = await tagService.fetchTagsByValues(tags);
+    const tagIds = tagDocs.map((tag) => tag._id);
+
+    return await Project.find({ $and: [{ owner: user?._id }, { tags: { $all: tagIds } }] })
+        .populate('owner', {
+            first_name: 1,
+            last_name: 1,
+            rcId: 1,
+            zulip_id: 1,
+            batchEndDate: 1,
+            batch: 1,
+            image_path: 1,
+        })
+        .populate('collaborators', {
+            first_name: 1,
+            last_name: 1,
+            rcId: 1,
+            image_path: 1,
+        })
+        .populate('tags', {
+            value: 1,
+        });
 };
 
 const getProjectsByTagsAndStatus = async (tags: string[], status: boolean) => {
-	const tagDocs = await tagService.fetchTagsByValues(tags);
-    console.log('router', {status})
-	const tagIds = tagDocs.map((tag) => tag._id);
-	return await Project.find({ tags: { $in: tagIds }}, {active: status})
-		.populate('owner', {
-			first_name: 1,
-			last_name: 1,
+    const tagDocs = await tagService.fetchTagsByValues(tags);
+    console.log('router', { status });
+    const tagIds = tagDocs.map((tag) => tag._id);
+    return await Project.find({ tags: { $in: tagIds } }, { active: status })
+        .populate('owner', {
+            first_name: 1,
+            last_name: 1,
             rcId: 1,
-			zulip_id: 1,
-			batchEndDate: 1,
-			batch: 1,
-			image_path: 1,
-		})
-		.populate('collaborators', {
-			first_name: 1,
-			last_name: 1,
-		})
-		.populate('tags', {
-			value: 1,
-		});
+            zulip_id: 1,
+            batchEndDate: 1,
+            batch: 1,
+            image_path: 1,
+        })
+        .populate('collaborators', {
+            first_name: 1,
+            last_name: 1,
+            rcId: 1,
+            image_path: 1,
+        })
+        .populate('tags', {
+            value: 1,
+        });
 };
 
 /**
@@ -196,25 +236,28 @@ const getProjectsByTagsAndStatus = async (tags: string[], status: boolean) => {
  * @return {Promise<Array<IProject>> | null } Promise containing an array of projects or null if no project is found
  */
 const getProjectsByTags = async (tags: string[]) => {
-	const tagDocs = await tagService.fetchTagsByValues(tags);
-	const tagIds = tagDocs.map((tag) => tag._id);
-	return await Project.find({ tags: { $in: tagIds } })
-		.populate('owner', {
-			first_name: 1,
-			last_name: 1,
+    const tagDocs = await tagService.fetchTagsByValues(tags);
+    const tagIds = tagDocs.map((tag) => tag._id);
+
+    return await Project.find({ tags: { $all: tagIds } })
+        .populate('owner', {
+            first_name: 1,
+            last_name: 1,
             rcId: 1,
-			zulip_id: 1,
-			batchEndDate: 1,
-			batch: 1,
-			image_path: 1,
-		})
-		.populate('collaborators', {
-			first_name: 1,
-			last_name: 1,
-		})
-		.populate('tags', {
-			value: 1,
-		});
+            zulip_id: 1,
+            batchEndDate: 1,
+            batch: 1,
+            image_path: 1,
+        })
+        .populate('collaborators', {
+            first_name: 1,
+            last_name: 1,
+            rcId: 1,
+            image_path: 1,
+        })
+        .populate('tags', {
+            value: 1,
+        });
 };
 
 /**
@@ -225,23 +268,25 @@ const getProjectsByTags = async (tags: string[]) => {
  * @return {Promise<Array<IProject>> | null } Promise containing an array of projects or null if no project is found
  */
 const getSingleProject = async (id: string) => {
-	return await Project.findById(id)
-		.populate('owner', {
-			first_name: 1,
-			last_name: 1,
+    return await Project.findById(id)
+        .populate('owner', {
+            first_name: 1,
+            last_name: 1,
             rcId: 1,
-			zulip_id: 1,
-			batchEndDate: 1,
-			batch: 1,
-			image_path: 1,
-		})
-		.populate('collaborators', {
-			first_name: 1,
-			last_name: 1,
-		})
-		.populate('tags', {
-			value: 1,
-		});
+            zulip_id: 1,
+            batchEndDate: 1,
+            batch: 1,
+            image_path: 1,
+        })
+        .populate('collaborators', {
+            first_name: 1,
+            last_name: 1,
+            rcId: 1,
+            image_path: 1,
+        })
+        .populate('tags', {
+            value: 1,
+        });
 };
 
 /**
@@ -252,9 +297,9 @@ const getSingleProject = async (id: string) => {
  * @return {Promise<IProject & mongoose.Document>} Promise containing the newly created project document from the database
  */
 const createProject = async (project: IProject) => {
-	const projectToSave = new Project(project);
-	const savedProject = await projectToSave.save();
-	return savedProject;
+    const projectToSave = new Project(project);
+    const savedProject = await projectToSave.save();
+    return savedProject;
 };
 
 /**
@@ -266,12 +311,12 @@ const createProject = async (project: IProject) => {
  * @return {Promise<IProject & mongoose.Document> | null} Updated project document from the database or null if no project was updated
  */
 const updateProject = async (id: string, project: IProject) => {
-	const updatedProject = await Project.findByIdAndUpdate(id, project, {
-		new: true,
-		runValidators: true,
-	});
-	await updatedProject!.save();
-	return updatedProject;
+    const updatedProject = await Project.findByIdAndUpdate(id, project, {
+        new: true,
+        runValidators: true,
+    });
+    await updatedProject!.save();
+    return updatedProject;
 };
 
 /**
@@ -282,24 +327,25 @@ const updateProject = async (id: string, project: IProject) => {
  * @return {number | undefined } Count of deleted projects or undefined if no project was deleted
  */
 const deleteProject = async (id: string) => {
-	const project = Project.findById(id).populate('owner', {
-		ownedProjects: 1,
-		_id: 1,
-	});
-	return await Project.deleteOne(project);
+    const project = Project.findById(id).populate('owner', {
+        ownedProjects: 1,
+        _id: 1,
+    });
+    return await Project.deleteOne(project);
 };
 
 export default {
-	getAllProjects,
-	getAllInactiveProjects /* deprecate? */,
-	getAllActiveProjects /* deprecate? */,
-	getProjectsByStatus,
-	getProjectsByUserAndStatus,
-	getProjectsByUser,
-	getProjectsByTagsAndStatus,
-	getProjectsByTags,
-	getSingleProject,
-	createProject,
-	updateProject,
-	deleteProject,
+    getAllProjects,
+    getAllInactiveProjects /* deprecate? */,
+    getAllActiveProjects /* deprecate? */,
+    getProjectsByStatus,
+    getProjectsByUserAndStatus,
+    getProjectsByUser,
+    getProjectsByTagsAndStatus,
+    getProjectsByTags,
+    getSingleProject,
+    createProject,
+    updateProject,
+    deleteProject,
+    getProjectsByUserAndTags,
 };

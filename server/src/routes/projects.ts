@@ -17,6 +17,7 @@ ProjectsRouter.get('/', async (req, res) => {
      * else, if true return active if false return inactive
      */
     const queryStatus = req.query['status'] ? req.query['status'] : undefined;
+
     if (queryStatus === 'true') {
         status = true;
     }
@@ -24,6 +25,7 @@ ProjectsRouter.get('/', async (req, res) => {
         status = false;
     }
     let rcId = undefined;
+
     if (req.query['me']) {
         rcId = req.session.user.rcId;
     } else if (req.query['user']) {
@@ -34,14 +36,15 @@ ProjectsRouter.get('/', async (req, res) => {
 
     try {
         let projects = [] as any[];
-
-        if (rcId) {
+        console.log({ rcId, tags });
+        if (rcId && tags) {
+            projects = await projectService.getProjectsByUserAndTags(rcId, tags);
+            console.log({ projects });
+        } else if (rcId) {
             projects = await projectService.getProjectsByUser(rcId);
-        }
-        if (tags) {
+        } else if (tags) {
             projects = await projectService.getProjectsByTags(tags);
-        }
-        if (!rcId && !tags) {
+        } else if (!rcId && !tags) {
             projects = await projectService.getAllProjects();
         }
 
