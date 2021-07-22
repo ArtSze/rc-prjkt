@@ -22,6 +22,7 @@ const getAllProjects = async () => {
             first_name: 1,
             last_name: 1,
             rcId: 1,
+            image_path: 1,
         })
         .populate('tags', {
             value: 1,
@@ -53,6 +54,7 @@ const getAllActiveProjects = async () => {
             first_name: 1,
             last_name: 1,
             rcId: 1,
+            image_path: 1,
         })
         .populate('tags', {
             value: 1,
@@ -74,6 +76,7 @@ const getAllInactiveProjects = async () => {
             first_name: 1,
             last_name: 1,
             rcId: 1,
+            image_path: 1,
         })
         .populate('tags', {
             value: 1,
@@ -105,6 +108,7 @@ const getProjectsByStatus = async (status: boolean) => {
             first_name: 1,
             last_name: 1,
             rcId: 1,
+            image_path: 1,
         })
         .populate('tags', {
             value: 1,
@@ -136,6 +140,7 @@ const getProjectsByUserAndStatus = async (rcId: number, status: boolean) => {
             first_name: 1,
             last_name: 1,
             rcId: 1,
+            image_path: 1,
         })
         .populate('tags', {
             value: 1,
@@ -165,6 +170,7 @@ const getProjectsByUser = async (rcId: number) => {
             first_name: 1,
             last_name: 1,
             rcId: 1,
+            image_path: 1,
         })
         .populate('tags', {
             value: 1,
@@ -190,6 +196,7 @@ const getProjectsByUserAndTags = async (rcId: number, tags: string[]) => {
             first_name: 1,
             last_name: 1,
             rcId: 1,
+            image_path: 1,
         })
         .populate('tags', {
             value: 1,
@@ -214,6 +221,7 @@ const getProjectsByTagsAndStatus = async (tags: string[], status: boolean) => {
             first_name: 1,
             last_name: 1,
             rcId: 1,
+            image_path: 1,
         })
         .populate('tags', {
             value: 1,
@@ -245,6 +253,7 @@ const getProjectsByTags = async (tags: string[]) => {
             first_name: 1,
             last_name: 1,
             rcId: 1,
+            image_path: 1,
         })
         .populate('tags', {
             value: 1,
@@ -273,6 +282,7 @@ const getSingleProject = async (id: string) => {
             first_name: 1,
             last_name: 1,
             rcId: 1,
+            image_path: 1,
         })
         .populate('tags', {
             value: 1,
