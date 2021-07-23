@@ -48,26 +48,21 @@ function filterStatus(projects: IProject[], status: boolean | undefined) {
 }
 
 function sort(projects: IProject[], sortMethod: string) {
-    if (sortMethod === 'last created') {
-        return projects.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+    switch (sortMethod) {
+        case 'last created':
+            return projects.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+        case 'first created':
+            return projects.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
+        case 'first updated':
+            return projects.sort((a, b) => a.updatedAt.getTime() - b.updatedAt.getTime());
+        case 'oldest batch':
+            return projects.sort((a, b) => a.owner.batchEndDate.getTime() - b.owner.batchEndDate.getTime());
+        case 'latest batch':
+            return projects.sort((a, b) => b.owner.batchEndDate.getTime() - a.owner.batchEndDate.getTime());
+        default:
+            // last updated
+            return projects.sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime());
     }
-    if (sortMethod === 'first created') {
-        return projects.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
-    }
-    if (sortMethod === 'last updated') {
-        return projects.sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime());
-    }
-
-    if (sortMethod === 'first updated') {
-        return projects.sort((a, b) => a.updatedAt.getTime() - b.updatedAt.getTime());
-    }
-
-    if (sortMethod === 'oldest batch') {
-        return projects.sort((a, b) => a.owner.batchEndDate.getTime() - b.owner.batchEndDate.getTime());
-    }
-
-    // return lastest batch by default
-    return projects.sort((a, b) => b.owner.batchEndDate.getTime() - a.owner.batchEndDate.getTime());
 }
 
 ProjectsRouter.get('/', async (req, res) => {
