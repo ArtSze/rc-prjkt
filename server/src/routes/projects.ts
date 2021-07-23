@@ -4,19 +4,17 @@ import tagService from '../services/tagService';
 import userService from '../services/userService';
 import { ITag } from '../models/tag';
 import { ICollaboratorFromClient } from '../utils/types';
+import { IProject } from '../models/project';
 
 export const ProjectsRouter = Router();
 
-ProjectsRouter.get('/', async (req, res) => {
-    // console.log(req.params);
-    console.log('projects.get');
-
+function parseParams(params: any, currentUser: number) {
     let status: boolean | undefined;
     /**
      * if queryStatus is not supplied, get all projects
      * else, if true return active if false return inactive
      */
-    const queryStatus = req.query['status'] ? req.query['status'] : undefined;
+    const queryStatus = params['status'] ? params['status'] : undefined;
 
     if (queryStatus === 'true') {
         status = true;
@@ -26,17 +24,60 @@ ProjectsRouter.get('/', async (req, res) => {
     }
     let rcId = undefined;
 
-    if (req.query['me']) {
-        rcId = req.session.user.rcId;
-    } else if (req.query['user']) {
-        rcId = Number(req.query['user']);
+    if (params['me']) {
+        rcId = currentUser;
+    } else if (params['user']) {
+        rcId = Number(params['user']);
     }
 
-    const tags = req.query['tags'] as string[];
+    const sortMethod = params['sort'];
+    const tags = params['tags'] as string[];
+    return { rcId, tags, status, sortMethod };
+}
+
+function filterStatus(projects: IProject[], status: boolean | undefined) {
+    if (status === false) {
+        return projects.filter((project) => project.active === false);
+    }
+
+    if (status === true) {
+        return projects.filter((project) => project.active === true);
+    }
+
+    return projects;
+}
+
+function sort(projects: IProject[], sortMethod: string) {
+    if (sortMethod === 'last created') {
+        return projects.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+    }
+    if (sortMethod === 'first created') {
+        return projects.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
+    }
+    if (sortMethod === 'last updated') {
+        return projects.sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime());
+    }
+
+    if (sortMethod === 'first updated') {
+        return projects.sort((a, b) => a.updatedAt.getTime() - b.updatedAt.getTime());
+    }
+
+    if (sortMethod === 'oldest batch') {
+        return projects.sort((a, b) => a.owner.batchEndDate.getTime() - b.owner.batchEndDate.getTime());
+    }
+
+    // return lastest batch by default
+    return projects.sort((a, b) => b.owner.batchEndDate.getTime() - a.owner.batchEndDate.getTime());
+}
+
+ProjectsRouter.get('/', async (req, res) => {
+    const currentUser = req.session.user.rcId;
+    const { rcId, tags, status, sortMethod } = parseParams(req.query, currentUser);
 
     try {
+        // retreive projects by rcId and tag parameters
+        // type as any instead of IProject as mongoose returns full object with helper functions
         let projects = [] as any[];
-        console.log({ rcId, tags });
         if (rcId && tags) {
             projects = await projectService.getProjectsByUserAndTags(rcId, tags);
             console.log({ projects });
@@ -48,29 +89,22 @@ ProjectsRouter.get('/', async (req, res) => {
             projects = await projectService.getAllProjects();
         }
 
+        // add isOwner boolean to project to confirm if the currentUser is the project owner
         let finalProjects = projects.map((p) => {
-            if (req.session.user.rcId === p.owner.rcId) {
-                return { ...p._doc, isOwner: true };
-            } else {
-                return { ...p._doc, isOwner: false };
-            }
+            p as any; // when spreading p, it includes mongoose specific information
+            const isOwner = currentUser === p.owner.rcId;
+            return { ...p._doc, isOwner };
         });
 
-        if (status === undefined) {
-            res.status(200).json(finalProjects);
-        }
+        // filter by status
+        const filteredProjects = filterStatus(finalProjects, status);
 
-        if (status === false) {
-            const inactiveProjects = finalProjects.filter((project) => project.active === false);
-            res.status(200).json(inactiveProjects);
-        }
+        // sort by current sort selection
+        const sortedProjects = sort(filteredProjects, sortMethod);
 
-        if (status === true) {
-            const activeProjects = finalProjects.filter((project) => project.active === true);
-            res.status(200).json(activeProjects);
-        }
+        return res.status(200).json(sortedProjects);
     } catch (e) {
-        res.status(400).send(e.message);
+        return res.status(400).send(e.message);
     }
 });
 

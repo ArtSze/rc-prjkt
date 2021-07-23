@@ -29,60 +29,6 @@ const getAllProjects = async () => {
         });
 };
 
-// deprecate getAllActiveProjects?
-/**
- * Returns all of the active projects in the database
- *
- * @remark
- * Active projects have a property of `active` that returns `true`
- *
- *
- * @return {Promise<(IProject & mongoose.Document)[]>} Promise containing an array of projects
- */
-const getAllActiveProjects = async () => {
-    return await Project.find({ active: true })
-        .populate('owner', {
-            first_name: 1,
-            last_name: 1,
-            rcId: 1,
-            zulip_id: 1,
-            batchEndDate: 1,
-            batch: 1,
-            image_path: 1,
-        })
-        .populate('collaborators', {
-            first_name: 1,
-            last_name: 1,
-            rcId: 1,
-            image_path: 1,
-        })
-        .populate('tags', {
-            value: 1,
-        });
-};
-
-const getAllInactiveProjects = async () => {
-    return await Project.find({ active: false })
-        .populate('owner', {
-            first_name: 1,
-            last_name: 1,
-            rcId: 1,
-            zulip_id: 1,
-            batchEndDate: 1,
-            batch: 1,
-            image_path: 1,
-        })
-        .populate('collaborators', {
-            first_name: 1,
-            last_name: 1,
-            rcId: 1,
-            image_path: 1,
-        })
-        .populate('tags', {
-            value: 1,
-        });
-};
-
 /**
  * Returns all of the projects corresponding to the boolean value of 'status'
  *
@@ -95,38 +41,6 @@ const getAllInactiveProjects = async () => {
  */
 const getProjectsByStatus = async (status: boolean) => {
     return await Project.find({ active: status })
-        .populate('owner', {
-            first_name: 1,
-            last_name: 1,
-            rcId: 1,
-            zulip_id: 1,
-            batchEndDate: 1,
-            batch: 1,
-            image_path: 1,
-        })
-        .populate('collaborators', {
-            first_name: 1,
-            last_name: 1,
-            rcId: 1,
-            image_path: 1,
-        })
-        .populate('tags', {
-            value: 1,
-        });
-};
-
-/**
- * Returns all projects in the database belonging to a specific user that correspond to the boolean value of 'status'
- *
- * @param {number} rcId - the user's ID from the database
- *
- * @param {boolean} status - indicates whether or not a project is currently active
- *
- * @return {Promise<Array<IProject>> | null } Promise containing an array of projects or null if no project is found
- */
-const getProjectsByUserAndStatus = async (rcId: number, status: boolean) => {
-    const user = await userService.getUser(rcId);
-    return await Project.find({ owner: user?._id, active: status })
         .populate('owner', {
             first_name: 1,
             last_name: 1,
@@ -183,31 +97,6 @@ const getProjectsByUserAndTags = async (rcId: number, tags: string[]) => {
     const tagIds = tagDocs.map((tag) => tag._id);
 
     return await Project.find({ $and: [{ owner: user?._id }, { tags: { $all: tagIds } }] })
-        .populate('owner', {
-            first_name: 1,
-            last_name: 1,
-            rcId: 1,
-            zulip_id: 1,
-            batchEndDate: 1,
-            batch: 1,
-            image_path: 1,
-        })
-        .populate('collaborators', {
-            first_name: 1,
-            last_name: 1,
-            rcId: 1,
-            image_path: 1,
-        })
-        .populate('tags', {
-            value: 1,
-        });
-};
-
-const getProjectsByTagsAndStatus = async (tags: string[], status: boolean) => {
-    const tagDocs = await tagService.fetchTagsByValues(tags);
-    console.log('router', { status });
-    const tagIds = tagDocs.map((tag) => tag._id);
-    return await Project.find({ tags: { $in: tagIds } }, { active: status })
         .populate('owner', {
             first_name: 1,
             last_name: 1,
@@ -336,16 +225,12 @@ const deleteProject = async (id: string) => {
 
 export default {
     getAllProjects,
-    getAllInactiveProjects /* deprecate? */,
-    getAllActiveProjects /* deprecate? */,
     getProjectsByStatus,
-    getProjectsByUserAndStatus,
     getProjectsByUser,
-    getProjectsByTagsAndStatus,
     getProjectsByTags,
+    getProjectsByUserAndTags,
     getSingleProject,
     createProject,
     updateProject,
     deleteProject,
-    getProjectsByUserAndTags,
 };
