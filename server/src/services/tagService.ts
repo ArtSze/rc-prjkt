@@ -6,7 +6,7 @@ import Tag, { ITag } from '../models/tag';
  * @return {Promise<(ITag & mongoose.Document)[]>} All tags in the database
  */
 export const fetchAllTags = async () => {
-	return await Tag.find({});
+    return await Tag.find({});
 };
 
 /**
@@ -17,7 +17,7 @@ export const fetchAllTags = async () => {
  * @return {Promise<(ITag & mongoose.Document)[]>} All tags in the database for provided values
  */
 export const fetchTagsByValues = async (values: string[]) => {
-	return await Tag.find().where('value').in(values);
+    return await Tag.find().where('value').in(values);
 };
 
 /**
@@ -28,7 +28,7 @@ export const fetchTagsByValues = async (values: string[]) => {
  * @return {Promise<(ITag & mongoose.Document)[]>} All tags in the database for provided value
  */
 export const fetchSingleTagByValue = async (value: string) => {
-	return await Tag.find({ value: value });
+    return await Tag.find({ value: value });
 };
 
 /**
@@ -39,9 +39,9 @@ export const fetchSingleTagByValue = async (value: string) => {
  * @return {Promise<ITag & mongoose.Document>} Newly created tag document from the database
  */
 export const createTag = async (tag: ITag) => {
-	const tagToSave = new Tag(tag);
-	const savedTag = await tagToSave.save();
-	return savedTag;
+    const tagToSave = new Tag(tag);
+    const savedTag = await tagToSave.save();
+    return savedTag;
 };
 
 /**
@@ -54,21 +54,29 @@ export const createTag = async (tag: ITag) => {
  * @return {Promise<ITag & mongoose.Document>} Created tags in the database
  */
 export const createTags = async (tags: ITag[]) => {
-	const tagPromises = tags.map(async (tag) => {
-		return await Tag.findOneAndUpdate({ value: tag.value }, tag, {
-			new: true,
-			upsert: true,
-			runValidators: true,
-		});
-	});
-	const newTags = await Promise.all(tagPromises);
-	return newTags;
+    const tagPromises = tags.map(async (tag) => {
+        return await Tag.findOneAndUpdate({ value: tag.value }, tag, {
+            new: true,
+            upsert: true,
+            runValidators: true,
+        });
+    });
+    const newTags = await Promise.all(tagPromises);
+    return newTags;
+};
+
+export const deleteTags = async (tags: ITag[]) => {
+    const tagPromises = tags.map(async (tag) => {
+        return await Tag.findOneAndDelete({ value: tag.value });
+    });
+    return await Promise.all(tagPromises);
 };
 
 export default {
-	createTag,
-	createTags,
-	fetchAllTags,
-	fetchTagsByValues,
-	fetchSingleTagByValue,
+    createTag,
+    createTags,
+    fetchAllTags,
+    fetchTagsByValues,
+    fetchSingleTagByValue,
+    deleteTags,
 };

@@ -18,10 +18,7 @@ UsersRouter.get('/', async (req, res) => {
     try {
         const foundUsers = await userService.getAllUsers();
         if (omission === true) {
-            console.log({ foundUsers });
             const finalUsers = foundUsers.filter((u) => u.rcId !== req.session.user.rcId);
-            console.log({ finalUsers });
-            console.log(req.session.user.rcId);
             res.status(200).json(finalUsers);
         } else {
             res.status(200).json(foundUsers);
