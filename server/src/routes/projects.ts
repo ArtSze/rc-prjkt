@@ -8,7 +8,7 @@ import { IProject } from '../models/project';
 
 export const ProjectsRouter = Router();
 
-function parseParams(params: any, currentUser: number) {
+const parseParams = (params: any, currentUser: number) => {
     let status: boolean | undefined;
     /**
      * if queryStatus is not supplied, get all projects
@@ -33,9 +33,9 @@ function parseParams(params: any, currentUser: number) {
     const sortMethod = params['sort'];
     const tags = params['tags'] as string[];
     return { rcId, tags, status, sortMethod };
-}
+};
 
-function filterStatus(projects: IProject[], status: boolean | undefined) {
+const filterStatus = (projects: IProject[], status: boolean | undefined) => {
     if (status === false) {
         return projects.filter((project) => project.active === false);
     }
@@ -45,9 +45,9 @@ function filterStatus(projects: IProject[], status: boolean | undefined) {
     }
 
     return projects;
-}
+};
 
-function sort(projects: IProject[], sortMethod: string) {
+const sort = (projects: IProject[], sortMethod: string) => {
     switch (sortMethod) {
         case 'last created':
             return projects.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
@@ -63,7 +63,21 @@ function sort(projects: IProject[], sortMethod: string) {
             // last updated
             return projects.sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime());
     }
-}
+};
+
+const tagCleanup = async () => {
+    const projects = await projectService.getAllProjects();
+    const usedTagIdsArr = projects
+        .map((p) => p.tags)
+        .flat()
+        // @ts-ignore
+        .map((t) => t._id.toString());
+    const usedTagIds = [...new Set(usedTagIdsArr)];
+    const allTags = await tagService.fetchAllTags();
+
+    const tagsToDelete = allTags.filter((t) => !usedTagIds.includes(t._id.toString()));
+    tagService.deleteTags(tagsToDelete);
+};
 
 ProjectsRouter.get('/', async (req, res) => {
     const currentUser = req.session.user.rcId;
@@ -138,6 +152,7 @@ ProjectsRouter.post('/', async (req, res) => {
         if (currentUser) {
             currentUser.ownedProjects = [...currentUser.ownedProjects, createdProject._id!];
             await currentUser.save();
+            tagCleanup();
             res.status(200).json(createdProject);
         }
     } catch (e) {
@@ -170,6 +185,7 @@ ProjectsRouter.put('/:id', async (req, res) => {
                 tags: [...tagObjectIds],
                 collaborators: [...collaboratorObjectIds],
             });
+            tagCleanup();
             res.status(200).json(updatedProject);
         } catch (e) {
             res.status(400).send(e.message);
@@ -192,6 +208,7 @@ ProjectsRouter.delete('/:id', async (req, res) => {
         try {
             const id = req.params.id;
             await projectService.deleteProject(id);
+            tagCleanup();
             res.status(204).end();
         } catch (e) {
             res.status(400);
