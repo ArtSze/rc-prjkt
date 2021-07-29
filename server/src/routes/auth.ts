@@ -1,6 +1,6 @@
 import Router from 'express';
 import { AccessToken, AuthorizationCode, Token } from 'simple-oauth2';
-import { authConfig } from '../utils/config';
+import { authConfig, CLIENT_URL } from '../utils/config';
 import logger from '../utils/logger';
 import axios from 'axios';
 
@@ -36,12 +36,10 @@ AuthRouter.get('/callback', async (req, res) => {
         if (!userFromDb) {
             const newlyCreatedUser = await userService.createUser(userData);
             req.session.user = newlyCreatedUser;
-            res.redirect('http://localhost:3000/home');
-            // res.status(200).json(newlyCreatedUser);
+            res.redirect(CLIENT_URL + '/home');
         } else {
             req.session.user = userFromDb;
-            res.redirect('http://localhost:3000/home');
-            // res.status(200).json(userFromDb);
+            res.redirect(CLIENT_URL + '/home');
         }
     } catch (e) {
         logger.error(e);
