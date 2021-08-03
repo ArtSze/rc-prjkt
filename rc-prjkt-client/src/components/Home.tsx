@@ -18,11 +18,13 @@ const Home = (): JSX.Element => {
     const [allProjects, setAllProjects] = useState<boolean>(true);
     const [errorOpen, setErrorOpen] = useState<boolean>(false);
 
-    const { data: projects, isSuccess, error } = useProjects(params);
+    const { data: projects, isLoading, isSuccess, error } = useProjects(params);
     const classes = useStyles();
 
-    if (error && error.response?.status === 401) <Auth />;
-    if (error && error.response?.status === 400) setErrorOpen(true);
+    if (isLoading) return <></>;
+
+    if (error && error.response?.status === 401) return <Auth />;
+    // if (error && error.response?.status === 400) setErrorOpen(true);
 
     return (
         <div className={classes.root}>

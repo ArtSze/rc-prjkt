@@ -31,7 +31,7 @@ const OwnerFilter = (): JSX.Element => {
         };
 
         return (
-            <Grid item xs={12} sm={12} md={8}>
+            <Grid item xs={12} sm={6} md={8}>
                 <Typography variant="subtitle2">Owner Filter</Typography>
                 <Select
                     value={getValue()}
