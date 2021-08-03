@@ -79,6 +79,7 @@ describe('Project Router tests without using app', () => {
         // @ts-expect-error
         createdUser1 = await userService.createUser(sampleData.user1);
         createdTag1 = await tagService.createTag(sampleData.tag1);
+        // @ts-expect-error
         newProject = await projectService.createProject({
             ...sampleData.projects.project1,
             tags: [createdTag1._id],
