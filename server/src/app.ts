@@ -3,7 +3,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
-import { CLIENT_URL, MONGO_URI } from './utils/config';
+import { CLIENT_URL, MONGO_URI, session_secret } from './utils/config';
 import path from 'path';
 
 export const app = express();
@@ -18,7 +18,7 @@ app.use(helmet());
 app.use(
     session({
         // FIXME: add secret
-        secret: 'keyboard cat',
+        secret: session_secret,
         resave: false,
         saveUninitialized: false,
         cookie: { httpOnly: true, maxAge: 3600000 * 12 },

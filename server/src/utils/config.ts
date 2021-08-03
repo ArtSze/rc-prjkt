@@ -9,6 +9,9 @@ export const DEVELOPMENT_URL = process.env['NODE_ENV'] === 'development' ? proce
 
 export const CLIENT_URL = process.env['NODE_ENV'] === 'development' ? process.env['DEVELOPMENT_CLIENT_URL'] : '';
 
+// Express Session Config
+export const session_secret = process.env['SESSION_SECRET'] as string;
+
 // OAuth Config
 const id = process.env['RC_AUTH_ID'] as string;
 const secret = process.env['RC_AUTH_SECRET'] as string;
