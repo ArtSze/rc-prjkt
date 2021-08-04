@@ -10,7 +10,8 @@ export const app = express();
 
 // Middleware
 // app.use(express.static(path.resolve(__dirname, '../../rc-prjkt-client/build')));
-app.use(cors({ origin: 'https://stoic-leavitt-9268eb.netlify.app/', credentials: true }));
+// app.use(cors({ origin: 'https://stoic-leavitt-9268eb.netlify.app/', credentials: true }));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
@@ -25,6 +26,11 @@ app.use(
         store: MongoStore.create({ mongoUrl: MONGO_URI }),
     }),
 );
+
+app.use((_, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    next();
+});
 
 /** comment next 2 lines for testing to turn off auth */
 import { sessionCookieCheck } from './utils/middleware';
