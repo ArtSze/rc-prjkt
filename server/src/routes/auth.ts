@@ -9,7 +9,7 @@ import { IProfilefromRCAPI, IUserFromRCAPI } from '../utils/types';
 
 export const AuthRouter = Router();
 
-const redirect_uri = 'https://rc-project-jjtv5.ondigitalocean.app/auth/callback';
+const redirect_uri = 'https://rc-project-jjtv5.ondigitalocean.app/api/auth/callback';
 const client = new AuthorizationCode(authConfig);
 const authorizationUri = client.authorizeURL({ redirect_uri });
 
