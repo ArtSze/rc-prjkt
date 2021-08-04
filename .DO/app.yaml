@@ -1,0 +1,43 @@
+name: rc-project
+region: nyc
+services:
+    - build_command: yarn build
+      environment_slug: node-js
+      envs:
+          - key: MONGO_URI
+            scope: RUN_AND_BUILD_TIME
+            value: mongodb+srv://Artur:dpyOOYFW5mWJQDs6@rc-projects.fz1fa.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
+          - key: TEST_MONGO_URI
+            scope: RUN_AND_BUILD_TIME
+            value: mongodb+srv://amanda:gnCS2NrSsK4zvX@cluster0.ivpua.mongodb.net/rc-prjkt-test?retryWrites=true&w=majority
+          - key: RC_AUTH_ID
+            scope: RUN_AND_BUILD_TIME
+            value: c33fe46395ce3c301fc0753b4407a8072406286f204e0dde8e53851f0ed23f8b
+          - key: RC_AUTH_SECRET
+            scope: RUN_AND_BUILD_TIME
+            value: 36c1e17a4d78249c278a1bc8f1254c0bdfcaf775f478d688135138445524a3b9
+          - key: SESSION_SECRET
+            scope: RUN_AND_BUILD_TIME
+            value: yadyajbgaignapgspgwdgeu9283br
+      github:
+          branch: main
+          repo: ArtSze/rc-prjkt
+      http_port: 4000
+      instance_count: 1
+      instance_size_slug: basic-xxs
+      name: rc-project
+      routes:
+          - path: /
+      run_command: yarn start
+      source_dir: /server
+
+static_sites:
+    - name: frontend
+      environment_slug: html
+      github:
+          repo: ArtSze/rc-prjkt
+          branch: main
+      source_dir: /rc-prjkt-client/build
+      index_document: index.html
+      routes:
+          - path: /
