@@ -39,8 +39,8 @@
     "scripts": {
         "dev": "NODE_ENV=development ts-node-dev src/server.ts",
         "test": "NODE_ENV=test jest",
-        "build": "cd server && rm -rf node_modules & yarn install --force && yarn list -depth 0 && tsc",
-        "start": "cd server && node dist/server.js"
+        "build": "rm -rf node_modules & yarn install --force && yarn list -depth 0 && tsc",
+        "start": "node dist/server.js"
     },
     "jest": {
         "verbose": false
