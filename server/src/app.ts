@@ -11,7 +11,7 @@ export const app = express();
 // Middleware
 // app.use(express.static(path.resolve(__dirname, '../../rc-prjkt-client/build')));
 
-// app.use(cors({ credentials: true }));
+app.use(cors({ credentials: false }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
