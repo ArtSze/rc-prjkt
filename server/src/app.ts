@@ -3,14 +3,14 @@ import cors from 'cors';
 import helmet from 'helmet';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
-import { CLIENT_URL, MONGO_URI, session_secret } from './utils/config';
+import { MONGO_URI, session_secret } from './utils/config';
 import path from 'path';
 
 export const app = express();
 
 // Middleware
 app.use(express.static(path.resolve(__dirname, '../../rc-prjkt-client/build')));
-app.use(cors({ origin: CLIENT_URL, credentials: true }));
+app.use(cors({ credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
