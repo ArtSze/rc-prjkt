@@ -29,7 +29,7 @@ services:
       routes:
           - path: /
       run_command: yarn start
-      source_dir: /server
+      source_dir: /
 
 static_sites:
     - name: frontend
@@ -37,7 +37,7 @@ static_sites:
       github:
           repo: ArtSze/rc-prjkt
           branch: main
-      source_dir: /rc-prjkt-client/build
+      source_dir: ../rc-prjkt-client/build
       index_document: index.html
       routes:
           - path: /
