@@ -11,7 +11,12 @@ export const app = express();
 // Middleware
 // app.use(express.static(path.resolve(__dirname, '../../rc-prjkt-client/build')));
 
-app.use(cors({ credentials: false }));
+// app.use(cors({ credentials: true }));
+app.use(function (_, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+});
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
@@ -26,11 +31,6 @@ app.use(
         store: MongoStore.create({ mongoUrl: MONGO_URI }),
     }),
 );
-
-// app.use((_, res, next) => {
-//     res.header('Access-Control-Allow-Credentials', 'true');
-//     next();
-// });
 
 /** comment next 2 lines for testing to turn off auth */
 import { sessionCookieCheck } from './utils/middleware';
