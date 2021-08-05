@@ -28,30 +28,20 @@ AuthRouter.get('/callback', async (req, res) => {
     const code = req.query['code'] as string;
     const tokenParams = { code, redirect_uri };
     try {
-        console.log({ tokenParams });
         const tokenObject = (await client.getToken(tokenParams)) as Token;
-        console.log({ tokenObject });
         const accessToken = tokenObject['token'].access_token;
         const userData = await getRCData(accessToken);
-        console.log({ userData });
         const userFromDb = await userService.getUser(userData.rcId);
-        console.log({ userFromDb });
 
-        console.log('auth');
         if (!userFromDb) {
             const newlyCreatedUser = await userService.createUser(userData);
-            console.log({ newlyCreatedUser });
-
             req.session.user = newlyCreatedUser;
-            console.log({ CLIENT_URL });
             return res.redirect(CLIENT_URL);
         } else {
             req.session.user = userFromDb;
-            console.log({ ...req.session.user });
             return res.redirect(CLIENT_URL);
         }
     } catch (e) {
-        console.log('hitting catch block');
         logger.error(e);
         return res.status(401).send(e.message).end();
     }
