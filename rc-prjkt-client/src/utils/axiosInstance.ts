@@ -7,7 +7,7 @@ const config: AxiosRequestConfig = {
     baseURL,
     headers: {
         'X-Requested-With': 'XMLHttpRequest',
-        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Origin': 'https://rc-project-jjtv5.ondigitalocean.app',
         'Access-Control-Allow-Credentials': 'true',
     },
 };
