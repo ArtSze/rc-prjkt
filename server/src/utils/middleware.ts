@@ -1,7 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 
 export const sessionCookieCheck = (req: Request, res: Response, next: NextFunction): void => {
-    const nonSecurePaths = ['api/auth', 'api/auth/callback'];
+    const nonSecurePaths = [
+        'https://rc-project-jjtv5.ondigitalocean.app/api/auth',
+        'https://rc-project-jjtv5.ondigitalocean.app/api/auth/callback',
+    ];
     if (nonSecurePaths.includes(req.path)) return next();
 
     if (req.session.user) {
