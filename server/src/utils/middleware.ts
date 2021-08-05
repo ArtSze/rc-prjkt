@@ -5,13 +5,14 @@ export const sessionCookieCheck = (req: Request, res: Response, next: NextFuncti
 
     console.log(req.path);
 
-    if (nonSecurePaths.includes(req.path)) next();
+    if (nonSecurePaths.includes(req.path)) return next();
 
     if (req.session.user) {
-        next();
+        return next();
     } else {
         // console.log('failing in middleware');
-        res.status(401)
+        return res
+            .status(401)
             .send({
                 error: 'unauthorized',
             })
