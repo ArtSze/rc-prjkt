@@ -3,7 +3,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
-import { MONGO_URI, session_secret } from './utils/config';
+import { CLIENT_URL, MONGO_URI, session_secret } from './utils/config';
 // import path from 'path';
 
 export const app = express();
@@ -11,7 +11,7 @@ export const app = express();
 // Middleware
 // app.use(express.static(path.resolve(__dirname, '../../rc-prjkt-client/build')));
 
-app.use(cors({ origin: 'https://stoic-leavitt-9268eb.netlify.app', credentials: true }));
+app.use(cors({ origin: CLIENT_URL, credentials: true }));
 
 // app.use(function (_, res, next) {
 //     res.header('Access-Control-Allow-Origin', 'https://stoic-leavitt-9268eb.netlify.app');
