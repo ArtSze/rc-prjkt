@@ -5,6 +5,10 @@ export const authURL = baseURL + '/auth';
 
 const config: AxiosRequestConfig = {
     baseURL,
-    headers: { 'X-Requested-With': 'XMLHttpRequest', 'Access-Control-Allow-Origin': '*' },
+    headers: {
+        'X-Requested-With': 'XMLHttpRequest',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': 'true',
+    },
 };
 export const axiosInstance = axios.create(config);
