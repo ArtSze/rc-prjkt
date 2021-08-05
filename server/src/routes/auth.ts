@@ -14,12 +14,13 @@ const client = new AuthorizationCode(authConfig);
 const authorizationUri = client.authorizeURL({ redirect_uri });
 
 AuthRouter.get('/', (_, res) => {
-    res.redirect(authorizationUri);
+    return res.redirect(authorizationUri);
 });
 
 AuthRouter.get('/callback', async (req, res) => {
     if (!req.query['code'])
-        res.status(401)
+        return res
+            .status(401)
             .send({
                 error: 'need valid authorization code from RC API to exchange for access token',
             })
@@ -36,14 +37,14 @@ AuthRouter.get('/callback', async (req, res) => {
         if (!userFromDb) {
             const newlyCreatedUser = await userService.createUser(userData);
             req.session.user = newlyCreatedUser;
-            res.redirect(CLIENT_URL);
+            return res.redirect(CLIENT_URL);
         } else {
             req.session.user = userFromDb;
-            res.redirect(CLIENT_URL);
+            return res.redirect(CLIENT_URL);
         }
     } catch (e) {
         logger.error(e);
-        res.status(401).send(e.message).end();
+        return res.status(401).send(e.message).end();
     }
 });
 
