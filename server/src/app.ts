@@ -29,7 +29,7 @@ app.use(
         secret: session_secret,
         resave: false,
         saveUninitialized: false,
-        cookie: { httpOnly: true, maxAge: 3600000 * 12, secure: true },
+        cookie: { httpOnly: true, maxAge: 3600000 * 12, secure: true, sameSite: 'none' },
         store: MongoStore.create({ mongoUrl: MONGO_URI }),
     }),
 );
