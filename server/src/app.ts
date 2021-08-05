@@ -34,8 +34,8 @@ app.use(
 );
 
 /** comment next 2 lines for testing to turn off auth */
-// import { sessionCookieCheck } from './utils/middleware';
-// app.use(sessionCookieCheck);
+import { sessionCookieCheck } from './utils/middleware';
+app.use(sessionCookieCheck);
 
 // Routes
 import { UsersRouter } from './routes/users';
