@@ -21,6 +21,7 @@ UsersRouter.get('/', async (req, res) => {
             const finalUsers = foundUsers.filter((u) => u.rcId !== req.session.user.rcId);
             res.status(200).json(finalUsers);
         } else {
+            console.log({ ...res.header });
             res.status(200).json(foundUsers);
         }
     } catch (e) {
