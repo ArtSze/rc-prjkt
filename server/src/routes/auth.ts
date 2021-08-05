@@ -14,12 +14,13 @@ const client = new AuthorizationCode(authConfig);
 const authorizationUri = client.authorizeURL({ redirect_uri });
 
 AuthRouter.get('/', (_, res) => {
-    res.redirect(authorizationUri);
+    return res.redirect(authorizationUri);
 });
 
 AuthRouter.get('/callback', async (req, res) => {
     if (!req.query['code'])
-        res.status(401)
+        return res
+            .status(401)
             .send({
                 error: 'need valid authorization code from RC API to exchange for access token',
             })
@@ -27,23 +28,27 @@ AuthRouter.get('/callback', async (req, res) => {
     const code = req.query['code'] as string;
     const tokenParams = { code, redirect_uri };
     try {
+        console.log({ tokenParams });
         const tokenObject = (await client.getToken(tokenParams)) as Token;
+        console.log({ tokenObject });
         const accessToken = tokenObject['token'].access_token;
         const userData = await getRCData(accessToken);
+        console.log({ userData });
         const userFromDb = await userService.getUser(userData.rcId);
 
         console.log('auth');
         if (!userFromDb) {
             const newlyCreatedUser = await userService.createUser(userData);
             req.session.user = newlyCreatedUser;
-            res.redirect(CLIENT_URL);
+            return res.redirect(CLIENT_URL);
         } else {
             req.session.user = userFromDb;
-            res.redirect(CLIENT_URL);
+            return res.redirect(CLIENT_URL);
         }
     } catch (e) {
+        console.log('hitting catch block');
         logger.error(e);
-        res.status(401).send(e.message).end();
+        return res.status(401).send(e.message).end();
     }
 });
 
