@@ -29,7 +29,14 @@ app.use(
         secret: session_secret,
         resave: false,
         saveUninitialized: false,
-        cookie: { secure: true, maxAge: 3600000 * 12, domain: CLIENT_URL, sameSite: 'none' },
+        cookie: {
+            httpOnly: true,
+            secure: true,
+            maxAge: 3600000 * 12,
+            domain: 'netlify.app',
+            path: '/',
+            sameSite: 'none',
+        },
         store: MongoStore.create({ mongoUrl: MONGO_URI }),
     }),
 );
