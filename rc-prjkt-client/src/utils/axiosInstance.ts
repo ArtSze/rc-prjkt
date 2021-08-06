@@ -8,7 +8,7 @@ const config: AxiosRequestConfig = {
     headers: {
         //     'X-Requested-With': 'XMLHttpRequest',
         //     'Access-Control-Allow-Origin': 'https://rc-project-jjtv5.ondigitalocean.app',
-        'Access-Control-Allow-Credentials': 'true',
+        // 'Access-Control-Allow-Credentials': 'true',
     },
 };
 export const axiosInstance = axios.create(config);

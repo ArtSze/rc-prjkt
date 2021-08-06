@@ -36,12 +36,14 @@ AuthRouter.get('/callback', async (req, res) => {
         if (!userFromDb) {
             const newlyCreatedUser = await userService.createUser(userData);
             req.session.user = newlyCreatedUser;
+            console.log({ res });
             return res.redirect(CLIENT_URL);
         } else {
             req.session.user = userFromDb;
             return res.redirect(CLIENT_URL);
         }
     } catch (e) {
+        console.log({ req });
         logger.error(e);
         return res.status(401).send(e.message).end();
     }
