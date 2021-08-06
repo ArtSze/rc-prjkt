@@ -38,6 +38,7 @@ AuthRouter.get('/callback', async (req, res) => {
             const newlyCreatedUser = await userService.createUser(userData);
             req.session.user = newlyCreatedUser;
             console.log({ res });
+            // res.cookie('connect.sid', req.sessionID)
             return res.redirect(CLIENT_URL);
         } else {
             req.session.user = userFromDb;
