@@ -31,7 +31,7 @@ app.use(
         saveUninitialized: false,
         cookie: {
             httpOnly: true,
-            // secure: true,
+            secure: true,
             maxAge: 3600000 * 12,
             // domain: 'netlify.app',
             // path: '/',
