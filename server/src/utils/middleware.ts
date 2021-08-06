@@ -10,7 +10,7 @@ export const sessionCookieCheck = (req: Request, res: Response, next: NextFuncti
     if (req.session.user) {
         return next();
     } else {
-        // console.log('failing in middleware');
+        console.log('401 failing in sessionCookieCheck');
         return res
             .status(401)
             .send({
