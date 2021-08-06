@@ -35,7 +35,7 @@ app.use(
             maxAge: 3600000 * 12,
             // domain: 'netlify.app',
             // path: '/',
-            // sameSite: 'none',
+            sameSite: 'none',
         },
         store: MongoStore.create({ mongoUrl: MONGO_URI }),
     }),
