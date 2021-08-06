@@ -7,7 +7,7 @@ export const sessionCookieCheck = (req: Request, res: Response, next: NextFuncti
 
     if (nonSecurePaths.includes(req.path)) return next();
 
-    if (req.sessionID) {
+    if (req.session.user) {
         return next();
     } else {
         console.log('401 failing in sessionCookieCheck');
