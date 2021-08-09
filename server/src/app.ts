@@ -2,38 +2,27 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import session from 'express-session';
-import MongoStore from 'connect-mongo';
-import { CLIENT_URL, MONGO_URI, session_secret } from './utils/config';
+import { CLIENT_URL, SESSION_CONFIG } from './utils/config';
 
 export const app = express();
 
-// Middleware
-
-/* create static site from client build */
+/*** Create static site from client build ***/
 // import path from 'path';
 // app.use(express.static(path.resolve(__dirname, '../../client/build')));
 
+/*** Middleware ***/
 app.use(cors({ origin: CLIENT_URL, credentials: true }));
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
+app.use(session(SESSION_CONFIG));
 
-app.use(
-    session({
-        secret: session_secret,
-        resave: false,
-        saveUninitialized: false,
-        cookie: { httpOnly: true, maxAge: 3600000 * 12 },
-        store: MongoStore.create({ mongoUrl: MONGO_URI }),
-    }),
-);
-
-/** comment next 2 lines for testing to turn off auth */
+/*** Authentication Check ***/
+/* comment next 2 lines for testing to turn off auth */
 import { sessionCookieCheck } from './utils/middleware';
 app.use(sessionCookieCheck);
 
-// Routes
+/*** Routes ***/
 import { UsersRouter } from './routes/users';
 import { ProjectsRouter } from './routes/projects';
 import { AuthRouter } from './routes/auth';
