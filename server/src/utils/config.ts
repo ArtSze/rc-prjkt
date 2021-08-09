@@ -21,3 +21,4 @@ export const authConfig = {
     client: { id, secret },
     auth: { tokenHost: 'https://recurse.com/' },
 };
+A;

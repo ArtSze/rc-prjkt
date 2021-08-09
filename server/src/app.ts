@@ -4,28 +4,23 @@ import helmet from 'helmet';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import { CLIENT_URL, MONGO_URI, session_secret } from './utils/config';
-// import path from 'path';
 
 export const app = express();
 
 // Middleware
-// app.use(express.static(path.resolve(__dirname, '../../rc-prjkt-client/build')));
+
+/* create static site from client build */
+// import path from 'path';
+// app.use(express.static(path.resolve(__dirname, '../../client/build')));
 
 app.use(cors({ origin: CLIENT_URL, credentials: true }));
 
-// app.use(function (_, res, next) {
-//     res.header('Access-Control-Allow-Origin', 'https://stoic-leavitt-9268eb.netlify.app');
-//     res.header('Access-Control-Allow-Credentials', 'true');
-//     res.header('Access-Control-Allow-Headers', '*');
-//     next();
-// });
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
 
 app.use(
     session({
-        // FIXME: add secret
         secret: session_secret,
         resave: false,
         saveUninitialized: false,
