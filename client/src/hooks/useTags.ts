@@ -6,7 +6,7 @@ import { AxiosError } from 'axios';
 
 const getTags = async (): Promise<ITag[]> => {
     const defaultData: ITag[] = [];
-    const { data = defaultData } = await axiosInstance.get('/tags/', { withCredentials: true });
+    const { data = defaultData } = await axiosInstance.get('/tags/');
     return data;
 };
 

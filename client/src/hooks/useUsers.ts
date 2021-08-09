@@ -10,10 +10,7 @@ interface UserQueryParams {
 
 const getUsers = async (params: UserQueryParams): Promise<IUser[]> => {
     const defaultData: IUser[] = [];
-    const { data = defaultData } = await axiosInstance.get('/users/', {
-        params,
-        withCredentials: true,
-    });
+    const { data = defaultData } = await axiosInstance.get('/users/', { params });
     return data;
 };
 
