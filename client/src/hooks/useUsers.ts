@@ -1,7 +1,7 @@
 import { useQuery, useQueryClient, UseQueryResult } from 'react-query';
 import { axiosInstance } from '../utils/axiosInstance';
 import { IUser } from '../types/types';
-import constants from '../utils/constants';
+import queryKeys from '../utils/queryKeys';
 import { AxiosError } from 'axios';
 
 interface UserQueryParams {
@@ -15,12 +15,12 @@ const getUsers = async (params: UserQueryParams): Promise<IUser[]> => {
 };
 
 const useUsers = (params: UserQueryParams): UseQueryResult<IUser[], AxiosError> => {
-    return useQuery([constants.users, params], () => getUsers(params), { keepPreviousData: true });
+    return useQuery([queryKeys.users, params], () => getUsers(params), { keepPreviousData: true });
 };
 
 export function usePrefetchUsers(params: UserQueryParams): void {
     const queryClient = useQueryClient();
-    queryClient.prefetchQuery(constants.users, () => getUsers(params));
+    queryClient.prefetchQuery(queryKeys.users, () => getUsers(params));
 }
 
 export default useUsers;

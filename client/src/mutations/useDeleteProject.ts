@@ -2,7 +2,7 @@ import { axiosInstance } from '../utils/axiosInstance';
 import { useMutation, useQueryClient } from 'react-query';
 
 import { IProject } from '../types/types';
-import constants from '../utils/constants';
+import queryKeys from '../utils/queryKeys';
 
 const deleteProjects = async (project: IProject) => {
     const { data } = await axiosInstance.delete(`projects/${project._id}`, {
@@ -17,7 +17,7 @@ export const useDeleteProjects = async (project: IProject) => {
 
     const { mutate } = useMutation(() => deleteProjects(project), {
         onSuccess: () => {
-            queryClient.invalidateQueries(constants.projects);
+            queryClient.invalidateQueries(queryKeys.projects);
         },
     });
     return mutate;

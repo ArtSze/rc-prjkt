@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { axiosInstance } from '../../../utils/axiosInstance';
-import constants from '../../../utils/constants';
+import queryKeys from '../../../utils/queryKeys';
 import ProjectForm from './form-subs/ProjectForm';
 import { IProject, IProjectEdit } from '../../../types/types';
 import { ProjectFormSubmitValues } from './ProjectFormAdd';
@@ -20,8 +20,8 @@ const ProjectFormEdit = ({ projectToEdit, setOpen }: ProjectFormEditProps): JSX.
         (body: IProjectEdit) => axiosInstance.put(`/projects/${projectToEdit._id}`, body, { withCredentials: true }),
         {
             onSuccess: () => {
-                queryClient.invalidateQueries(constants.projects);
-                queryClient.invalidateQueries(constants.tags);
+                queryClient.invalidateQueries(queryKeys.projects);
+                queryClient.invalidateQueries(queryKeys.tags);
             },
         },
     );

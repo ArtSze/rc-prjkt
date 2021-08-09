@@ -1,7 +1,7 @@
 import { useQuery, useQueryClient, UseQueryResult } from 'react-query';
 import { axiosInstance } from '../utils/axiosInstance';
 import { ITag } from '../types/types';
-import constants from '../utils/constants';
+import queryKeys from '../utils/queryKeys';
 import { AxiosError } from 'axios';
 
 const getTags = async (): Promise<ITag[]> => {
@@ -11,12 +11,12 @@ const getTags = async (): Promise<ITag[]> => {
 };
 
 const useTags = (): UseQueryResult<ITag[], AxiosError> => {
-    return useQuery(constants.tags, getTags) as UseQueryResult<ITag[], AxiosError>;
+    return useQuery(queryKeys.tags, getTags) as UseQueryResult<ITag[], AxiosError>;
 };
 
 export function usePrefetchTags(): void {
     const queryClient = useQueryClient();
-    queryClient.prefetchQuery(constants.tags, getTags);
+    queryClient.prefetchQuery(queryKeys.tags, getTags);
 }
 
 export default useTags;

@@ -1,7 +1,7 @@
 import { useQuery, UseQueryResult } from 'react-query';
 import { axiosInstance } from '../utils/axiosInstance';
 import { IProjectOwnerCheck } from '../types/types';
-import constants from '../utils/constants';
+import queryKeys from '../utils/queryKeys';
 import { QueryParams } from '../components/Filter/Filter';
 import { AxiosError } from 'axios';
 
@@ -11,7 +11,7 @@ const getProjects = async (params: QueryParams): Promise<IProjectOwnerCheck[]> =
     return data;
 };
 const useProjects = (params: QueryParams): UseQueryResult<IProjectOwnerCheck[], AxiosError> => {
-    return useQuery([constants.projects, params], () => getProjects(params), { keepPreviousData: true });
+    return useQuery([queryKeys.projects, params], () => getProjects(params), { keepPreviousData: true });
 };
 
 export default useProjects;

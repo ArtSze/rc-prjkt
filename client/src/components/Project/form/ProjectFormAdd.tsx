@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 
 import { axiosInstance } from '../../../utils/axiosInstance';
-import constants from '../../../utils/constants';
+import queryKeys from '../../../utils/queryKeys';
 import ProjectForm from './form-subs/ProjectForm';
 import { IUserFromClient } from './form-subs/generic/CustomMultiSelect';
 import { ITagFromClient } from './form-subs/generic/CustomCreatableMultiSelect';
@@ -30,8 +30,8 @@ const ProjectFormAdd = ({ setOpen }: AddProps): JSX.Element => {
         (body: ProjectFormSubmitValues) => axiosInstance.post(`/projects/`, body, { withCredentials: true }),
         {
             onSuccess: () => {
-                queryClient.invalidateQueries(constants.projects);
-                queryClient.invalidateQueries(constants.tags);
+                queryClient.invalidateQueries(queryKeys.projects);
+                queryClient.invalidateQueries(queryKeys.tags);
             },
         },
     );

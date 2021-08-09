@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { axiosInstance } from '../../utils/axiosInstance';
 import { IProject } from '../../types/types';
-import constants from '../../utils/constants';
+import queryKeys from '../../utils/queryKeys';
 import { useStyles } from '../../static/styles';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button } from '@material-ui/core';
 
@@ -19,8 +19,8 @@ const DeleteConfirmationModal = (project: IProject): JSX.Element => {
             }),
         {
             onSuccess: () => {
-                queryClient.invalidateQueries(constants.projects);
-                queryClient.invalidateQueries(constants.tags);
+                queryClient.invalidateQueries(queryKeys.projects);
+                queryClient.invalidateQueries(queryKeys.tags);
             },
         },
     );
