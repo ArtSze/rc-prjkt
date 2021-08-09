@@ -12,6 +12,7 @@ const client = new AuthorizationCode(authConfig);
 const authorizationUri = client.authorizeURL({ redirect_uri });
 
 AuthRouter.get('/', (_, res) => {
+    console.log({ res });
     return res.redirect(authorizationUri);
 });
 
@@ -31,14 +32,24 @@ AuthRouter.get('/callback', async (req, res) => {
         const userData = await getRCData(accessToken);
         const user = await userService.getUser(userData.rcId);
 
+<<<<<<< HEAD
         if (!user) {
             const newUser = await userService.createUser(userData);
             req.session.user = newUser;
+=======
+        if (!userFromDb) {
+            const newlyCreatedUser = await userService.createUser(userData);
+            req.session.user = newlyCreatedUser;
+            console.log({ res });
+            // res.cookie('connect.sid', req.sessionID, { expires: new Date(Date.now() + 9000000) });
+            return res.redirect(CLIENT_URL);
+>>>>>>> 49f0b8b288ba21469931716672d0d56a3e31f28e
         } else {
             req.session.user = user;
         }
         return res.redirect(CLIENT_URL);
     } catch (e) {
+        console.log({ req, e });
         logger.error(e);
         return res.status(401).send(e.message).end();
     }

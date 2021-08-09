@@ -17,8 +17,30 @@ app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
 app.use(session(SESSION_CONFIG));
 
+<<<<<<< HEAD
 /*** Authentication Check ***/
 /* comment next 2 lines for testing to turn off auth */
+=======
+app.use(
+    session({
+        // FIXME: add secret
+        secret: session_secret,
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+            httpOnly: true,
+            // secure: true,
+            maxAge: 3600000 * 12,
+            // domain: 'netlify.app',
+            // path: '/',
+            // sameSite: 'none',
+        },
+        store: MongoStore.create({ mongoUrl: MONGO_URI }),
+    }),
+);
+
+/** comment next 2 lines for testing to turn off auth */
+>>>>>>> 49f0b8b288ba21469931716672d0d56a3e31f28e
 import { sessionCookieCheck } from './utils/middleware';
 app.use(sessionCookieCheck);
 
