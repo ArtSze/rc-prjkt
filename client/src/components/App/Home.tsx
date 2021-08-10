@@ -47,7 +47,6 @@ const Home = (): JSX.Element => {
                     An unexpected error has occurred
                 </Alert>
             </Snackbar>
-            <Button onClick={() => queryClient.setQueryData(queryKeys.snackbarError, true)}>Turn on error</Button>
             {isSuccess && projects ? <ProjectList projects={projects} /> : <Loading />}
         </div>
     );
