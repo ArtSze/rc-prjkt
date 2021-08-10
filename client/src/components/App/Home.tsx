@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Filter, { QueryParams } from '../Filter/Filter';
+import Filter from '../Filter/Filter';
 import { queryClient } from '../../utils/queryClient';
 import { useQuery } from 'react-query';
 import ProjectList from '../Project/ProjectList';
@@ -7,7 +7,7 @@ import useProjects from '../../hooks/useProjects';
 import Loading from '../HelperComponents/Loading';
 import Auth from './Auth';
 import Nav from './Nav';
-import { SortMethods } from '../../types/types';
+import { SortMethods, QueryParams } from '../../types/filterTypes';
 import { useStyles } from '../../static/styles';
 import { Collapse, Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';

@@ -1,7 +1,7 @@
 import React from 'react';
 import Select from 'react-select';
 import useUsers from '../../hooks/useUsers';
-import { IUser, IUserOptions, IOption } from '../../types/types';
+import { IUser, IOption } from '../../types/types';
 import { useStore, AppState } from '../../utils/store';
 import { Grid, Typography } from '@material-ui/core';
 import { UserControl, Menu, Option, Placeholder, UserSingleValue } from '../HelperComponents/CustomSelectComponents';
@@ -18,7 +18,7 @@ const OwnerFilter = (): JSX.Element => {
     };
 
     if (isSuccess && users) {
-        const options: IUserOptions = users.map((user: IUser) => {
+        const options: IOption<IUser>[] = users.map((user: IUser) => {
             return {
                 value: user,
                 label: `${user.first_name} ${user.last_name}`,

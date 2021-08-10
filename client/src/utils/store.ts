@@ -1,8 +1,6 @@
 import create from 'zustand';
-
 import { ITag, IUser } from '../types/types';
-import { TTagFilter, TOwnerFilter } from '../components/Filter/Filter';
-import { SortMethods } from '../types/types';
+import { TTagFilter, TOwnerFilter, SortMethods } from '../types/filterTypes';
 
 export interface AppState {
     sortFilter: SortMethods;

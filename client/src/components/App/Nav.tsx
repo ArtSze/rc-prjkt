@@ -1,10 +1,9 @@
 import React from 'react';
-import { QueryParams } from '../Filter/Filter';
 import { Tab, Tabs, AppBar, Typography, Hidden, Avatar } from '@material-ui/core';
 import { useStyles } from '../../static/styles';
 import logo from '../../static/images/rc-logo.png';
 import { useStore, AppState } from '../../utils/store';
-import { SortMethods } from '../../types/types';
+import { SortMethods, QueryParams } from '../../types/filterTypes';
 import { FaHome, FaUser } from 'react-icons/fa';
 import { useMediaQuery } from '@material-ui/core';
 import AddFormModal from '../Project/form/AddFormModal';

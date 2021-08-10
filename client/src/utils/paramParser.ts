@@ -1,6 +1,7 @@
 import qs from 'qs';
-import { StatusChoices, TTagFilter, TOwnerFilter, QueryParams } from '../components/Filter/Filter';
-import { SortMethods } from '../types/types';
+import { StatusChoices } from '../components/Filter/Filter';
+import { SortMethods } from '../types/filterTypes';
+import { TTagFilter, TOwnerFilter, QueryParams } from '../types/filterTypes';
 
 export function createParams(
     statusFilter: StatusChoices,

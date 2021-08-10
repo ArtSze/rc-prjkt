@@ -1,8 +1,8 @@
 import { useQuery, UseQueryResult } from 'react-query';
 import { axiosInstance } from '../utils/axiosInstance';
 import { IProjectOwnerCheck } from '../types/types';
+import { QueryParams } from '../types/filterTypes';
 import queryKeys from '../utils/queryKeys';
-import { QueryParams } from '../components/Filter/Filter';
 import { AxiosError } from 'axios';
 
 const getProjects = async (params: QueryParams): Promise<IProjectOwnerCheck[]> => {

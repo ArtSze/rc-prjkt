@@ -4,7 +4,7 @@ import Select from 'react-select';
 import { IOption } from '../../types/types';
 import { useStore, AppState } from '../../utils/store';
 import { Menu, SingleValue, SortControl } from '../HelperComponents/CustomSelectComponents';
-import { SortMethods } from '../../types/types';
+import { SortMethods } from '../../types/filterTypes';
 
 const Sort = (): JSX.Element => {
     const sortFilter = useStore((state: AppState) => state.sortFilter);

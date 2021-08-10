@@ -1,12 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Sort from './Sort';
-import StatusFilter from './StatusFilter';
-import { useEffect } from 'react';
 import { useStore, AppState } from '../../utils/store';
-import { SortMethods } from '../../types/types';
-import { ITag, IUser } from '../../types/types';
 import { createParams } from '../../utils/paramParser';
+import { QueryParams } from '../../types/filterTypes';
 import { Divider, Grid } from '@material-ui/core';
+import StatusFilter from './StatusFilter';
 import OwnerFilter from './OwnerFilter';
 import TagFilter from './TagFilter';
 import { useImmer } from 'use-immer';
@@ -17,17 +15,6 @@ export enum StatusChoices {
     'Inactive' = 'inactive',
     'All' = 'all',
 }
-
-export type TTagFilter = ITag['value'][] | undefined;
-export type TOwnerFilter = IUser['rcId'] | undefined;
-
-export type QueryParams = {
-    status?: boolean;
-    tags?: TTagFilter;
-    user?: TOwnerFilter;
-    sort: SortMethods;
-    me?: boolean;
-};
 
 interface FilterProps {
     setParams: React.Dispatch<React.SetStateAction<QueryParams>>;

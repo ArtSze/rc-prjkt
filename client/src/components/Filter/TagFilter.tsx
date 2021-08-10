@@ -2,8 +2,8 @@ import React from 'react';
 import Select from 'react-select';
 import { useStore, AppState } from '../../utils/store';
 import useTags from '../../hooks/useTags';
-import { TTagFilter } from './Filter';
-import { ITag, ITagOptions } from '../../types/types';
+import { ITag, IOption } from '../../types/types';
+import { TTagFilter } from '../../types/filterTypes';
 import { Grid, Typography } from '@material-ui/core';
 import {
     TagControl,
@@ -19,14 +19,14 @@ const TagFilter = (): JSX.Element => {
 
     const { data: tags, isSuccess } = useTags();
 
-    const handleChange = (selectFilter: ITagOptions) => {
+    const handleChange = (selectFilter: IOption<ITag>[]) => {
         const tags: TTagFilter = selectFilter.map((tagOption) => tagOption.value.value);
         // set tags to undefined if there are no tags to filter by
         tags.length > 0 ? setTagFilter(tags) : setTagFilter(undefined);
     };
 
     if (isSuccess && tags) {
-        const options: ITagOptions = tags.map((tag: ITag) => {
+        const options: IOption<ITag>[] = tags.map((tag: ITag) => {
             return {
                 value: tag,
                 label: tag.value,
@@ -45,7 +45,7 @@ const TagFilter = (): JSX.Element => {
                     components={{ Control: TagControl, Menu, MultiValueLabel: TagMultiValueLabel, Placeholder }}
                     options={options}
                     name="tag-filter"
-                    onChange={(e) => handleChange(e as ITagOptions)}
+                    onChange={(e) => handleChange(e as IOption<ITag>[])}
                     placeholder="Select tags..."
                     isMulti
                     isClearable
