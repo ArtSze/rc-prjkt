@@ -2,50 +2,27 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import session from 'express-session';
-import MongoStore from 'connect-mongo';
-import { CLIENT_URL, MONGO_URI, session_secret } from './utils/config';
-// import path from 'path';
+import { CLIENT_URL, SESSION_CONFIG } from './utils/config';
 
 export const app = express();
 
-// Middleware
-// app.use(express.static(path.resolve(__dirname, '../../rc-prjkt-client/build')));
+/*** Create static site from client build ***/
+// import path from 'path';
+// app.use(express.static(path.resolve(__dirname, '../../client/build')));
 
+/*** Middleware ***/
 app.use(cors({ origin: CLIENT_URL, credentials: true }));
-
-// app.use(function (_, res, next) {
-//     res.header('Access-Control-Allow-Origin', 'https://stoic-leavitt-9268eb.netlify.app');
-//     res.header('Access-Control-Allow-Credentials', 'true');
-//     res.header('Access-Control-Allow-Headers', '*');
-//     next();
-// });
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
+app.use(session(SESSION_CONFIG));
 
-app.use(
-    session({
-        // FIXME: add secret
-        secret: session_secret,
-        resave: false,
-        saveUninitialized: false,
-        cookie: {
-            httpOnly: true,
-            // secure: true,
-            maxAge: 3600000 * 12,
-            // domain: 'netlify.app',
-            // path: '/',
-            // sameSite: 'none',
-        },
-        store: MongoStore.create({ mongoUrl: MONGO_URI }),
-    }),
-);
-
-/** comment next 2 lines for testing to turn off auth */
+/*** Authentication Check ***/
+/* comment next 2 lines for testing to turn off auth */
 import { sessionCookieCheck } from './utils/middleware';
 app.use(sessionCookieCheck);
 
-// Routes
+/*** Routes ***/
 import { UsersRouter } from './routes/users';
 import { ProjectsRouter } from './routes/projects';
 import { AuthRouter } from './routes/auth';
