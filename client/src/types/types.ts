@@ -32,22 +32,9 @@ export interface IProjectOwnerCheck extends IProject {
     isOwner: boolean;
 }
 
-export interface IProjectEdit {
-    _id: ObjectId;
-    title: string;
-    description: string;
-    githubLink: string;
-    owner: IUser;
-    collaborators: ICollaborator[];
-    tags: ITagNew[];
-    active: boolean;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-export interface ITagNew {
-    _id?: ObjectId;
-    value: string;
+// Interface required for creatable select component to create a new tag that has not yet been saved in the database
+export interface IProjectEdit extends Omit<IProject, 'tags'> {
+    tags: Omit<ITag, '_id'>[];
 }
 
 export interface ITag {
