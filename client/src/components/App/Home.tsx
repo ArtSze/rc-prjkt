@@ -12,8 +12,10 @@ import { useStyles } from '../../static/styles';
 import { Collapse, Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import queryKeys from '../../utils/queryKeys';
+import { Button } from '@material-ui/core';
 
 const Home = (): JSX.Element => {
+    const classes = useStyles();
     const [params, setParams] = useState<QueryParams>({ sort: SortMethods['Last Updated'] });
     const [allProjects, setAllProjects] = useState<boolean>(true);
 
@@ -22,18 +24,13 @@ const Home = (): JSX.Element => {
     const { data: auth } = useQuery(
         queryKeys.isAuth,
         () => Promise.resolve(queryClient.getQueryData(queryKeys.isAuth)),
-        {
-            initialData: true,
-        },
+        { initialData: true },
     );
     const { data: snackbarError } = useQuery(
         queryKeys.snackbarError,
         () => Promise.resolve(queryClient.getQueryData(queryKeys.snackbarError)),
-        {
-            initialData: false,
-        },
+        { initialData: false },
     );
-    const classes = useStyles();
 
     if (isLoading) return <></>;
 
@@ -46,10 +43,11 @@ const Home = (): JSX.Element => {
                 <Filter setParams={setParams} />
             </Collapse>
             <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={snackbarError}>
-                <Alert severity="error" onClose={() => queryClient.setQueryData('error', false)}>
+                <Alert severity="error" onClose={() => queryClient.setQueryData(queryKeys.snackbarError, false)}>
                     An unexpected error has occurred
                 </Alert>
             </Snackbar>
+            <Button onClick={() => queryClient.setQueryData(queryKeys.snackbarError, true)}>Turn on error</Button>
             {isSuccess && projects ? <ProjectList projects={projects} /> : <Loading />}
         </div>
     );
