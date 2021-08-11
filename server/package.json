@@ -40,7 +40,10 @@
         "dev": "NODE_ENV=development ts-node-dev src/server.ts",
         "test": "NODE_ENV=test jest",
         "build": "tsc",
-        "start": "node dist/server.js"
+        "start": "node dist/server.js",
+        "build:client": "rm -rf build && cd ../client && yarn build && cp -r build ../server",
+        "deploy": "git subtree push -P server heroku main",
+        "deploy:full": "yarn build:client && git add . && git commit -m clientbuild && yarn deploy"
     },
     "jest": {
         "verbose": false
