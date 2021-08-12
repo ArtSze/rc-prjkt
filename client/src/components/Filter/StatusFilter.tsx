@@ -27,7 +27,6 @@ const StatusFilter = ({ setStatusFilter }: StatusFilterProps): JSX.Element => {
                 options={options}
                 name="status-filter"
                 onChange={(e) => {
-                    console.log(e?.value);
                     setStatusFilter(e?.value as StatusChoices);
                 }}
             />

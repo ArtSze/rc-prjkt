@@ -12,7 +12,6 @@ import { useStyles } from '../../static/styles';
 import { Collapse, Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import queryKeys from '../../utils/queryKeys';
-import { Button } from '@material-ui/core';
 
 const Home = (): JSX.Element => {
     const classes = useStyles();

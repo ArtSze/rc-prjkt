@@ -7,7 +7,7 @@ import { AxiosError } from 'axios';
 
 const getProjects = async (params: QueryParams): Promise<IProjectOwnerCheck[]> => {
     const defaultData: IProjectOwnerCheck[] = [];
-    const { data = defaultData } = await axiosInstance.get('/projects/', { params });
+    const { data = defaultData } = await axiosInstance.get('/projects', { params });
     return data;
 };
 const useProjects = (params: QueryParams): UseQueryResult<IProjectOwnerCheck[], AxiosError> => {
