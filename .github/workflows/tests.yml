@@ -25,10 +25,8 @@ jobs:
             - name: shell
               run: echo "${PORT}"
             - name: install packages
-              working-directory: ./server
               run: yarn install
             - name: run tests
-              working-directory: ./server
               run: yarn test
     deploy:
         name: deploy
