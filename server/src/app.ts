@@ -7,8 +7,8 @@ import { CLIENT_URL, SESSION_CONFIG } from './utils/config';
 export const app = express();
 
 /*** Create static site from client build ***/
-// import path from 'path';
-// app.use(express.static(path.resolve(__dirname, '../../client/build')));
+import path from 'path';
+app.use(express.static(path.resolve(__dirname, '../build')));
 
 /*** Middleware ***/
 app.use(cors({ origin: CLIENT_URL, credentials: true }));
