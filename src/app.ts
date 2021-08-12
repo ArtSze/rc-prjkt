@@ -31,3 +31,6 @@ app.use('/api/users', UsersRouter);
 app.use('/api/auth', AuthRouter);
 app.use('/api/projects', ProjectsRouter);
 app.use('/api/tags', TagsRouter);
+app.get('/api/productionCheck', (_, res) => {
+    res.send('ok!');
+});

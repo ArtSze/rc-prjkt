@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 
 export const sessionCookieCheck = (req: Request, res: Response, next: NextFunction): void => {
-    const nonSecurePaths = ['/api/auth', '/api/auth/callback'];
+    const nonSecurePaths = ['/api/auth', '/api/auth/callback', '/api/productionCheck'];
 
     console.log({ sessionCookieCheck: req });
 
