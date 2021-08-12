@@ -28,22 +28,22 @@ jobs:
               run: yarn install
             - name: run tests
               run: yarn test
-#     deploy:
-#         name: deploy
-#         needs: test
-#         runs-on: ubuntu-latest
-#         steps:
-# - uses: actions/checkout@v2
-# - name: install client dependencies
-#   working-directory: ./client
-#   run: yarn install
-# - name: build
-#   run: yarn build:client
-# - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
-# with:
-#     heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-#     heroku_app_name: 'glacial-ravine-25144'
-#     heroku_email: 'szerejko.artur@gmail.com'
-#     healthcheck: 'https://glacial-ravine-25144.herokuapp.com/api/productionCheck'
-#     checkstring: 'ok!'
-#     rollbackonhealthcheckfailed: true
+    deploy:
+        name: deploy
+        needs: test
+        runs-on: ubuntu-latest
+        steps:
+      - uses: actions/checkout@v2
+      - name: install client dependencies
+        working-directory: ./client
+        run: yarn install
+      - name: build
+        run: yarn build:client
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+            heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+            heroku_app_name: 'glacial-ravine-25144'
+            heroku_email: 'szerejko.artur@gmail.com'
+            healthcheck: 'https://glacial-ravine-25144.herokuapp.com/api/productionCheck'
+            checkstring: 'ok!'
+            rollbackonhealthcheckfailed: true
