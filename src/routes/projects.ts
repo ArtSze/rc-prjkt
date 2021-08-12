@@ -49,15 +49,15 @@ const filterStatus = (projects: IProject[], status: boolean | undefined) => {
 
 const sort = (projects: IProject[], sortMethod: string) => {
     switch (sortMethod) {
-        case 'last created':
+        case 'last-created':
             return projects.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-        case 'first created':
+        case 'first-created':
             return projects.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
-        case 'first updated':
+        case 'first-updated':
             return projects.sort((a, b) => a.updatedAt.getTime() - b.updatedAt.getTime());
-        case 'oldest batch':
+        case 'oldest-batch':
             return projects.sort((a, b) => a.owner.batchEndDate.getTime() - b.owner.batchEndDate.getTime());
-        case 'latest batch':
+        case 'latest-batch':
             return projects.sort((a, b) => b.owner.batchEndDate.getTime() - a.owner.batchEndDate.getTime());
         default:
             // last updated
