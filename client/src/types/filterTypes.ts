@@ -1,12 +1,12 @@
 import { ITag, IUser } from './types';
 
 export enum SortMethods {
-    'Last Updated' = 'last updated',
-    'First Updated' = 'first updated',
-    'Last Created' = 'last created',
-    'First Created' = 'first created',
-    'Latest Batch' = 'latest batch',
-    'Oldest Batch' = 'oldest batch',
+    'Last Updated' = 'last-updated',
+    'First Updated' = 'first-updated',
+    'Last Created' = 'last-created',
+    'First Created' = 'first-created',
+    'Latest Batch' = 'latest-batch',
+    'Oldest Batch' = 'oldest-batch',
 }
 
 export type TTagFilter = ITag['value'][] | undefined;
