@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import session from 'express-session';
-import { CLIENT_URL, SESSION_CONFIG } from './utils/config';
+import { CLIENT_URL, SERVER_URL, SESSION_CONFIG } from './utils/config';
 
 export const app = express();
 
@@ -11,7 +11,7 @@ import path from 'path';
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
 /*** Middleware ***/
-app.use(cors({ origin: CLIENT_URL, credentials: true }));
+app.use(cors({ origin: [SERVER_URL, CLIENT_URL], credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
