@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import MongoStore from 'connect-mongo';
 
 /** Set environment variables based on node environment
