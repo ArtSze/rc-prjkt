@@ -10,7 +10,11 @@ export const queryClient = new QueryClient({
                 const error = e as AxiosError;
                 if (error.response?.status === 401) {
                     queryClient.setQueryData(queryKeys.isAuth, false);
-                } else {
+                }
+                if (error.response?.status === 400) {
+                    queryClient.setQueryData(queryKeys.snackbarError, true);
+                }
+                if (error.response?.status !== undefined && error.response?.status >= 500) {
                     queryClient.setQueryData(queryKeys.snackbarError, true);
                 }
             },
