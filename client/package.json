@@ -1,5 +1,5 @@
 {
-    "name": "rc-prjkt-client",
+    "name": "rc-project-server",
     "version": "0.1.0",
     "private": true,
     "dependencies": {

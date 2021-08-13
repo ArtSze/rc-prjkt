@@ -1,5 +1,5 @@
 {
-    "name": "server",
+    "name": "rc-project-server",
     "version": "1.0.0",
     "main": "app.ts",
     "license": "MIT",
@@ -57,7 +57,7 @@
             "@babel/preset-typescript"
         ]
     },
-    "repository": "github:apettenati/rc-prjkt",
+    "repository": "github:artsze/rc-prjkt",
     "engines": {
         "node": ">=14.x"
     }
