@@ -43,8 +43,7 @@
         "start": "node dist/server.js",
         "build:client": "cd client && yarn build && cd ..",
         "deploy": "git add . && git commit -m deploy && git push heroku main",
-        "deploy:full": "yarn build:client && yarn deploy",
-        "heroku-prebuild": "cd client && yarn install && yarn build && cd .."
+        "deploy:full": "yarn build:client && yarn deploy"
     },
     "jest": {
         "verbose": false
