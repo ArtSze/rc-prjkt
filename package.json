@@ -35,11 +35,11 @@
         "dev": "NODE_ENV=development ts-node-dev src/server.ts",
         "test": "NODE_ENV=test jest",
         "build": "tsc",
-        "start": "NODE_ENV=development node --require dotenv/config dist/server.js",
+        "start:devStatic": "NODE_ENV=development node --require dotenv/config dist/server.js",
+        "start": "node dist/server.js",
         "build:client": "cd client && yarn build && cd ..",
         "build:full": " yarn build:client && yarn build",
         "deploy": "git add . && git commit -m deploy && git push heroku main",
-        "deploy:full": "yarn build:client && yarn deploy",
         "start:test": "NODE_ENV=test ts-node src/server.ts"
     },
     "jest": {
