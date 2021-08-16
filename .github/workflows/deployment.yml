@@ -22,4 +22,4 @@ jobs:
                   heroku_email: 'szerejko.artur@gmail.com'
                   healthcheck: 'https://glacial-ravine-25144.herokuapp.com/api/productionCheck'
                   checkstring: 'ok!'
-                  rollbackonhealthcheckfailed: true
+                  # rollbackonhealthcheckfailed: true
