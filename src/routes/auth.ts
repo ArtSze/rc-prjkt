@@ -12,7 +12,6 @@ const client = new AuthorizationCode(authConfig);
 const authorizationUri = client.authorizeURL({ redirect_uri });
 
 AuthRouter.get('/', (_, res) => {
-    console.log({ res });
     return res.redirect(authorizationUri);
 });
 
@@ -40,7 +39,6 @@ AuthRouter.get('/callback', async (req, res) => {
         }
         return res.redirect(CLIENT_URL);
     } catch (e) {
-        console.log({ req, e });
         logger.error(e);
         return res.status(401).send(e.message).end();
     }

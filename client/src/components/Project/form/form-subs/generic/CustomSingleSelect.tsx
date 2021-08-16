@@ -17,7 +17,6 @@ const CustomSingleSelect = ({ field, form, options, ...props }: CustomSelectProp
     };
 
     const getValue = () => {
-        console.log({ field });
         if (!field.value) {
             return options[0];
         } else {
