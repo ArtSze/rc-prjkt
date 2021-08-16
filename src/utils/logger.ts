@@ -1,10 +1,10 @@
 export const info = (...params: [any]) => {
-	console.log(...params);
+    console.log(...params);
 };
 
 export const error = (...params: [any]) => {
-	console.error(params);
-	throw [...params];
+    console.error(params);
+    throw [...params];
 };
 
 export default { info, error };
