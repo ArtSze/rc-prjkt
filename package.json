@@ -40,7 +40,7 @@
         "build:server": "tsc",
         "build": "export SKIP_PREFLIGHT_CHECK=true && yarn build:client && yarn build:server",
         "deploy": "git add . && git commit -m deploy && git push heroku main",
-        "start:test": "NODE_ENV=test ts-node src/server.ts"
+        "start:test": "cd client && rm -rf build && cd .. && export SKIP_PREFLIGHT_CHECK=true && yarn build:client && NODE_ENV=test ts-node-dev src/server.ts"
     },
     "jest": {
         "verbose": false

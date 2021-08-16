@@ -1,8 +1,11 @@
 import MongoStore from 'connect-mongo';
+import env from 'dotenv';
 
 /** Set environment variables based on node environment
  * Throw ReferenceError for any variables that are not configured
  */
+
+env.config();
 
 function getEnvironmentVariable(variableName: string) {
     const variable = process.env[variableName];
@@ -14,21 +17,30 @@ export let MONGO_URI = '';
 export let CLIENT_URL = '';
 export let SERVER_URL = '';
 
+let id = '';
+let secret = '';
+
 switch (process.env['NODE_ENV']) {
     case 'test':
         MONGO_URI = getEnvironmentVariable('TEST_MONGO_URI');
         CLIENT_URL = getEnvironmentVariable('DEVELOPMENT_CLIENT_URL');
         SERVER_URL = getEnvironmentVariable('DEVELOPMENT_SERVER_URL');
+        id = getEnvironmentVariable('DEVELOPMENT_RC_AUTH_ID');
+        secret = getEnvironmentVariable('DEVELOPMENT_RC_AUTH_SECRET');
         break;
     case 'development':
         MONGO_URI = getEnvironmentVariable('DEVELOPMENT_MONGO_URI');
         CLIENT_URL = getEnvironmentVariable('DEVELOPMENT_CLIENT_URL');
         SERVER_URL = getEnvironmentVariable('DEVELOPMENT_SERVER_URL');
+        id = getEnvironmentVariable('DEVELOPMENT_RC_AUTH_ID');
+        secret = getEnvironmentVariable('DEVELOPMENT_RC_AUTH_SECRET');
         break;
     default:
         MONGO_URI = getEnvironmentVariable('PRODUCTION_MONGO_URI');
         CLIENT_URL = getEnvironmentVariable('PRODUCTION_CLIENT_URL');
         SERVER_URL = getEnvironmentVariable('PRODUCTION_SERVER_URL');
+        id = getEnvironmentVariable('RC_AUTH_ID');
+        secret = getEnvironmentVariable('RC_AUTH_SECRET');
         break;
 }
 
@@ -49,9 +61,6 @@ export const SESSION_CONFIG = {
 };
 
 /*** OAuth Config ***/
-const id = getEnvironmentVariable('RC_AUTH_ID');
-const secret = getEnvironmentVariable('RC_AUTH_SECRET');
-
 export const authConfig = {
     client: { id, secret },
     auth: { tokenHost: 'https://recurse.com/' },
