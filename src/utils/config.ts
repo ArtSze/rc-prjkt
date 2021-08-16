@@ -1,11 +1,8 @@
 import MongoStore from 'connect-mongo';
-import env from 'dotenv';
 
 /** Set environment variables based on node environment
  * Throw ReferenceError for any variables that are not configured
  */
-
-env.config();
 
 function getEnvironmentVariable(variableName: string) {
     const variable = process.env[variableName];

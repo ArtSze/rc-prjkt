@@ -32,15 +32,17 @@
         "typescript": "^4.3.4"
     },
     "scripts": {
+        "remove:builds": "cd client && rm -rf build && cd .. && rm -rf dist",
         "dev": "NODE_ENV=development ts-node-dev src/server.ts",
         "test": "NODE_ENV=test jest",
+        "test:e2e": "cd client && yarn cypress:open",
         "start:devStatic": "NODE_ENV=development node --require dotenv/config dist/server.js",
+        "start:testStatic": "yarn remove:builds && export SKIP_PREFLIGHT_CHECK=true && yarn build:client && yarn build:server && NODE_ENV=test node --require dotenv/config dist/server.js",
         "start": "node dist/server.js",
         "build:client": "cd client && yarn install --production=false && yarn build && cd ..",
         "build:server": "tsc",
         "build": "export SKIP_PREFLIGHT_CHECK=true && yarn build:client && yarn build:server",
-        "deploy": "git add . && git commit -m deploy && git push heroku main",
-        "start:test": "cd client && rm -rf build && cd .. && export SKIP_PREFLIGHT_CHECK=true && yarn build:client && NODE_ENV=test ts-node-dev src/server.ts"
+        "deploy": "git add . && git commit -m deploy && git push heroku main"
     },
     "jest": {
         "verbose": false
