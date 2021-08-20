@@ -24,18 +24,28 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-Cypress.Commands.add('login', () => {
-    const user = {
-        first_name: 'test',
-        last_name: 'test',
-        rcId: 1234,
-        ownedProjects: [],
-        collabProjects: [],
-        zulip_id: 1234,
-        image_path: '',
-        batch: '',
-        batchEndDate: new Date(),
-    };
+interface NewUser {
+    rcId: number;
+    first_name: string;
+    last_name: string;
+    zulip_id: number;
+    image_path: string;
+    batchEndDate: Date;
+    batch: string;
+    ownedProjects: any[];
+    collabProjects: any[];
+}
+
+// Must be declared global to be detected by typescript (allows import/export)
+declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
+    namespace Cypress {
+        interface Chainable {
+            login(user: NewUser): void;
+        }
+    }
+}
+Cypress.Commands.add('login', (user) => {
     cy.request({
         method: 'GET',
         url: 'http://localhost:4000/api/auth/callback',
@@ -43,3 +53,5 @@ Cypress.Commands.add('login', () => {
     });
     cy.visit('http://localhost:4000/');
 });
+
+export {};
