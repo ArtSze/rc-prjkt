@@ -24,17 +24,7 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-interface NewUser {
-    rcId: number;
-    first_name: string;
-    last_name: string;
-    zulip_id: number;
-    image_path: string;
-    batchEndDate: Date;
-    batch: string;
-    ownedProjects: any[];
-    collabProjects: any[];
-}
+import { NewUser } from '../../src/types/types';
 
 // Must be declared global to be detected by typescript (allows import/export)
 declare global {

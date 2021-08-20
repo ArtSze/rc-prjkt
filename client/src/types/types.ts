@@ -13,6 +13,7 @@ export interface IUser {
     collabProjects: Array<IProject>;
 }
 
+export type NewUser = Omit<IUser, '_id'>;
 type ICollaborator = Pick<IUser, '_id' | 'first_name' | 'last_name' | 'rcId' | 'image_path'>;
 
 export interface IProject {
