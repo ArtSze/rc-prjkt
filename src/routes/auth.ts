@@ -16,6 +16,18 @@ AuthRouter.get('/', (_, res) => {
 });
 
 AuthRouter.get('/callback', async (req, res) => {
+    if (process.env['NODE_ENV'] === 'test' && req.body.user) {
+        const requestUser = req.body.user;
+        const user = await userService.getUser(requestUser.rcId);
+        if (!user) {
+            const newUser = await userService.createUser(requestUser);
+            req.session.user = newUser;
+        } else {
+            req.session.user = user;
+        }
+        return res.redirect(CLIENT_URL);
+    }
+
     if (!req.query['code'])
         return res
             .status(401)
