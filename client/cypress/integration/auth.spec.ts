@@ -2,7 +2,7 @@
 
 describe('Authorization Page contents', () => {
     beforeEach(() => {
-        cy.visit('http://localhost:4000');
+        cy.visit('/');
     });
 
     it('contains the navigation bar with an authorize button', () => {
@@ -32,12 +32,8 @@ describe('Authorization Page contents', () => {
             batch: '',
             batchEndDate: new Date(),
         };
-        cy.request({
-            method: 'GET',
-            url: 'http://localhost:4000/api/auth/callback',
-            body: { user },
-        });
-        cy.visit('http://localhost:4000/');
+        cy.login(user);
+        cy.visit('/');
         cy.get('header').within(() => {
             cy.get('button').should('contain', 'Add Project');
         });
