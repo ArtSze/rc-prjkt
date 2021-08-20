@@ -15,7 +15,7 @@ const Auth = (): JSX.Element => {
                     <Avatar variant="square" alt="logo" src={logo}></Avatar>
                     <Hidden xsDown>
                         <Typography component="h1" variant="h6">
-                            RC-Prjkt
+                            RC Projects
                         </Typography>
                     </Hidden>
                 </div>
