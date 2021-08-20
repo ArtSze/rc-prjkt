@@ -23,3 +23,23 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('login', () => {
+    const user = {
+        first_name: 'test',
+        last_name: 'test',
+        rcId: 1234,
+        ownedProjects: [],
+        collabProjects: [],
+        zulip_id: 1234,
+        image_path: '',
+        batch: '',
+        batchEndDate: new Date(),
+    };
+    cy.request({
+        method: 'GET',
+        url: 'http://localhost:4000/api/auth/callback',
+        body: { user },
+    });
+    cy.visit('http://localhost:4000/');
+});
