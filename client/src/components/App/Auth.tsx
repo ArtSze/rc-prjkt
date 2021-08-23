@@ -1,30 +1,18 @@
 import React from 'react';
 import { useStyles } from '../../static/styles';
-import { AppBar, Typography, Button, Avatar, Hidden } from '@material-ui/core';
+import { Typography, Button } from '@material-ui/core';
 import logo from '../../static/images/rc-logo.png';
 import Container from '@material-ui/core/Container';
 import { authURL } from '../../utils/axiosInstance';
+import NavAuth from '../Nav/NavAuth';
+import Nav from '../Nav/Nav';
 
 const Auth = (): JSX.Element => {
     const classes = useStyles();
 
     return (
         <>
-            <AppBar className={classes.appBar} position="fixed">
-                <div className={classes.appBarLeft}>
-                    <Avatar variant="square" alt="logo" src={logo}></Avatar>
-                    <Hidden xsDown>
-                        <Typography component="h1" variant="h6">
-                            RC Projects
-                        </Typography>
-                    </Hidden>
-                </div>
-                <div className={classes.appBarRight}>
-                    <Button className={classes.navButton} variant="contained" color="secondary" href={authURL}>
-                        Authorize
-                    </Button>
-                </div>
-            </AppBar>
+            <Nav appBarRight={<NavAuth />} />
             <Container className={classes.auth} maxWidth="sm">
                 <img alt="logo" src={logo}></img>
                 <Typography component="h2" variant="h5">
