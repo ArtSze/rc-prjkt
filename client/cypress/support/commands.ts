@@ -35,6 +35,7 @@ declare global {
         }
     }
 }
+
 Cypress.Commands.add('login', (user) => {
     cy.request({
         method: 'GET',

@@ -1,3 +1,5 @@
+/// <reference types="cypress" />
+
 describe('Projects home page', () => {
     beforeEach(() => {
         cy.visit('http://localhost:4000');
