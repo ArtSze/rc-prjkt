@@ -10,7 +10,7 @@ const AddFormModal = (): JSX.Element => {
 
     return (
         <div>
-            <Button variant="contained" color="secondary" onClick={() => setOpen(true)}>
+            <Button variant="contained" color="secondary" onClick={() => setOpen(true)} data-testid="Add Project">
                 {isSmallScreen ? <FaPlus /> : 'Add Project'}
             </Button>
             <Dialog open={open} onClose={() => setOpen(false)} maxWidth="md" fullWidth={true}>
