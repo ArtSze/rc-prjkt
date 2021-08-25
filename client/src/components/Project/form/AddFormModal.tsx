@@ -18,7 +18,13 @@ const AddFormModal = (): JSX.Element => {
             >
                 {isSmallScreen ? <FaPlus /> : 'Add Project'}
             </Button>
-            <Dialog open={open} onClose={() => setOpen(false)} maxWidth="md" fullWidth={true}>
+            <Dialog
+                open={open}
+                onClose={() => setOpen(false)}
+                maxWidth="md"
+                fullWidth={true}
+                data-testid="add-project-modal"
+            >
                 <DialogTitle data-testid="add-project-modal-title">{'Add Project'}</DialogTitle>
                 <DialogContent>
                     <ProjectFormAdd setOpen={setOpen} />
