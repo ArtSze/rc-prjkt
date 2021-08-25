@@ -42,7 +42,7 @@ const Nav = ({ allProjects, setAllProjects, setParams }: NavProps): JSX.Element 
                             setOwnerFilter(undefined);
                             setTagFilter(undefined);
                         }}
-                        data-testid="All Projects"
+                        data-testid="all-projects-tab"
                     />
                     <Tab
                         label={!isSmallScreen && 'My Projects'}
@@ -51,7 +51,7 @@ const Nav = ({ allProjects, setAllProjects, setParams }: NavProps): JSX.Element 
                             setAllProjects(false);
                             setParams({ me: true, sort: SortMethods['Last Updated'] });
                         }}
-                        data-testid="My Projects"
+                        data-testid="my-projects-tab"
                     />
                 </Tabs>
             </div>
