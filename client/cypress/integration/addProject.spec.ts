@@ -66,11 +66,59 @@ describe('Add Projects', () => {
         cy.get('[data-testid="add-project-button"]').click();
         cy.wait(500);
         cy.get('.MuiGrid-spacing-xs-2 > :nth-child(2)').within(() => {
+            cy.get('[class*="-control"]').click(0, 0, { force: true }).type('javascript{enter}');
+            cy.get('[class*="-multiValue"]').contains('javascript');
+        });
+    });
+
+    it.skip('Tags field allows creation of multiple options', () => {
+        cy.get('[data-testid="add-project-button"]').click();
+        cy.wait(500);
+        cy.get('.MuiGrid-spacing-xs-2 > :nth-child(2)').within(() => {
+            cy.get('[class*="-control"]').click(0, 0, { force: true }).type('javascript{enter}');
+            cy.get('[class*="-control"]').click(0, 0, { force: true }).type('rust{enter}');
+            cy.get('[class*="-multiValue"]').contains('javascript');
+            cy.get('[class*="-multiValue"]').contains('rust');
+        });
+    });
+
+    it('Tags field allows selection of single option', () => {
+        cy.get('[data-testid="add-project-button"]').click();
+        cy.wait(500);
+        cy.get('.MuiGrid-spacing-xs-2 > :nth-child(2)').within(() => {
             cy.get('[class*="-control"]')
                 .click(0, 0, { force: true })
                 .get('[class*="-menu"]')
-                .type('javascript{enter}');
-            cy.get('[class*="-multiValue"]').contains('javascript');
+                .find('[class*="-option"]')
+                .first()
+                .click();
+            cy.get('[class*="-multiValue"]').contains('python');
         });
+    });
+
+    it('Tags field allows selection of multiple options', () => {
+        cy.get('[data-testid="add-project-button"]').click();
+        cy.wait(500);
+        cy.get('.MuiGrid-spacing-xs-2 > :nth-child(2)').within(() => {
+            cy.get('[class*="-control"]')
+                .click(0, 0, { force: true })
+                .get('[class*="-menu"]')
+                .find('[class*="-option"]')
+                .first()
+                .click();
+            cy.get('[class*="-control"]')
+                .click(0, 0, { force: true })
+                .get('[class*="-menu"]')
+                .find('[class*="-option"]')
+                .last()
+                .click();
+            cy.get('[class*="-multiValue"]').contains('python');
+            cy.get('[class*="-multiValue"]').contains('css');
+        });
+    });
+
+    it.only('A project can be submitted and successfully created', () => {
+        cy.get('[data-testid="add-project-button"]').click();
+        cy.wait(500);
     });
 });
