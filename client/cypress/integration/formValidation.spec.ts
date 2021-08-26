@@ -3,7 +3,7 @@ import 'cypress-react-selector';
 /// <reference types="cypress" />
 import { user } from '../fixtures/user';
 
-describe('Add Projects', () => {
+describe('Form Validation', () => {
     beforeEach(() => {
         cy.visit('/');
         cy.login(user);
