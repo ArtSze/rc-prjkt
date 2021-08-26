@@ -11,8 +11,8 @@ describe('Add Projects', () => {
         cy.waitForReact();
     });
 
-    it('Initially does not contain any projects', () => {
-        cy.get('[data-testid="no-projects"]').contains('No projects matching your search criteria have been found.');
+    it('Initially does not contain a project with title of `Sample Title`', () => {
+        cy.get('[data-testid="project-list"]').contains('Sample Title').should('not.exist');
     });
 
     it('Add Project modal can be opened', () => {
@@ -117,8 +117,62 @@ describe('Add Projects', () => {
         });
     });
 
-    it.only('A project can be submitted and successfully created', () => {
+    it('A project can be submitted and successfully created', () => {
         cy.get('[data-testid="add-project-button"]').click();
         cy.wait(500);
+
+        // add title
+        cy.react('input', { props: { name: 'title' } }).type('Sample Title');
+        cy.get('[data-testid=add-project-modal-title]').click();
+
+        // add description
+        cy.react('textarea', { props: { name: 'description' } }).type('sample description here');
+        cy.get('[data-testid=add-project-modal-title]').click();
+
+        // add github link
+        cy.react('input', { props: { name: 'githubLink' } }).type('github.com');
+        cy.get('[data-testid=add-project-modal-title]').click();
+
+        // add collaborators
+        cy.get('.MuiGrid-spacing-xs-2 > :nth-child(1)').within(() => {
+            cy.get('[class*="-control"]')
+                .click(0, 0, { force: true })
+                .get('[class*="-menu"]')
+                .find('[class*="-option"]')
+                .first()
+                .click();
+            cy.get('[class*="-control"]')
+                .click(0, 0, { force: true })
+                .get('[class*="-menu"]')
+                .find('[class*="-option"]')
+                .last()
+                .click();
+        });
+
+        // select single tag
+        cy.get('.MuiGrid-spacing-xs-2 > :nth-child(2)').within(() => {
+            cy.get('[class*="-control"]')
+                .click(0, 0, { force: true })
+                .get('[class*="-menu"]')
+                .find('[class*="-option"]')
+                .first()
+                .click();
+        });
+
+        // create single tag
+        cy.get('.MuiGrid-spacing-xs-2 > :nth-child(2)').within(() => {
+            cy.get('[class*="-control"]').click(0, 0, { force: true }).type('javascript{enter}');
+        });
+
+        // submit
+        cy.get('[data-testid=form-submit-button]').click();
+
+        // validate successful creation
+        cy.get('[data-testid="project-list"]').contains('Sample Title');
+    });
+
+    after(() => {
+        cy.get('.MuiGrid-root > :nth-child(2) > .MuiButtonBase-root').click();
+        cy.get('.MuiDialogActions-root > .MuiButton-outlined').click();
     });
 });
