@@ -25,8 +25,7 @@ describe('Authorization Page contents', () => {
     it('should allow authentication', () => {
         cy.login(user);
         cy.visit('/');
-        // TODO: update to data-testid once nav is pulled in
-        cy.get('header').within(() => {
+        cy.get('[data-testid=auth-header]').within(() => {
             cy.get('button').should('contain', 'Add Project');
         });
     });
