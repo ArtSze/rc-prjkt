@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 
+import { user } from '../fixtures/user';
+
 describe('Authorization Page contents', () => {
     beforeEach(() => {
         cy.visit('/');
@@ -21,17 +23,6 @@ describe('Authorization Page contents', () => {
     });
 
     it('should allow authentication', () => {
-        const user = {
-            first_name: 'test',
-            last_name: 'test',
-            rcId: 1234,
-            ownedProjects: [],
-            collabProjects: [],
-            zulip_id: 1234,
-            image_path: '',
-            batch: '',
-            batchEndDate: new Date(),
-        };
         cy.login(user);
         cy.visit('/');
         // TODO: update to data-testid once nav is pulled in

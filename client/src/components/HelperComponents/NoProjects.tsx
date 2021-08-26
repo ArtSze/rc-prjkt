@@ -6,7 +6,7 @@ const NoProjects = (): JSX.Element => {
     const classes = useStyles();
 
     return (
-        <div className={classes.noProjects}>
+        <div className={classes.noProjects} data-testid="no-projects">
             <Typography variant="h5" color="textSecondary">
                 No projects matching your search criteria have been found.
             </Typography>
