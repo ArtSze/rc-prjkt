@@ -75,7 +75,7 @@ const ProjectForm = ({ onSubmit, onCancel, initialValues }: Props): JSX.Element 
                                 name="collaborators"
                                 label="Collaborators"
                                 component={CollaboratorField}
-                                data-testid="form-collaborator-field"
+                                id="form-collaborator-field"
                             />
                         </Grid>
                         <Grid item xs={12}>
