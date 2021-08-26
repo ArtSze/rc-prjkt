@@ -32,6 +32,7 @@ declare global {
     namespace Cypress {
         interface Chainable {
             login(user: NewUser): void;
+            clearDB(): void;
         }
     }
 }
@@ -41,6 +42,14 @@ Cypress.Commands.add('login', (user) => {
         method: 'GET',
         url: 'http://localhost:4000/api/auth/callback',
         body: { user },
+    });
+    cy.visit('http://localhost:4000/');
+});
+
+Cypress.Commands.add('clearDB', () => {
+    cy.request({
+        method: 'GET',
+        url: 'http://localhost:4000/api/nuke',
     });
     cy.visit('http://localhost:4000/');
 });

@@ -1,0 +1,13 @@
+{
+    "_id": { "$oid": "6127e299ea5f216347958080" },
+    "collaborators": [{ "$oid": "6127d81cea5f216347957a5d" }],
+    "tags": [{ "$oid": "6127e299e4c7c5ad1679c6f3" }, { "$oid": "6127e29fe4c7c5ad1679cf0e" }],
+    "title": "Dummy Project",
+    "description": "this is a dummy description for a dummy project that only exists for the purpose of initializing tags",
+    "githubLink": "github.com",
+    "active": true,
+    "owner": { "$oid": "61255e0cb5429c1daf37f773" },
+    "createdAt": { "$date": { "$numberLong": "1630003865472" } },
+    "updatedAt": { "$date": { "$numberLong": "1630003871439" } },
+    "__v": { "$numberInt": "0" }
+}

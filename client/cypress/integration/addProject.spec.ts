@@ -166,6 +166,8 @@ describe('Add Project', () => {
 
         // submit
         cy.get('[data-testid=form-submit-button]').click();
+
+        // Very wonky needs second look
         cy.get('[data-testid=form-submit-button]').should('not.be.visible');
 
         // validate successful creation
@@ -173,7 +175,6 @@ describe('Add Project', () => {
     });
 
     after(() => {
-        cy.get('.MuiGrid-root > :nth-child(2) > .MuiButtonBase-root').click();
-        cy.get('.MuiDialogActions-root > .MuiButton-outlined').click();
+        cy.clearDB();
     });
 });
