@@ -38,12 +38,13 @@ const TagFilter = (): JSX.Element => {
         };
 
         return (
-            <Grid item xs={12} sm={6} md={8}>
+            <Grid data-testid="tag-filter" item xs={12} sm={6} md={8}>
                 <Typography variant="subtitle2">Tag Filter</Typography>
                 <Select
                     value={getValue()}
                     components={{ Control: TagControl, Menu, MultiValueLabel: TagMultiValueLabel, Placeholder }}
                     options={options}
+                    classNamePrefix="react-select-tag-filter"
                     name="tag-filter"
                     onChange={(e) => handleChange(e as IOption<ITag>[])}
                     placeholder="Select tags..."
@@ -57,11 +58,12 @@ const TagFilter = (): JSX.Element => {
     }
 
     return (
-        <Grid item xs={12} sm={6} md={8}>
+        <Grid data-testid="tag-filter" item xs={12} sm={6} md={8}>
             <Typography variant="subtitle2">Tag Filter</Typography>
             <Select
                 components={{ Control: TagControl, Menu, MultiValueLabel: TagMultiValueLabel, Placeholder }}
                 name="tag-filter"
+                classNamePrefix="react-select-tag-filter"
                 placeholder="Select tags..."
                 isMulti
                 isClearable
