@@ -10,7 +10,7 @@ const Auth = (): JSX.Element => {
 
     return (
         <>
-            <AppBar className={classes.appBar} position="fixed">
+            <AppBar data-testid="auth-header" className={classes.appBar} position="fixed">
                 <div className={classes.appBarLeft}>
                     <Avatar variant="square" alt="logo" src={logo}></Avatar>
                     <Hidden xsDown>
@@ -25,7 +25,7 @@ const Auth = (): JSX.Element => {
                     </Button>
                 </div>
             </AppBar>
-            <Container className={classes.auth} maxWidth="sm">
+            <Container data-testid="auth-main" className={classes.auth} maxWidth="sm">
                 <img alt="logo" src={logo}></img>
                 <Typography component="h2" variant="h5">
                     Welcome to RC Projects!
