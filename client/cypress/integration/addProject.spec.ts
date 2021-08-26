@@ -166,6 +166,7 @@ describe('Add Projects', () => {
 
         // submit
         cy.get('[data-testid=form-submit-button]').click();
+        cy.get('[data-testid=form-submit-button]').should('not.be.visible');
 
         // validate successful creation
         cy.get('[data-testid="project-list"]').contains('Sample Title');
