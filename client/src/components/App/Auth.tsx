@@ -12,7 +12,7 @@ const Auth = (): JSX.Element => {
 
     return (
         <>
-            <Nav datatestid="auth-header" appBarRight={<NavAuth />} />
+            <Nav appBarRight={<NavAuth />} />
             <Container data-testid="auth-main" className={classes.auth} maxWidth="sm">
                 <img alt="logo" src={logo}></img>
                 <Typography component="h2" variant="h5">

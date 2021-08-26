@@ -10,7 +10,7 @@ const Nav = ({ appBarRight }: NavProps): JSX.Element => {
     const classes = useStyles();
 
     return (
-        <AppBar className={classes.appBar} position="fixed">
+        <AppBar data-testid="nav" className={classes.appBar} position="fixed">
             <div className={classes.appBarLeft}>
                 <Avatar variant="square" alt="logo" src={logo}></Avatar>
                 <Hidden xsDown>

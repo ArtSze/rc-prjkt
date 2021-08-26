@@ -8,7 +8,7 @@ describe('Authorization Page contents', () => {
     });
 
     it('contains the navigation bar with an authorize button', () => {
-        cy.get('[data-testid=auth-header]').within(() => {
+        cy.get('[data-testid=nav]').within(() => {
             cy.get('h1').should('contain', 'RC Projects');
             cy.get('a').should('contain', 'Authorize').and('have.attr', 'href', '/api/auth');
         });
@@ -25,7 +25,7 @@ describe('Authorization Page contents', () => {
     it('should allow authentication', () => {
         cy.login(user);
         cy.visit('/');
-        cy.get('[data-testid=auth-header]').within(() => {
+        cy.get('[data-testid=nav]').within(() => {
             cy.get('button').should('contain', 'Add Project');
         });
     });
