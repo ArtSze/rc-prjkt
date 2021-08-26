@@ -41,7 +41,7 @@ describe('Add Projects', () => {
         cy.react('input', { props: { name: 'githubLink' } }).should('have.value', 'github.com');
     });
 
-    it.only('Collaborators field allows selection of an option', () => {
+    it('Collaborators field allows selection of multiple options', () => {
         cy.get('[data-testid="add-project-button"]').click();
         cy.wait(500);
         cy.get('.MuiGrid-spacing-xs-2 > :nth-child(1)').within(() => {
@@ -52,6 +52,25 @@ describe('Add Projects', () => {
                 .first()
                 .click();
             cy.get('[class*="-multiValue"]').contains('Artur Szerejko');
+            cy.get('[class*="-control"]')
+                .click(0, 0, { force: true })
+                .get('[class*="-menu"]')
+                .find('[class*="-option"]')
+                .last()
+                .click();
+            cy.get('[class*="-multiValue"]').contains('user two');
+        });
+    });
+
+    it('Tags field allows creation of single option', () => {
+        cy.get('[data-testid="add-project-button"]').click();
+        cy.wait(500);
+        cy.get('.MuiGrid-spacing-xs-2 > :nth-child(2)').within(() => {
+            cy.get('[class*="-control"]')
+                .click(0, 0, { force: true })
+                .get('[class*="-menu"]')
+                .type('javascript{enter}');
+            cy.get('[class*="-multiValue"]').contains('javascript');
         });
     });
 });

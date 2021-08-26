@@ -1,6 +1,6 @@
 export const user = {
-    first_name: 'test',
-    last_name: 'test',
+    first_name: 'user',
+    last_name: 'one',
     rcId: 1234,
     ownedProjects: [],
     collabProjects: [],
