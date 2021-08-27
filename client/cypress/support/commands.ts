@@ -25,6 +25,7 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 import { NewUser } from '../../src/types/types';
+import { IProjectFromClient } from '../../../src/utils/types';
 
 // Must be declared global to be detected by typescript (allows import/export)
 declare global {
@@ -33,6 +34,7 @@ declare global {
         interface Chainable {
             login(user: NewUser): void;
             clearDB(): void;
+            postProject({ ...project }: Omit<IProjectFromClient, 'owner'>): void;
         }
     }
 }
@@ -50,6 +52,15 @@ Cypress.Commands.add('clearDB', () => {
     cy.request({
         method: 'GET',
         url: 'http://localhost:4000/api/nuke',
+    });
+    cy.visit('http://localhost:4000/');
+});
+
+Cypress.Commands.add('postProject', (project) => {
+    cy.request({
+        method: 'POST',
+        url: 'http://localhost:4000/api/projects',
+        body: { ...project },
     });
     cy.visit('http://localhost:4000/');
 });

@@ -5,8 +5,12 @@ import { user } from '../fixtures/user';
 import project1 from '../fixtures/project1.json';
 
 describe('Add Project', () => {
+    before(() => {
+        cy.login(user);
+        cy.postProject(project1);
+    });
+
     beforeEach(() => {
-        cy.visit('/');
         cy.login(user);
         cy.visit('/');
         cy.waitForReact();
@@ -175,7 +179,7 @@ describe('Add Project', () => {
         cy.get('[data-testid="project-list"]').contains('Sample Title');
     });
 
-    // after(() => {
-    //     cy.clearDB();
-    // });
+    after(() => {
+        cy.clearDB();
+    });
 });
