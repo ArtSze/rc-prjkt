@@ -25,7 +25,6 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 import { NewUser } from '../../src/types/types';
-import { IProjectFromClient } from '../../../src/utils/types';
 
 // Must be declared global to be detected by typescript (allows import/export)
 declare global {
@@ -34,7 +33,7 @@ declare global {
         interface Chainable {
             login(user: NewUser): void;
             createUser(user: NewUser): void;
-            postProject({ ...project }: Omit<IProjectFromClient, 'owner'>): void;
+            postProject({ ...project }): void;
             clearDB(): void;
         }
     }

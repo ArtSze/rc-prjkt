@@ -1,11 +1,11 @@
 /// <reference types="cypress" />
 import 'cypress-react-selector';
-import { user } from '../fixtures/user';
+import { user1 } from '../fixtures/user1';
 
 describe('Filter', () => {
     beforeEach(() => {
         cy.visit('/');
-        cy.login(user);
+        cy.login(user1);
         cy.waitForReact();
     });
 
@@ -13,7 +13,7 @@ describe('Filter', () => {
         cy.get('[data-testid="filter"]').within(() => {
             cy.get('[data-testid="owner-filter"]').within(() => {
                 cy.get('h6').contains('Owner Filter');
-                cy.get('div.react-select-owner-filter__value-container').find('p').contains('Select user...');
+                cy.get('div.react-select-owner-filter__value-container').find('p').contains('Select user1...');
             });
             cy.get('[data-testid="tag-filter"]').within(() => {
                 cy.get('h6').contains('Tag Filter');
@@ -33,9 +33,9 @@ describe('Filter', () => {
     it('filters to an owner', () => {
         cy.get('[data-testid="owner-filter"]').within(() => {
             cy.get('div.react-select-owner-filter__dropdown-indicator').click();
-            cy.get('p').contains(`${user.first_name} ${user.last_name}`).click();
+            cy.get('p').contains(`${user1.first_name} ${user1.last_name}`).click();
             cy.get('div.react-select-owner-filter__single-value');
-            cy.get('p').contains(`${user.first_name} ${user.last_name}`);
+            cy.get('p').contains(`${user1.first_name} ${user1.last_name}`);
             // TODO: verify filtered projects are correct
         });
     });
@@ -74,12 +74,12 @@ describe('Filter', () => {
     it('clears the owner filter', () => {
         cy.get('[data-testid="owner-filter"]').within(() => {
             cy.get('div.react-select-owner-filter__dropdown-indicator').click();
-            cy.get('p').contains(`${user.first_name} ${user.last_name}`).click();
+            cy.get('p').contains(`${user1.first_name} ${user1.last_name}`).click();
             cy.get('div.react-select-owner-filter__single-value');
-            cy.get('p').contains(`${user.first_name} ${user.last_name}`);
+            cy.get('p').contains(`${user1.first_name} ${user1.last_name}`);
             // TODO: verify filtered projects are correct
             cy.get('div.react-select-owner-filter__clear-indicator').click();
-            cy.get('div.react-select-owner-filter__value-container').find('p').contains('Select user...');
+            cy.get('div.react-select-owner-filter__value-container').find('p').contains('Select user1...');
             // TODO: verify filtered projects are correct
             //
         });
