@@ -19,13 +19,14 @@ const StatusFilter = ({ setStatusFilter }: StatusFilterProps): JSX.Element => {
     ];
 
     return (
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid data-testid="status-filter" item xs={12} sm={6} md={4}>
             <Typography variant="subtitle2">Status</Typography>
             <Select
                 defaultValue={options[0]}
                 components={{ Menu, SingleValue }}
                 options={options}
                 name="status-filter"
+                classNamePrefix="react-select-status-filter"
                 onChange={(e) => {
                     setStatusFilter(e?.value as StatusChoices);
                 }}

@@ -34,7 +34,7 @@ const Filter = ({ setParams }: FilterProps): JSX.Element => {
 
     return (
         <>
-            <Grid className={classes.filter} container spacing={1}>
+            <Grid data-testid="filter" className={classes.filter} container spacing={1}>
                 <TagFilter />
                 <StatusFilter statusFilter={statusFilter} setStatusFilter={setStatusFilter} />
                 <OwnerFilter />
