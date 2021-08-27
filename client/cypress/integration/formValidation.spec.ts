@@ -277,4 +277,8 @@ describe('Form Validation', () => {
         cy.get('[data-testid=form-submit-button]').click();
         cy.get('[data-testid=form-submit-button]').should('be.visible');
     });
+
+    after(() => {
+        cy.clearDB();
+    });
 });
