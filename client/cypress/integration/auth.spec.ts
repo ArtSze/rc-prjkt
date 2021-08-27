@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { user } from '../fixtures/user';
+import { user1 } from '../fixtures/user1';
 
 describe('Authorization Page contents', () => {
     beforeEach(() => {
@@ -23,7 +23,7 @@ describe('Authorization Page contents', () => {
     });
 
     it('should allow authentication', () => {
-        cy.login(user);
+        cy.login(user1);
         cy.visit('/');
         cy.get('[data-testid=nav]').within(() => {
             cy.get('button').should('contain', 'Add Project');
