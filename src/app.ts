@@ -35,4 +35,7 @@ app.use('/api/tags', TagsRouter);
 app.get('/api/productionCheck', (_, res) => {
     res.send('ok!');
 });
-app.use('/api/nuke', NukeRouter);
+
+if (process.env['NODE_ENV'] === 'test') {
+    app.use('/api/nuke', NukeRouter);
+}

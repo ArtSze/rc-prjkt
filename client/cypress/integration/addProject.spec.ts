@@ -2,6 +2,7 @@ import 'cypress-react-selector';
 
 /// <reference types="cypress" />
 import { user } from '../fixtures/user';
+import project1 from '../fixtures/project1.json';
 
 describe('Add Project', () => {
     beforeEach(() => {
@@ -174,7 +175,7 @@ describe('Add Project', () => {
         cy.get('[data-testid="project-list"]').contains('Sample Title');
     });
 
-    after(() => {
-        cy.clearDB();
-    });
+    // after(() => {
+    //     cy.clearDB();
+    // });
 });
