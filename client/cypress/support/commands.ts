@@ -33,8 +33,9 @@ declare global {
     namespace Cypress {
         interface Chainable {
             login(user: NewUser): void;
-            clearDB(): void;
+            createUser(user: NewUser): void;
             postProject({ ...project }: Omit<IProjectFromClient, 'owner'>): void;
+            clearDB(): void;
         }
     }
 }
@@ -48,10 +49,11 @@ Cypress.Commands.add('login', (user) => {
     cy.visit('http://localhost:4000/');
 });
 
-Cypress.Commands.add('clearDB', () => {
+Cypress.Commands.add('createUser', (user) => {
     cy.request({
-        method: 'GET',
-        url: 'http://localhost:4000/api/nuke',
+        method: 'POST',
+        url: 'http://localhost:4000/api/users',
+        body: { ...user },
     });
     cy.visit('http://localhost:4000/');
 });
@@ -61,6 +63,14 @@ Cypress.Commands.add('postProject', (project) => {
         method: 'POST',
         url: 'http://localhost:4000/api/projects',
         body: { ...project },
+    });
+    cy.visit('http://localhost:4000/');
+});
+
+Cypress.Commands.add('clearDB', () => {
+    cy.request({
+        method: 'GET',
+        url: 'http://localhost:4000/api/nuke',
     });
     cy.visit('http://localhost:4000/');
 });

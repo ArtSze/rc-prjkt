@@ -1,4 +1,4 @@
-export const user = {
+export const user1 = {
     first_name: 'user',
     last_name: 'one',
     rcId: 1234,
