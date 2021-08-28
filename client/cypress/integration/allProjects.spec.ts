@@ -1,11 +1,11 @@
 /// <reference types="cypress" />
-import { user } from '../fixtures/user';
+import { user1 } from '../fixtures/user1';
 import 'cypress-react-selector';
 
 describe('All Projects', () => {
     beforeEach(() => {
         cy.visit('/');
-        cy.login(user);
+        cy.login(user1);
         cy.visit('/');
         cy.waitForReact();
     });

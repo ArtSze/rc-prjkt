@@ -1,10 +1,10 @@
 /// <reference types="cypress" />
-import { user } from '../fixtures/user';
+import { user1 } from '../fixtures/user1';
 
 describe('Projects home page', () => {
     before(() => {
         cy.visit('/');
-        cy.login(user);
+        cy.login(user1);
         cy.visit('/');
     });
 

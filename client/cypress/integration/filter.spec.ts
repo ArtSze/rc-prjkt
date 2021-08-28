@@ -28,7 +28,7 @@ describe('Filter tests', () => {
         cy.get('[data-testid="filter"]').within(() => {
             cy.get('[data-testid="owner-filter"]').within(() => {
                 cy.get('h6').contains('Owner Filter');
-                cy.get('div.react-select-owner-filter__value-container').find('p').contains('Select user...');
+                cy.get('div.react-select-owner-filter__value-container').find('p').contains('Select user1...');
             });
             cy.get('[data-testid="tag-filter"]').within(() => {
                 cy.get('h6').contains('Tag Filter');

@@ -1,5 +1,4 @@
 import { NewUser } from '../../src/types/types';
-import { IProjectFromClient } from '../../../src/utils/types';
 
 declare global {
     // eslint-disable-next-line @typescript-eslint/no-namespace
