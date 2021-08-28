@@ -1,11 +1,6 @@
 /// <reference types="cypress" />
 import 'cypress-react-selector';
-import project1 from '../fixtures/project1.json';
-import project2 from '../fixtures/project2.json';
-import project3 from '../fixtures/project3.json';
-import { user1 } from '../fixtures/user1';
-import { user2 } from '../fixtures/user2';
-import { user3 } from '../fixtures/user3';
+import { project1, project2, project3, user1, user2, user3 } from '../fixtures/index';
 
 describe('Filter tests', () => {
     before(() => {
@@ -28,7 +23,7 @@ describe('Filter tests', () => {
         cy.get('[data-testid="filter"]').within(() => {
             cy.get('[data-testid="owner-filter"]').within(() => {
                 cy.get('h6').contains('Owner Filter');
-                cy.get('div.react-select-owner-filter__value-container').find('p').contains('Select user1...');
+                cy.get('div.react-select-owner-filter__value-container').find('p').contains('Select user...');
             });
             cy.get('[data-testid="tag-filter"]').within(() => {
                 cy.get('h6').contains('Tag Filter');
