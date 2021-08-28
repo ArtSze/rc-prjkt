@@ -2,10 +2,11 @@ import 'cypress-react-selector';
 
 /// <reference types="cypress" />
 
-import { project1, project2, user1, user2, user3 } from '../fixtures/index';
+import { project1, project2, tag1, tag2, user1, user2, user3 } from '../fixtures/index';
 
 describe('Add Project', () => {
     before(() => {
+        cy.clearDB();
         cy.login(user1);
         cy.postProject(project1);
         cy.createUser(user3);
@@ -194,9 +195,5 @@ describe('Add Project', () => {
                 .find('[class*="-option"]')
                 .contains(`${project1.tags[1].value}`);
         });
-    });
-
-    after(() => {
-        cy.clearDB();
     });
 });
