@@ -98,7 +98,7 @@ const StaticProject = (project: IProject): JSX.Element => {
     );
 
     return (
-        <Card className={classes.staticProject}>
+        <Card data-testid="project" className={classes.staticProject}>
             <CardHeader
                 className={classes.cardHeader}
                 disableTypography

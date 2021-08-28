@@ -26,6 +26,7 @@ const NavHome = ({ allProjects, setAllProjects, setParams }: NavProps): JSX.Elem
             <AddFormModal />
             <Tabs value={allProjects ? 0 : 1} classes={{ indicator: classes.tallIndicator }}>
                 <Tab
+                    data-testid="all-projects-tab"
                     label={!isSmallScreen && 'All Projects'}
                     icon={isSmallScreen ? <FaHome /> : ''}
                     onClick={() => {
@@ -36,6 +37,7 @@ const NavHome = ({ allProjects, setAllProjects, setParams }: NavProps): JSX.Elem
                     }}
                 />
                 <Tab
+                    data-testid="my-projects-tab"
                     label={!isSmallScreen && 'My Projects'}
                     icon={isSmallScreen ? <FaUser /> : ''}
                     onClick={() => {
