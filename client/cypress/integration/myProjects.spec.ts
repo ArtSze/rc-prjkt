@@ -1,13 +1,11 @@
 /// <reference types="cypress" />
-import { user1 } from '../fixtures/user1';
-import 'cypress-react-selector';
+import { project1, project2, project3, user1, user2, user3 } from '../fixtures/index';
 
 describe('My Projects', () => {
     beforeEach(() => {
         cy.visit('/');
         cy.login(user1);
         cy.visit('/');
-        cy.waitForReact();
     });
 
     it('shows all projects that the current user1 owns');

@@ -1,14 +1,7 @@
 import 'cypress-react-selector';
 
 /// <reference types="cypress" />
-
-import project1 from '../fixtures/project1.json';
-import project2 from '../fixtures/project2.json';
-import { user1 } from '../fixtures/user1';
-import { user2 } from '../fixtures/user2';
-import { user3 } from '../fixtures/user3';
-import tag1 from '../fixtures/tag1.json';
-import tag2 from '../fixtures/tag2.json';
+import { project1, project2, user1, user2, user3 } from '../fixtures/index';
 
 describe('Form Validation', () => {
     before(() => {

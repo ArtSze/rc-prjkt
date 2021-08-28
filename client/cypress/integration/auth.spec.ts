@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { user1 } from '../fixtures/user1';
+import { user1 } from '../fixtures/index';
 
 describe('Authorization Page contents', () => {
     beforeEach(() => {
