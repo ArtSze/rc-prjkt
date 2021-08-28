@@ -17,49 +17,66 @@ describe('All Projects', () => {
         cy.login(user2);
     });
 
-    it('contains the navigation bar with 3 buttons with icons', () => {
-        cy.get('[data-testid=nav]').should('not.contain', 'h1').and('contain', 'RC Projects');
-        cy.get('[data-testid=nav]').within(() => {
-            cy.get('button').should('have.length', 3);
+    describe('Page display', () => {
+        it('contains the navigation bar with 3 buttons with icons', () => {
+            cy.get('[data-testid=nav]').should('not.contain', 'h1').and('contain', 'RC Projects');
+            cy.get('[data-testid=nav]').within(() => {
+                cy.get('button').should('have.length', 3);
+            });
+            cy.get('[data-testid="add-project-button"]').within(() => {
+                cy.contains('Add Project');
+            });
+            cy.get('[data-testid="all-projects-tab"]').within(() => {
+                cy.contains('All Projects');
+            });
+            cy.get('[data-testid="my-projects-tab"]').within(() => {
+                cy.contains('My Projects');
+            });
         });
-        cy.get('[data-testid="add-project-button"]').within(() => {
-            cy.contains('Add Project');
+
+        it('has the all projects tab selected', () => {
+            cy.get('[data-testid="all-projects-tab"]').should('have.class', 'Mui-selected');
+            cy.get('[data-testid="my-projects-tab"]').should('not.have.class', 'Mui-selected');
         });
-        cy.get('[data-testid="all-projects-tab"]').within(() => {
-            cy.contains('All Projects');
-        });
-        cy.get('[data-testid="my-projects-tab"]').within(() => {
-            cy.contains('My Projects');
+
+        it('contains the footer', () => {
+            cy.get('[data-testid=footer]').within(() => {
+                cy.get('p').should('have.length', 2);
+                cy.get('p').first().get('a').should('contain', 'Made with');
+                cy.get('p').last().get('a').should('contain', 'View source code');
+            });
         });
     });
 
-    it('has the all projects tab selected', () => {
-        cy.get('[data-testid="all-projects-tab"]').should('have.class', 'Mui-selected');
-        cy.get('[data-testid="my-projects-tab"]').should('not.have.class', 'Mui-selected');
+    describe('Correct database results', () => {
+        it('shows all active projects by default');
+
+        it('all the project details are correctly shown');
     });
 
-    it('shows all active projects by default');
+    describe('Project filters', () => {
+        it('filters the projects when clicking on a collaborator chip');
 
-    it('filters the projects when clicking on a collaborator chip');
+        it('filters the projects when clicking on a tag chip');
 
-    it('filters the projects when clicking on a tag chip');
+        it('filters the projects when clicking on a second tag chip');
 
-    it('allows you to edit a project');
+        it('filters the projects when clicking on a collaborator and tag chip');
+    });
 
-    it('allows you to delete a project');
+    describe('Owner actions', () => {
+        it('allows you to edit a project');
 
-    it('adds a second tag filter when clicking on another tag chip');
+        it('allows you to delete a project');
 
-    it('shows the edit and delete button for the projects where user is an owner');
+        it('shows the edit and delete button for the projects where user is an owner');
 
-    it('does not show the edit and delete button for the projects where user is not an owner');
+        it('does not show the edit and delete button for the projects where user is not an owner');
+    });
 
-    it('contains the footer', () => {
-        cy.get('[data-testid=footer]').within(() => {
-            cy.get('p').should('have.length', 2);
-            cy.get('p').first().get('a').should('contain', 'Made with');
-            cy.get('p').last().get('a').should('contain', 'View source code');
-        });
+    describe('Error snackbar', () => {
+        it('does not show the error snackbar by default');
+        it('shows the error snackbar when there is a 400 response (for invalid project date)');
     });
 
     describe('Mobile view', () => {
