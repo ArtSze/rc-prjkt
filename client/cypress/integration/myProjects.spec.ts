@@ -106,14 +106,8 @@ describe('My Projects', () => {
             });
         });
 
-        it.skip('tag and collaborator chips are disabled and do not filter', () => {
-            // FIXME: remove skip after chips are no longer clickable
-            cy.get('[data-testid="project-list"]').children().should('have.length', 3);
-            cy.get('[data-testid=project]').contains(project3.description).parent().parent().parent().as('project3');
-            cy.get('@project3').within(() => {
-                cy.get('[data-testid=project-tags]').contains(project3.tags[1].value).click();
-            });
-            cy.get('[data-testid="project-list"]').children().should('have.length', 3);
+        it('tag and collaborator chips are disabled and do not filter', () => {
+            cy.get('div.MuiChip-clickable').should('have.class', 'Mui-disabled');
         });
     });
 
