@@ -55,7 +55,7 @@ describe('All Projects', () => {
             });
         });
 
-        it('all the project details are correctly shown for the first project', () => {
+        it('all the project details are correctly shown for project1', () => {
             cy.get('[data-testid=project]').contains(project1.description).parent().parent().parent().as('project1');
             // verify title
             cy.get('@project1').should('contain', project1.title);
@@ -91,7 +91,7 @@ describe('All Projects', () => {
             });
         });
 
-        it('all the project details are correctly shown for the second project', () => {
+        it('all the project details are correctly shown for project2', () => {
             cy.get('[data-testid=project]').contains(project2.description).parent().parent().parent().as('project2');
             // verify title
             cy.get('@project2').should('contain', project2.title);
@@ -224,8 +224,10 @@ describe('All Projects', () => {
         it('allows you to edit a project', () => {
             cy.get('[data-testid=project-list]').children().should('have.length', 2);
             cy.get('[data-testid=project]').contains(project2.description).parent().parent().parent().as('project2');
-            cy.get('div.MuiCardHeader-action').children().find('div').should('have.length', 2).as('owner-buttons');
-            cy.get('@owner-buttons').first().children().should('contain', 'Edit').click();
+            cy.get('@project2').within(() => {
+                cy.get('div.MuiCardHeader-action').children().find('div').should('have.length', 2).as('owner-buttons');
+                cy.get('@owner-buttons').first().children().should('contain', 'Edit').click();
+            });
             cy.get('h2').contains('Edit Project');
             cy.get('span').contains('Cancel').parent().click();
         });
@@ -233,8 +235,10 @@ describe('All Projects', () => {
         it('allows you to cancel project deletion', () => {
             cy.get('[data-testid=project-list]').children().should('have.length', 2);
             cy.get('[data-testid=project]').contains(project2.description).parent().parent().parent().as('project2');
-            cy.get('div.MuiCardHeader-action').children().find('div').should('have.length', 2).as('owner-buttons');
-            cy.get('@owner-buttons').last().children().should('contain', 'Delete').click();
+            cy.get('@project2').within(() => {
+                cy.get('div.MuiCardHeader-action').children().find('div').should('have.length', 2).as('owner-buttons');
+                cy.get('@owner-buttons').last().children().should('contain', 'Delete').click();
+            });
             cy.get('h2').contains('Delete Project');
             cy.get('span').contains('Cancel').parent().click();
         });
@@ -242,8 +246,10 @@ describe('All Projects', () => {
         it('allows you to delete a project', () => {
             cy.get('[data-testid=project-list]').children().should('have.length', 2);
             cy.get('[data-testid=project]').contains(project2.description).parent().parent().parent().as('project2');
-            cy.get('div.MuiCardHeader-action').children().find('div').should('have.length', 2).as('owner-buttons');
-            cy.get('@owner-buttons').last().children().should('contain', 'Delete').click();
+            cy.get('@project2').within(() => {
+                cy.get('div.MuiCardHeader-action').children().find('div').should('have.length', 2).as('owner-buttons');
+                cy.get('@owner-buttons').last().children().should('contain', 'Delete').click();
+            });
             cy.get('h2').contains('Delete Project');
             cy.get('span').contains('Confirm Deletion').parent().click();
             cy.wait(100);
@@ -281,6 +287,7 @@ describe('All Projects', () => {
     });
 
     describe.skip('Error snackbar', () => {
+        // FIXME: not passing
         it('does not show the error snackbar by default', () => {
             cy.get('[data-testid="error-snackbar"]').should('not.be.visible');
         });
