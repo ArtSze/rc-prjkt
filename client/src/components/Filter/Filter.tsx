@@ -21,6 +21,7 @@ const Filter = ({ setParams }: FilterProps): JSX.Element => {
     const sortFilter = useStore((state: AppState) => state.sortFilter);
 
     useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         const params = createParams(statusFilter, tagFilter, ownerFilter, sortFilter);
         setParams(params);
     }, [statusFilter, tagFilter, ownerFilter, sortFilter]);
