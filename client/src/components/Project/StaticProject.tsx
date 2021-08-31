@@ -156,16 +156,16 @@ const StaticProject = (project: IProject): JSX.Element => {
                 }
             ></CardHeader>
             <CardContent>
-                <Container className={classes.staticProjectDetails}>
+                <Container data-testid="project-description" className={classes.staticProjectDetails}>
                     <Divider className={classes.staticProjectDivider} />
                     <Typography variant="body1" component="p" paragraph>
                         {project.description}
                     </Typography>
                     <Grid container>
-                        <Grid xs={12} lg={4} item>
+                        <Grid data-testid="project-collaborators" xs={12} lg={4} item>
                             {collaborators}
                         </Grid>
-                        <Grid xs={12} lg={8} item>
+                        <Grid data-testid="project-tags" xs={12} lg={8} item>
                             {tags}
                         </Grid>
                     </Grid>

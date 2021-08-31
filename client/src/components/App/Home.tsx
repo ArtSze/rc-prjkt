@@ -45,7 +45,11 @@ const Home = (): JSX.Element => {
             <Collapse in={allProjects}>
                 <Filter setParams={setParams} />
             </Collapse>
-            <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={snackbarError}>
+            <Snackbar
+                data-testid="error-snackbar"
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                open={snackbarError}
+            >
                 <Alert severity="error" onClose={() => queryClient.setQueryData(queryKeys.snackbarError, false)}>
                     An unexpected error has occurred
                 </Alert>
