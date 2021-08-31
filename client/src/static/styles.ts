@@ -160,6 +160,7 @@ export const useStyles = makeStyles(
             display: 'flex',
             justifyContent: 'center',
             marginTop: theme.spacing(8),
+            padding: theme.spacing(2),
         },
         selectTitles: {
             color: 'rgba(0, 0, 0, 0.54)',
