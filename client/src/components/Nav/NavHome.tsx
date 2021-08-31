@@ -8,17 +8,17 @@ import { useStyles } from '../../static/styles';
 import { StatusChoices, QueryParams, SortMethods } from '../../types/filterTypes';
 
 interface NavProps {
-    allProjects: boolean;
     setParams: React.Dispatch<React.SetStateAction<QueryParams>>;
-    setAllProjects: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const NavHome = ({ allProjects, setAllProjects, setParams }: NavProps): JSX.Element => {
+const NavHome = ({ setParams }: NavProps): JSX.Element => {
     const classes = useStyles();
     const setOwnerFilter = useStore((state: AppState) => state.setOwnerFilter);
     const setTagFilter = useStore((state: AppState) => state.setTagFilter);
     const setSortFilter = useStore((state: AppState) => state.setSortFilter);
     const setStatusFilter = useStore((state: AppState) => state.setStatusFilter);
+    const allProjects = useStore((state: AppState) => state.allProjects);
+    const setAllProjects = useStore((state: AppState) => state.setAllProjects);
 
     const isSmallScreen = useMediaQuery('(max-width: 650px)');
 

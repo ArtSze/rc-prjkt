@@ -31,6 +31,7 @@ const StaticProject = (project: IProject): JSX.Element => {
     const setOwnerFilter = useStore((state: AppState) => state.setOwnerFilter);
     const setTagFilter = useStore((state: AppState) => state.setTagFilter);
     const tagFilter = useStore((state: AppState) => state.tagFilter);
+    const allProjects = useStore((state: AppState) => state.allProjects);
 
     const ownerProject = project as IProjectOwnerCheck;
 
@@ -44,6 +45,7 @@ const StaticProject = (project: IProject): JSX.Element => {
                     {project.tags.map((tag) => {
                         return (
                             <Chip
+                                disabled={!allProjects}
                                 className={classes.chip}
                                 key={tag._id.toString()}
                                 icon={<FaTag />}
@@ -73,6 +75,7 @@ const StaticProject = (project: IProject): JSX.Element => {
                     {project.collaborators.map((collaborator) => {
                         return (
                             <Chip
+                                disabled={!allProjects}
                                 className={classes.chip}
                                 key={collaborator._id.toString()}
                                 avatar={

@@ -13,12 +13,13 @@ import { Collapse, Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import queryKeys from '../../utils/queryKeys';
 import NavHome from '../Nav/NavHome';
+import { useStore, AppState } from '../../utils/store';
 
 const Home = (): JSX.Element => {
     const classes = useStyles();
     const [params, setParams] = useState<QueryParams>({ sort: SortMethods['Last Updated'] });
     const { data: projects, isLoading, isSuccess } = useProjects(params);
-    const [allProjects, setAllProjects] = useState<boolean>(true);
+    const allProjects = useStore((state: AppState) => state.allProjects);
 
     const { data: auth } = useQuery(
         queryKeys.isAuth,
@@ -37,11 +38,7 @@ const Home = (): JSX.Element => {
 
     return (
         <div className={classes.root}>
-            <Nav
-                appBarRight={
-                    <NavHome setParams={setParams} allProjects={allProjects} setAllProjects={setAllProjects} />
-                }
-            />
+            <Nav appBarRight={<NavHome setParams={setParams} />} />
             <Collapse in={allProjects}>
                 <Filter setParams={setParams} />
             </Collapse>
