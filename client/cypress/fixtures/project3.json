@@ -2,7 +2,7 @@
     "collaborators": [],
     "tags": [{ "value": "python" }],
     "title": "Sample Python Project",
-    "description": "sample description here for project created during tests",
+    "description": "another description here for project created during tests",
     "githubLink": "github.com",
     "active": false
 }
