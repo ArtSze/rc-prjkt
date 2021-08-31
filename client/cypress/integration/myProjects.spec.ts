@@ -52,8 +52,7 @@ describe('My Projects', () => {
             cy.get('[data-testid="filter"]').should('not.be.visible');
         });
 
-        it.skip('resets the filters after clicking on all projects', () => {
-            // FIXME: skip until bug for status and sort state are reset appropriately
+        it('resets the filters after clicking on all projects', () => {
             cy.get('[data-testid="all-projects-tab"]').click();
 
             // add owner
