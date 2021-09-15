@@ -77,7 +77,7 @@ describe('Add Project', () => {
         });
     });
 
-    it.skip('Tags field allows creation of multiple options', () => {
+    it('Tags field allows creation of multiple options', () => {
         cy.get('[data-testid="add-project-button"]').click();
         cy.wait(500);
         cy.get('.MuiGrid-spacing-xs-2 > :nth-child(2)').within(() => {
