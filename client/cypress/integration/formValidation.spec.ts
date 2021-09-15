@@ -1,16 +1,11 @@
 import 'cypress-react-selector';
 
 /// <reference types="cypress" />
-
-import project1 from '../fixtures/project1.json';
-import project2 from '../fixtures/project2.json';
-import { user1 } from '../fixtures/user1';
-import { user2 } from '../fixtures/user2';
-import { user3 } from '../fixtures/user3';
-import tag1 from '../fixtures/tag1.json';
+import { project1, project2, tag1, user1, user2, user3 } from '../fixtures/index';
 
 describe('Form Validation', () => {
     before(() => {
+        cy.clearDB();
         cy.login(user2);
         cy.postProject(project1);
         cy.createUser(user3);
@@ -275,9 +270,5 @@ describe('Form Validation', () => {
         // submit
         cy.get('[data-testid=form-submit-button]').click();
         cy.get('[data-testid=form-submit-button]').should('be.visible');
-    });
-
-    after(() => {
-        cy.clearDB();
     });
 });

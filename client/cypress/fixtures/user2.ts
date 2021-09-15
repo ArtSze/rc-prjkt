@@ -6,6 +6,6 @@ export const user2 = {
     ownedProjects: [],
     collabProjects: [],
     image_path: '',
-    batch: '',
-    batchEndDate: new Date(),
+    batch: "SP'14",
+    batchEndDate: new Date(2013, 1, 16),
 };

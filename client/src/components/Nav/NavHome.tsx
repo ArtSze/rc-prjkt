@@ -5,19 +5,20 @@ import { Tab, Tabs } from '@material-ui/core';
 import { useStore, AppState } from '../../utils/store';
 import { useMediaQuery } from '@material-ui/core';
 import { useStyles } from '../../static/styles';
-import { QueryParams, SortMethods } from '../../types/filterTypes';
+import { StatusChoices, QueryParams, SortMethods } from '../../types/filterTypes';
 
 interface NavProps {
-    allProjects: boolean;
     setParams: React.Dispatch<React.SetStateAction<QueryParams>>;
-    setAllProjects: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const NavHome = ({ allProjects, setAllProjects, setParams }: NavProps): JSX.Element => {
+const NavHome = ({ setParams }: NavProps): JSX.Element => {
     const classes = useStyles();
-
     const setOwnerFilter = useStore((state: AppState) => state.setOwnerFilter);
     const setTagFilter = useStore((state: AppState) => state.setTagFilter);
+    const setSortFilter = useStore((state: AppState) => state.setSortFilter);
+    const setStatusFilter = useStore((state: AppState) => state.setStatusFilter);
+    const allProjects = useStore((state: AppState) => state.allProjects);
+    const setAllProjects = useStore((state: AppState) => state.setAllProjects);
 
     const isSmallScreen = useMediaQuery('(max-width: 650px)');
 
@@ -26,16 +27,20 @@ const NavHome = ({ allProjects, setAllProjects, setParams }: NavProps): JSX.Elem
             <AddFormModal />
             <Tabs value={allProjects ? 0 : 1} classes={{ indicator: classes.tallIndicator }}>
                 <Tab
+                    data-testid="all-projects-tab"
                     label={!isSmallScreen && 'All Projects'}
                     icon={isSmallScreen ? <FaHome /> : ''}
                     onClick={() => {
-                        setAllProjects(true);
-                        setParams({ status: true, sort: SortMethods['Last Updated'] });
                         setOwnerFilter(undefined);
                         setTagFilter(undefined);
+                        setStatusFilter(StatusChoices['Active']);
+                        setSortFilter(SortMethods['Last Updated']);
+                        setParams({ status: true, sort: SortMethods['Last Updated'] });
+                        setAllProjects(true);
                     }}
                 />
                 <Tab
+                    data-testid="my-projects-tab"
                     label={!isSmallScreen && 'My Projects'}
                     icon={isSmallScreen ? <FaUser /> : ''}
                     onClick={() => {

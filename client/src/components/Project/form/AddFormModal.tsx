@@ -16,7 +16,7 @@ const AddFormModal = (): JSX.Element => {
                 onClick={() => setOpen(true)}
                 data-testid="add-project-button"
             >
-                {isSmallScreen ? <FaPlus /> : 'Add Project'}
+                {isSmallScreen ? <FaPlus data-testid="add-project-plus" /> : 'Add Project'}
             </Button>
             <Dialog
                 open={open}

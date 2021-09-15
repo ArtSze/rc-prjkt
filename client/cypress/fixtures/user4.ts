@@ -1,4 +1,4 @@
-export const user1 = {
+export const user4 = {
     first_name: 'user',
     last_name: 'one',
     rcId: 1234,
@@ -7,5 +7,5 @@ export const user1 = {
     collabProjects: [],
     image_path: '',
     batch: "W1'20",
-    batchEndDate: new Date(2020, 12, 4),
+    batchEndDate: 'erroneous date',
 };

@@ -9,7 +9,7 @@ export default function Footer(): JSX.Element {
     const classes = useStyles();
 
     return (
-        <Grid container direction="column" alignItems="center" className={classes.footer}>
+        <Grid data-testid="footer" container direction="column" alignItems="center" className={classes.footer}>
             <Typography variant="body1">
                 <Link
                     title="Recurse Center Logo"

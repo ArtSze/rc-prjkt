@@ -1,5 +1,5 @@
 {
-    "collaborators": [],
+    "collaborators": [{ "first_name": "user", "last_name": "one"}],
     "tags": [],
     "title": "Sample Project",
     "description": "sample description here for project created during tests",
