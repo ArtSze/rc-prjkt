@@ -77,8 +77,8 @@ const CustomMultiSelect = ({
             styles={multiStyles}
             hideSelectedOptions={true}
             isOptionSelected={(option) => {
-                const valIds = field.value.map((val: ITagFromClient) => val._id);
-                return valIds.includes(option.value._id);
+                const presentValues = field.value.map((val: ITagFromClient) => val.value);
+                return presentValues.includes(option.label);
             }}
         />
     );

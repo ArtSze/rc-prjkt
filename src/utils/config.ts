@@ -20,7 +20,7 @@ let secret = '';
 switch (process.env['NODE_ENV']) {
     case 'test':
         MONGO_URI = getEnvironmentVariable('TEST_MONGO_URI');
-        CLIENT_URL = getEnvironmentVariable('DEVELOPMENT_CLIENT_URL');
+        CLIENT_URL = getEnvironmentVariable('TEST_CLIENT_URL');
         SERVER_URL = getEnvironmentVariable('DEVELOPMENT_SERVER_URL');
         id = getEnvironmentVariable('DEVELOPMENT_RC_AUTH_ID');
         secret = getEnvironmentVariable('DEVELOPMENT_RC_AUTH_SECRET');
