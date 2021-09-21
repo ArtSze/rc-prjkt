@@ -130,15 +130,16 @@ export const useStyles = makeStyles(
             borderWidth: theme.spacing(2),
             borderColor: theme.palette.primary.dark,
             backgroundColor: theme.palette.primary.light,
-            [theme.breakpoints.down('xs')]: {
-                margin: theme.spacing(2),
-            },
             marginTop: theme.spacing(10),
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             padding: theme.spacing(3),
             gap: theme.spacing(4),
+            [theme.breakpoints.down('xs')]: {
+                marginTop: theme.spacing(8),
+                margin: theme.spacing(5),
+            },
         },
         navButton: {
             margin: theme.spacing(0.75),
