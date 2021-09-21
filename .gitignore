@@ -108,3 +108,5 @@ requests
 
 # ignore working files
 other
+
+dist

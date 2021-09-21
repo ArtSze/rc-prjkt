@@ -10,11 +10,6 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
-            - name: install client dependencies
-              working-directory: ./client
-              run: yarn install
-            - name: build
-              run: yarn build:client
             - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
               with:
                   heroku_api_key: ${{secrets.HEROKU_API_KEY}}

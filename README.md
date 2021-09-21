@@ -10,6 +10,8 @@ The back-end is built with Node, Express, and MongoDB.
 
 Authentication is handled with OAuth2 and the Recurse Center API. You must authenticate through the RC API in order to receive access to this application. User information and identification gathered from RC's API.
 
-[Front-End](https://github.com/ArtSze/rc-prjkt-client)
+## Front-End
+
+The front-end is built with React, TypeScript, Material-UI, and React Query. 
 
 <a href='http://www.recurse.com' title='Made with love at the Recurse Center'><img src='https://cloud.githubusercontent.com/assets/2883345/11325206/336ea5f4-9150-11e5-9e90-d86ad31993d8.png' height='20px'/></a>

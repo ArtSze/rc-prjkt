@@ -89,7 +89,6 @@ ProjectsRouter.get('/', async (req, res) => {
         let projects = [] as any[];
         if (rcId && tags) {
             projects = await projectService.getProjectsByUserAndTags(rcId, tags);
-            console.log({ projects });
         } else if (rcId) {
             projects = await projectService.getProjectsByUser(rcId);
         } else if (tags) {
@@ -175,8 +174,6 @@ ProjectsRouter.put('/:id', async (req, res) => {
 
     const collaboratorObjectIds = await userService.fetchUserIDsByNames(collaboratorsFromClient);
 
-    console.log(currentUserId, projectToUpdateOwnerId);
-
     if (currentUserId === projectToUpdateOwnerId) {
         const id = req.params.id;
         try {
@@ -198,11 +195,8 @@ ProjectsRouter.put('/:id', async (req, res) => {
 });
 
 ProjectsRouter.delete('/:id', async (req, res) => {
-    console.log('projects.delete');
     const currentUserId = req.session.user.rcId;
     const projectToUpdateOwnerId = req.body.owner.rcId;
-
-    console.log({ currentUserId, projectToUpdateOwnerId });
 
     if (currentUserId === projectToUpdateOwnerId) {
         try {
