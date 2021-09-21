@@ -30,10 +30,10 @@ jobs:
               run: yarn install
             - name: run tests
               run: yarn test:server
-            - name: transpile typescript for server
-              run: yarn tsc
-            - name: print directory
-              run: ll
+            # - name: transpile typescript for server
+            #   run: yarn tsc
+            # - name: print directory
+            #   run: ls -la
             - name: e2e tests
               uses: cypress-io/github-action@v2
               with:
