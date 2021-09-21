@@ -16,7 +16,9 @@ jobs:
             PORT: ${{ secrets.PORT }}
             RC_AUTH_ID: ${{ secrets.RC_AUTH_ID }}
             RC_AUTH_SECRET: ${{ secrets.RC_AUTH_SECRET }}
-            MONGO_URI: ${{ secrets.MONGO_URI }}
+            MONGO_URI: ${{ secrets.TEST_MONGO_URI }}
+            CLIENT_URL: ${{ secrets.TEST_CLIENT_URL }}
+            SERVER_URL: ${{ secrets.DEVELOPMENT_SERVER_URL }}
         steps:
             - uses: actions/checkout@v2
             - uses: actions/setup-node@v1
@@ -28,3 +30,9 @@ jobs:
               run: yarn install
             - name: run tests
               run: yarn test:server
+            - name: e2e tests
+              uses: cypress-io/github-action@v2
+              with:
+                  command: yarn test:e2e
+                  start: yarn start:testStatic
+                  wait-on: http://localhost:4000
