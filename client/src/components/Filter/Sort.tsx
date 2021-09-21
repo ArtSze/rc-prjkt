@@ -24,10 +24,11 @@ const Sort = (): JSX.Element => {
     };
 
     return (
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid data-testid="sort" item xs={12} sm={6} md={4}>
             <Typography variant="subtitle2">Sort</Typography>
             <Select
                 options={options}
+                classNamePrefix="react-select-sort"
                 components={{ Control: SortControl, Menu, SingleValue }}
                 value={getValue()}
                 onChange={(e) => {

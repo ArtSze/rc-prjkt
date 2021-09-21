@@ -1,0 +1,8 @@
+{
+    "collaborators": [],
+    "tags": [{ "value": "css" }, { "value": "python" }],
+    "title": "Dummy Project 1",
+    "description": "sample description here for project created during DB initialization",
+    "githubLink": "github.com",
+    "active": true
+}

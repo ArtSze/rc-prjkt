@@ -27,6 +27,7 @@ import { UsersRouter } from './routes/users';
 import { ProjectsRouter } from './routes/projects';
 import { AuthRouter } from './routes/auth';
 import { TagsRouter } from './routes/tags';
+import { NukeRouter } from './routes/nuke';
 app.use('/api/users', UsersRouter);
 app.use('/api/auth', AuthRouter);
 app.use('/api/projects', ProjectsRouter);
@@ -34,3 +35,7 @@ app.use('/api/tags', TagsRouter);
 app.get('/api/productionCheck', (_, res) => {
     res.send('ok!');
 });
+
+if (process.env['NODE_ENV'] === 'test') {
+    app.use('/api/nuke', NukeRouter);
+}

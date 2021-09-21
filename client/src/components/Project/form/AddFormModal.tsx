@@ -10,11 +10,22 @@ const AddFormModal = (): JSX.Element => {
 
     return (
         <div>
-            <Button variant="contained" color="secondary" onClick={() => setOpen(true)}>
-                {isSmallScreen ? <FaPlus /> : 'Add Project'}
+            <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => setOpen(true)}
+                data-testid="add-project-button"
+            >
+                {isSmallScreen ? <FaPlus data-testid="add-project-plus" /> : 'Add Project'}
             </Button>
-            <Dialog open={open} onClose={() => setOpen(false)} maxWidth="md" fullWidth={true}>
-                <DialogTitle>{'Add Project'}</DialogTitle>
+            <Dialog
+                open={open}
+                onClose={() => setOpen(false)}
+                maxWidth="md"
+                fullWidth={true}
+                data-testid="add-project-modal"
+            >
+                <DialogTitle data-testid="add-project-modal-title">{'Add Project'}</DialogTitle>
                 <DialogContent>
                     <ProjectFormAdd setOpen={setOpen} />
                 </DialogContent>

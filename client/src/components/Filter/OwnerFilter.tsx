@@ -31,7 +31,7 @@ const OwnerFilter = (): JSX.Element => {
         };
 
         return (
-            <Grid item xs={12} sm={6} md={8}>
+            <Grid data-testid="owner-filter" item xs={12} sm={6} md={8}>
                 <Typography variant="subtitle2">Owner Filter</Typography>
                 <Select
                     value={getValue()}
@@ -40,6 +40,7 @@ const OwnerFilter = (): JSX.Element => {
                     name="user-filter"
                     onChange={(e) => handleChange(e as IOption<IUser>)}
                     placeholder="Select user..."
+                    classNamePrefix="react-select-owner-filter"
                     isClearable
                     isSearchable
                 />
@@ -48,12 +49,13 @@ const OwnerFilter = (): JSX.Element => {
     }
 
     return (
-        <Grid item xs={12} sm={12} md={8}>
+        <Grid data-testid="owner-filter" item xs={12} sm={6} md={8}>
             <Typography variant="subtitle2">Owner Filter</Typography>
             <Select
                 components={{ Control: UserControl, Option, Menu, Placeholder, SingleValue: UserSingleValue }}
                 name="user-filter"
                 placeholder="Select user..."
+                classNamePrefix="react-select-owner-filter"
                 isClearable
                 isSearchable
             />

@@ -69,5 +69,5 @@
         "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */,
         "resolveJsonModule": true,
     },
-    "exclude": ["client/src"]
+    "exclude": ["client/src", "client/cypress"]
 }

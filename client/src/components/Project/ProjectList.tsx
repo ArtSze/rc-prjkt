@@ -13,7 +13,7 @@ const ProjectList = ({ projects }: ProjectsListProps): JSX.Element => {
         return <NoProjects />;
     } else {
         return (
-            <main className="project-list">
+            <main className="project-list" data-testid="project-list">
                 {projects.map((project: IProject) => {
                     return <StaticProject key={project._id.toString()} {...project} />;
                 })}

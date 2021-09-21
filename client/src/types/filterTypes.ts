@@ -1,5 +1,11 @@
 import { ITag, IUser } from './types';
 
+export enum StatusChoices {
+    'Active' = 'active',
+    'Inactive' = 'inactive',
+    'All' = 'all',
+}
+
 export enum SortMethods {
     'Last Updated' = 'last-updated',
     'First Updated' = 'first-updated',
