@@ -22,6 +22,7 @@ jobs:
             DEVELOPMENT_SERVER_URL: ${{ secrets.DEVELOPMENT_SERVER_URL }}
             DEVELOPMENT_RC_AUTH_ID: ${{ secrets.DEVELOPMENT_RC_AUTH_ID }}
             DEVELOPMENT_RC_AUTH_SECRET: ${{ secrets.DEVELOPMENT_RC_AUTH_SECRET }}
+            SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
 
         steps:
             - uses: actions/checkout@v2
