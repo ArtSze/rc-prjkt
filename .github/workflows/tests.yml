@@ -16,9 +16,13 @@ jobs:
             PORT: ${{ secrets.PORT }}
             RC_AUTH_ID: ${{ secrets.RC_AUTH_ID }}
             RC_AUTH_SECRET: ${{ secrets.RC_AUTH_SECRET }}
+
             TEST_MONGO_URI: ${{ secrets.TEST_MONGO_URI }}
             TEST_CLIENT_URL: ${{ secrets.TEST_CLIENT_URL }}
             DEVELOPMENT_SERVER_URL: ${{ secrets.DEVELOPMENT_SERVER_URL }}
+            DEVELOPMENT_RC_AUTH_ID: ${{ secrets.DEVELOPMENT_RC_AUTH_ID }}
+            DEVELOPMENT_RC_AUTH_SECRET: ${{ secrets.DEVELOPMENT_RC_AUTH_SECRET }}
+
         steps:
             - uses: actions/checkout@v2
             - uses: actions/setup-node@v1
