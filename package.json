@@ -46,7 +46,10 @@
         "deploy": "git add . && git commit -m deploy && git push heroku main"
     },
     "jest": {
-        "verbose": false
+        "verbose": false,
+        "testPathIgnorePatterns": [
+            "<rootDir>/client/cypress/"
+        ]
     },
     "babel": {
         "presets": [
