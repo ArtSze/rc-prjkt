@@ -32,11 +32,12 @@ describe('User Router tests without using app', () => {
                 rcId: 1234,
                 ownedPosts: [],
                 collabPosts: [],
-                first_name: 'test first first first!!!!',
+                first_name: 'test first fail me please',
                 last_name: 'test last name',
                 zulip_id: 123456,
                 image_path: 'image.com',
                 batch: 'W2 2021',
+                fails: 'ALL THE TIME',
             });
         });
 
