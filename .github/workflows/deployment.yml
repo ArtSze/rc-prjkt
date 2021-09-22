@@ -10,11 +10,24 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
-            - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+            - uses: akhileshns/heroku-deploy@v3.12.12
               with:
                   heroku_api_key: ${{secrets.HEROKU_API_KEY}}
                   heroku_app_name: 'glacial-ravine-25144'
                   heroku_email: 'szerejko.artur@gmail.com'
                   healthcheck: 'https://glacial-ravine-25144.herokuapp.com/api/productionCheck'
+                  checkstring: 'ok!'
+                  rollbackonhealthcheckfailed: true
+
+    deploy-demo:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - uses: akhileshns/heroku-deploy@v3.12.12
+              with:
+                  heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+                  heroku_app_name: 'demo-rc-projects'
+                  heroku_email: 'szerejko.artur@gmail.com'
+                  healthcheck: 'https://demo-rc-projects.herokuapp.com/api/productionCheck'
                   checkstring: 'ok!'
                   rollbackonhealthcheckfailed: true
