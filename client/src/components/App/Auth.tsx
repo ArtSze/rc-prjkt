@@ -1,6 +1,6 @@
 import React from 'react';
 import { useStyles } from '../../static/styles';
-import { Typography, Button } from '@material-ui/core';
+import { Typography, Button, Link } from '@material-ui/core';
 import logo from '../../static/images/rc-logo.png';
 import Container from '@material-ui/core/Container';
 import { authURL } from '../../utils/axiosInstance';
@@ -22,6 +22,16 @@ const Auth = (): JSX.Element => {
                 <Button href={authURL} fullWidth variant="contained" color="secondary">
                     Authorize
                 </Button>
+                <Link
+                    // href="https://projects-demo.recurse.com/"
+                    href={process.env.DEMO_URL}
+                    rel="noreferrer"
+                    target="_blank"
+                    variant="button"
+                    color="secondary"
+                >
+                    Click here to see a demo version
+                </Link>
             </Container>
         </>
     );
