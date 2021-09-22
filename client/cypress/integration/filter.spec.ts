@@ -298,7 +298,8 @@ describe('Filter tests', () => {
             cy.get('[data-testid="no-projects"]').and('contain', 'No projects');
         });
 
-        it('shows projects with correct sort to first updated when filtered by all projects', () => {
+        // FIXME: test failed once in github actions
+        it.only('shows projects with correct sort to first updated when filtered by all projects', () => {
             cy.get('[data-testid="status-filter"]').within(() => {
                 cy.get('div.react-select-status-filter__dropdown-indicator').click();
                 cy.get('p').contains('All').click();
