@@ -23,8 +23,7 @@ const Auth = (): JSX.Element => {
                     Authorize
                 </Button>
                 <Link
-                    // href="https://projects-demo.recurse.com/"
-                    href={process.env.DEMO_URL}
+                    href="https://projects-demo.recurse.com/"
                     rel="noreferrer"
                     target="_blank"
                     variant="button"
