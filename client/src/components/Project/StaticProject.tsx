@@ -161,7 +161,7 @@ const StaticProject = (project: IProject): JSX.Element => {
             <CardContent>
                 <Container data-testid="project-description" className={classes.staticProjectDetails}>
                     <Divider className={classes.staticProjectDivider} />
-                    <Typography variant="body1" component="p" paragraph>
+                    <Typography style={{ whiteSpace: 'pre-line' }} variant="body1" paragraph>
                         {project.description}
                     </Typography>
                     <Grid container>

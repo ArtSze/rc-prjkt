@@ -20,7 +20,6 @@ export const CustomTextField = ({ label, field, multiline = false }: IFormikLabe
             value={field.value}
             label={label}
             component={TextField}
-            // variant="outlined"
             multiline={multiline}
             className={classes.projectFormEditFields}
         />
