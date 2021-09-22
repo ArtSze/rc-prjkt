@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { paramsSerializer } from '../utils/paramParser';
 
-export const baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:4000/api' : '/api';
+export const baseURL = '/api';
 
 export const authURL = baseURL + '/auth';
 

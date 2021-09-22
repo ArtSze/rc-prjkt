@@ -181,7 +181,9 @@ describe('Add Project', () => {
         cy.get('[data-testid="project-list"]').contains(`${project2.title}`);
     });
 
+    // FIXME: test failed once in github actions
     it('After creating project with new tags, tag filter populates with new tags', () => {
+        cy.wait(1000);
         cy.get('.jss7 > :nth-child(1)').within(() => {
             cy.get('[class*="-control"]')
                 .click(0, 0, { force: true })

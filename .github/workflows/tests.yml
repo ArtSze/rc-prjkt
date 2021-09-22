@@ -16,7 +16,6 @@ jobs:
             PORT: ${{ secrets.PORT }}
             RC_AUTH_ID: ${{ secrets.RC_AUTH_ID }}
             RC_AUTH_SECRET: ${{ secrets.RC_AUTH_SECRET }}
-
             TEST_MONGO_URI: ${{ secrets.TEST_MONGO_URI }}
             TEST_CLIENT_URL: ${{ secrets.TEST_CLIENT_URL }}
             DEVELOPMENT_SERVER_URL: ${{ secrets.DEVELOPMENT_SERVER_URL }}
@@ -29,16 +28,10 @@ jobs:
             - uses: actions/setup-node@v1
               with:
                   node-version: '14.x'
-            - name: shell
-              run: echo "${PORT}"
             - name: install packages
               run: yarn install
             - name: run tests
               run: yarn test:server
-            # - name: transpile typescript for server
-            #   run: yarn tsc
-            # - name: print directory
-            #   run: ls -la
             - name: e2e tests
               uses: cypress-io/github-action@v2
               with:
