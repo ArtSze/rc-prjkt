@@ -298,6 +298,7 @@ describe('Filter tests', () => {
             cy.get('[data-testid="no-projects"]').and('contain', 'No projects');
         });
 
+        // FIXME: test failed once in github actions
         it('shows projects with correct sort to first updated when filtered by all projects', () => {
             cy.get('[data-testid="status-filter"]').within(() => {
                 cy.get('div.react-select-status-filter__dropdown-indicator').click();
@@ -307,7 +308,7 @@ describe('Filter tests', () => {
                 cy.get('div.react-select-sort__dropdown-indicator').click();
                 cy.get('p').contains('First Updated').click();
             });
-            cy.wait(100);
+            cy.wait(1000);
             cy.get('[data-testid="project-list"]').children().should('have.length', 3);
             cy.get('[data-testid="project-list"]').children().first().should('contain', project1.title);
             cy.get('[data-testid="project-list"]').children().last().should('contain', project3.title);
