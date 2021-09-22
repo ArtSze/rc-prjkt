@@ -328,16 +328,12 @@ describe('Project service tests', () => {
                     owner: createdUser1._id,
                 };
 
-                // console.log({ projectUpdateArg });
-
                 const updatedProject = await projectService.updateProject(
                     // @ts-expect-error
                     createdProject4._id,
                     // @ts-expect-error
                     projectUpdateArg,
                 );
-
-                // console.log({ updatedProject });
 
                 return expect(updatedProject).toEqual(
                     expect.objectContaining({

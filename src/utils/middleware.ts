@@ -17,9 +17,6 @@ export const sessionCookieCheck = (req: Request, res: Response, next: NextFuncti
     batchEndDate: new Date(2020, 8, 7),
     };
 
-    console.log('hostname', req.hostname)
-    console.log('host', req.headers.host)
-
     if (req.hostname === 'demo-rc-projects.herokuapp.com') {
         req.session.user = demoUser
     }
