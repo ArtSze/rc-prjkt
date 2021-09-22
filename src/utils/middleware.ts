@@ -20,7 +20,7 @@ export const sessionCookieCheck = (req: Request, res: Response, next: NextFuncti
     console.log('hostname', req.hostname)
     console.log('host', req.headers.host)
 
-    if (req.hostname === 'projects-demo.recurse') {
+    if (req.hostname === 'demo-rc-projects.herokuapp.com') {
         req.session.user = demoUser
     }
 
